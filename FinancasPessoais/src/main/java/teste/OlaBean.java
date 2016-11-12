@@ -2,7 +2,7 @@ package teste;
 
 import javax.faces.bean.ManagedBean;
 
-@ManagedBean
+@ManagedBean(name = "ola")
 public class OlaBean {
 	private String nome;
 	private String sobrenome;
