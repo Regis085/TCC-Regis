@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+	<title>Tela Inicial</title>
+</h:head>
+<h:body>
+	<h:form>
+		<h1>Tela inicial</h1>
+
+		<h:panelGrid columns="2">
+			<h:outputLabel value="ID" />
+			<h:outputText value="#{telaInicioBean.id}" />
+			<h:outputLabel value="Login" />
+			<h:outputText value="#{telaInicioBean.login}" />
+			<h:outputLabel value="Nome" />
+			<h:outputText value="#{telaInicioBean.nome}" />
+			<h:outputLabel value="Cpf" />
+			<h:outputText value="#{telaInicioBean.cpf}" />
+			<h:outputLabel value="Perfil" />
+			<h:outputText value="#{telaInicioBean.nomePerfil}" />
+		</h:panelGrid>
+		<h:panelGrid columns="3">
+			<h:commandButton action="#{telaInicioBean.logout}" value="Sair"/>
+		</h:panelGrid>
+	</h:form>
+</h:body>
+</html>
