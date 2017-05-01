@@ -35,6 +35,10 @@ public class LancamentoCartao {
 	@GeneratedValue
 	private Long id;
 	
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "usuario_id")
+	private Usuario proprietario;
+	
 	@Column(length = 255, nullable = false)
 	private String descricao;
 	

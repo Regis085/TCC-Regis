@@ -23,31 +23,31 @@ public class Usuario {
 	@Column(name = "id", nullable = false, unique = true)
 	private Short id;
 
-	@Column(length = 20, nullable = false, unique = true)
+	@Column(name = "login", length = 20, nullable = false, unique = true)
 	private String login;
 
-	@Column(length = 60, nullable = false)
+	@Column(name = "nome", length = 60, nullable = false)
 	private String nome;
 
-	@Column(length = 60, nullable = false)
+	@Column(name = "sobrenome", length = 60, nullable = false)
 	private String sobrenome;
 
-	@Column(nullable = false)
+	@Column(name = "dataNascimento", nullable = false)
 	private Date dataNascimento;
 
-	@Column(length = 14, nullable = false, unique = true)
+	@Column(name = "cpf", length = 14, nullable = false, unique = true)
 	private String cpf;
 
-	@Column(length = 7, nullable = false, unique = true)
+	@Column(name = "rg", length = 7, nullable = false, unique = true)
 	private String rg;
 
-	@Column(length = 60, nullable = false, unique = true)
+	@Column(name = "cidade", length = 60, nullable = false, unique = true)
 	private String cidade;
 
-	@Column(length = 40, nullable = false, unique = true)
+	@Column(name = "estado", length = 40, nullable = false, unique = true)
 	private String estado;
 
-	@Column(length = 6, nullable = false)
+	@Column(name = "senha", length = 6, nullable = false)
 	private String senha;
 
 	@ManyToOne(optional = false)

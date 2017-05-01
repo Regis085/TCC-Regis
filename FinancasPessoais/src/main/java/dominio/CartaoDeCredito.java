@@ -1,6 +1,7 @@
 package dominio;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -35,6 +36,10 @@ public class CartaoDeCredito {
 	@Column(name="bandeira", length = 60, nullable = true)
 	private String bandeira;
 	
+	@Temporal(TemporalType.DATE)
+	@Column(name="data_inicio", nullable=true)
+	private Date dataInicio;
+	
 	@Column(name = "dia_vencimento", nullable = false, length=2)
 	private Short diaVencimento;
 	
@@ -47,14 +52,14 @@ public class CartaoDeCredito {
 	@Column(name = "limite_credito", precision = 10, scale = 2, nullable = true)
 	private BigDecimal limiteDeCredito;
 	
-	@Column(name = "telefone_cartao", length = 60, nullable = true)
+	@Column(name = "telefone_cartao", length = 20, nullable = true)
 	private String telefoneCartao;
 	
 	@Column(name = "site_cartao", length = 60, nullable = true)
 	private String siteDoCartao;
 	
-	@Column(name = "usuario_site_cartao", length = 60, nullable = true)
-	private String usuarioSiteDoCartao;
+	@Column(name = "login_site_cartao", length = 60, nullable = true)
+	private String loginSiteDoCartao;
 	
 	@Column(name = "senha_site_cartao", length = 60, nullable = true)
 	private String senhaSiteDoCartao;
@@ -63,5 +68,5 @@ public class CartaoDeCredito {
 	private List<FaturaCartao> faturas;
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="cartao", fetch=FetchType.LAZY)
-	private List<LancamentoCartao> gastos;
+	private List<LancamentoCartao> lancamentos;
 }

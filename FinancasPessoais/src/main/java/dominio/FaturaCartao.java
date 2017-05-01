@@ -27,6 +27,10 @@ public class FaturaCartao {
 	@GeneratedValue
 	private Long id; // Preenchido automaticamente
 
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "usuario_id")
+	private Usuario proprietario;
+
 	@Column(name = "ano", nullable = false)
 	private Short ano; // Preenchido automaticamente
 

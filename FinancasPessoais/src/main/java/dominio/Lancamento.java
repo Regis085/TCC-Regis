@@ -25,17 +25,17 @@ public class Lancamento {
 	private Long id;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "usuario_id")
-	private Usuario usuario;
+	@JoinColumn(name = "id_proprietario")
+	private Usuario proprietario;
 
-	@Column(length = 80, nullable = false)
+	@Column(name="descricao", length = 80, nullable = true)
 	private String descricao;
 
-	@Column(precision = 10, scale = 2, nullable = false)
+	@Column(name = "valor", precision = 10, scale = 2, nullable = false)
 	private BigDecimal valor;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "data_vencimento", nullable = false)
+	@Column(name = "data_vencimento", nullable = true)
 	private Date dataVencimento;
 
 	@Temporal(TemporalType.DATE)
@@ -54,12 +54,12 @@ public class Lancamento {
 		this.id = id;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
+	public Usuario getProprietario() {
+		return proprietario;
 	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setProprietario(Usuario proprietario) {
+		this.proprietario = proprietario;
 	}
 
 	public String getDescricao() {

@@ -12,8 +12,6 @@ import utils.JpaUtil;
 public class UsuarioDAO {
 	private EntityManager em = JpaUtil.getEntityManager();
 
-//	private EntityManager manager;
-
 	public Usuario getUsuario(String login, String senha) {
 
 		try {
