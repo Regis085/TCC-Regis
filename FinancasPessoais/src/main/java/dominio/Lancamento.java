@@ -38,6 +38,10 @@ public class Lancamento {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "data_pagamento", nullable = true)
 	private Date dataPagamento;
+	
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "conta_id")
+	private Conta conta;
 
 	public Long getId() {
 		return id;
@@ -77,6 +81,14 @@ public class Lancamento {
 
 	public void setDataVencimento(Date dataVencimento) {
 		this.dataVencimento = dataVencimento;
+	}
+
+	public Conta getConta() {
+		return conta;
+	}
+
+	public void setConta(Conta conta) {
+		this.conta = conta;
 	}
 
 	public Date getDataPagamento() {

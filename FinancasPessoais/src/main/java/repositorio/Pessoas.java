@@ -19,7 +19,7 @@ public class Pessoas {
 	}
 
 	public List<Pessoa2> todas() {
-		TypedQuery<Pessoa2> query = manager.createQuery("from Pessoa", Pessoa2.class);
+		TypedQuery<Pessoa2> query = manager.createQuery("from Pessoa2", Pessoa2.class);
 		return query.getResultList();
 	}
 }

@@ -20,8 +20,8 @@
 		<section class="nav-container">
 			<nav>
 				<ul class="menu">
-					<li><h:commandLink action="Login" value="Login">
-						</h:commandLink></li>
+<!-- 					<li><h:commandLink action="Login" value="Login"> -->
+<!-- 						</h:commandLink></li> -->
 					<li><h:commandLink action="TelaInicial" value="Home">
 						</h:commandLink></li>
 					<li><h:commandLink action="TelaInicial" value="Lançamentos">
@@ -48,16 +48,6 @@
 
 			<div id="esquerda" style="border: 1px solid black;"></div>
 			<div id="centro" style="border: 1px solid black;">
-				<!-- 				<h:panelGrid columns="3" columnClasses="left,centered" -->
-				<!-- 					style="width: 100%;"> -->
-				<!-- 					<div style="background-color: red; height: 60px; width:70px; float: left;"> -->
-				<!-- 						teste1</div> -->
-				<!-- 					<div style="background-color: yellow; height: 60px; width:70px; float: left;"> -->
-				<!-- 						"teste2"</div> -->
-				<!-- 					<div style="background-color: blue; height: 60px; width:70px; float: left;"> -->
-				<!-- 						teste3</div> -->
-				<!-- 				</h:panelGrid> -->
-
 				<h:panelGrid columns="2" columnClasses="left,centered">
 					<h:outputLabel value="ID" />
 					<h:outputText value="#{telaInicioBean.id}" />
@@ -69,9 +59,6 @@
 					<h:outputText value="#{telaInicioBean.cpf}" />
 					<h:outputLabel value="Perfil" />
 					<h:outputText value="#{telaInicioBean.nomePerfil}" />
-				</h:panelGrid>
-				<h:panelGrid columns="3">
-					<h:commandButton action="#{telaInicioBean.logout}" value="Sair" />
 				</h:panelGrid>
 			</div>
 			<div id="direita" style="border: 1px solid black;"></div>
