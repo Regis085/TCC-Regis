@@ -1,0 +1,136 @@
+@charset "utf-8";
+{
+    padding: 0px;
+    margin: 0px;
+}
+
+body {
+    font-family: sans-serif;    
+    background-color: #eee;
+}
+
+div#conteudo {
+    width: 960px;
+    margin: 0 auto 0px;
+}
+
+#centro {
+	width:318px;
+	height:400px;
+	float: left;
+}
+
+#direita {
+	width:318px;
+	height:400px;
+	float: left;
+}
+
+#esquerda {
+	width:318px;
+	height:400px;
+	float: left;
+}
+
+
+
+/* OUTRA PARTE */
+
+
+
+*{
+    padding: 0px;
+    margin: 0px;
+}
+
+body {
+    font-family: sans-serif;    
+    background-color: #eee;
+}
+
+#banner-container {
+    width: inherit;
+}
+
+
+figure#banner {
+    height: 900px;
+    width: 960px;
+    height: 540px;
+    margin: 5px auto 0px;
+    overflow: hidden;
+}
+
+    figure#banner img {
+        width: 960px;
+    }
+
+
+
+section#conteudo {
+    width: 960px;
+    margin: 0 auto 0px;
+}
+
+section.grupo {
+    width: inherit;
+    height: auto;
+    overflow: hidden;
+}
+
+    section.grupo figure {
+        height: auto;
+        padding: 0px;
+        margin: 2px;
+        float: left;
+        background-color: #888;
+        overflow: no-content;
+        width: 316px;
+    }
+
+        section.grupo figure a {
+            display: block;
+            height: 295px;
+            padding: 0;
+            margin: 0;
+            outline: none;
+            overflow: no-content;
+        }
+
+        section.grupo figure img {
+                   width: inherit;
+            height: inherit;
+            overflow: no-content;
+         }
+
+    section.grupo figure {
+        overflow: visible;
+    }
+
+/* efeito de mostrar conteudo do texto */
+.principal{
+    width: 316px;
+    height: 300px; 
+    background-color: rgba(118, 189, 233, .9); 
+    overflow: hidden; 
+    float: left;
+     z-index: -5;
+ }
+ 
+ .aparece{
+    width: inherit; 
+    height: inherit; 
+    position: relative; 
+    top: 0; transition: top .3s ease-out .3s;
+}
+
+.principal:hover .aparece{
+    top: -300px; 
+    transition: top .3s ease-out .3s;
+}
+
+.img{
+    width: 316px; 
+    height: 300px; 
+    text-align: center;
+}
