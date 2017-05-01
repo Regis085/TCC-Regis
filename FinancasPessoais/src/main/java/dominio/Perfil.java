@@ -10,11 +10,13 @@ import javax.persistence.Table;
 @Table(name = "perfil")
 public class Perfil {
 	
-	private Short id;
-	private String nome;
-	
 	@Id
 	@GeneratedValue
+	private Short id;
+	
+	@Column(length = 50, nullable = false)
+	private String nome;
+	
 	public Short getId() {
 		return id;
 	}
@@ -22,7 +24,7 @@ public class Perfil {
 		this.id = id;
 	}
 	
-	@Column(length = 50, nullable = false)
+	
 	public String getNome() {
 		return nome;
 	}

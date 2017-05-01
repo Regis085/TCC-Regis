@@ -18,7 +18,7 @@ public class Conta {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false, unique = true)
-	private Short id;
+	private Integer id;
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "usuario_id")
@@ -31,11 +31,11 @@ public class Conta {
 	@Column(nullable = false)
 	private TipoConta tipoConta;
 
-	public Short getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Short id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
