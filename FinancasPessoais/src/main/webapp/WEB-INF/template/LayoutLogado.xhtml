@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+	<title><ui:insert name="titulo">Gestão de Finanças Pessoais</ui:insert>
+	</title>
+	<h:outputStylesheet library="css" name="estilo.css" />
+	<link rel="stylesheet" href="resources/css/index.css" />
+	<h:outputStylesheet library="css" name="index-novo.css" />
+	<h:outputStylesheet library="css" name="head-foot.css" />
+	<h:outputScript library="js" name="menu-flutuante.js" target="head" />
+	<h:outputScript library="js" name="jquery-1.6.3.min.js" target="head" />
+</h:head>
+<h:body>
+	<header>
+		<h:graphicImage style="text-align: left; float:left;"
+			library="imagens" name="logo.jpg" height="32" />
+		<h1 style="padding-left: 340px; float: left; color: white;">Gestão
+			de Finanças Pessoais</h1>
+	</header>
+	<h:form>
+		<section class="nav-container">
+			<nav>
+				<ul class="menu">
+					<li><h:commandLink action="TelaInicial" value="Home">
+						</h:commandLink></li>
+					<li><h:commandLink action="TelaInicial" value="Lançamentos">
+						</h:commandLink></li>
+					<li><h:commandLink action="TelaInicial"
+							value="Cartões de Crédito">
+						</h:commandLink></li>
+					<li><h:commandLink action="TelaInicial" value="Dados Pessoais">
+						</h:commandLink></li>
+					<li><h:commandLink action="TelaInicial" value=" Contas"></h:commandLink></li>
+					<li><h:commandLink action="#{telaInicioBean.logout}"
+							value="Sair">
+						</h:commandLink></li>
+				</ul>
+			</nav>
+		</section>
+	</h:form>
+	<div id="conteudo">
+		<ui:insert name="corpo" />
+	</div>
+	<footer>Gestão de Finanças Pessoais - José C. Regis Neto</footer>
+</h:body>
+</html>

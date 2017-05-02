@@ -34,7 +34,8 @@ public class LoginBean {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário não encontrado!", "Erro no Login!"));
 			return null;
 		} else {
-			return "/TelaInicial?faces-redirect=true";
+//			return "/TelaInicial?faces-redirect=true";
+			return "/index?faces-redirect=true";
 		}
 	}
 

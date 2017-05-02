@@ -18,10 +18,10 @@ public class TipoDespesa {
 
 	@Column(name = "nome", nullable = false, length = 60)
 	private String nome;
-
-	@Column(name = "nome", nullable = true, length = 255)
+	
+	@Column(name = "descricao", nullable = true, length = 255)
 	private String descricao;
 
-	@Column(precision = 10, scale = 2, name = "nome", nullable = false, length = 60)
+	@Column(name = "valor_previsto", precision = 10, scale = 2, nullable = false, length = 60)
 	private BigDecimal valorPrevisto;
 }

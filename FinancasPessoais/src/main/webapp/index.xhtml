@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<ui:composition template="/WEB-INF/template/LayoutLogado.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<ui:define name="titulo">Tela de Cadastro de Conta</ui:define>
+
+	<ui:define name="corpo">
+		<h:form>
+<!-- 			<div id="esquerda" style="border: 1px solid black;"></div> -->
+<!-- 			<div id="centro" style="border: 1px solid black;"> -->
+				<h:panelGrid columns="2" columnClasses="left,centered">
+					<h:outputLabel value="ID" />
+					<h:outputText value="#{telaInicioBean.id}" />
+					<h:outputLabel value="Login" />
+					<h:outputText value="#{telaInicioBean.login}" />
+					<h:outputLabel value="Nome" />
+					<h:outputText value="#{telaInicioBean.nome}" />
+					<h:outputLabel value="Cpf" />
+					<h:outputText value="#{telaInicioBean.cpf}" />
+					<h:outputLabel value="Perfil" />
+					<h:outputText value="#{telaInicioBean.nomePerfil}" />
+				</h:panelGrid>
+<!-- 			</div> -->
+<!-- 			<div id="direita" style="border: 1px solid black;"></div>			 -->
+		</h:form>
+	</ui:define>
+
+
+
+</ui:composition>

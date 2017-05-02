@@ -72,6 +72,7 @@ body {
 .nav-container {
     width: 100%;
     background-color: #76bde9;
+    background-color: #545454;
     z-index: 9999;
 }
 
@@ -82,7 +83,8 @@ nav {
     width: 960px;
     margin: 0px auto;
     height: 36px;
-    background-color: #76bde9;
+/*     background-color: #76bde9; */
+    background-color: #545454;
 }
 
 .nav-original {
@@ -116,7 +118,7 @@ ul.menu {
     position: relative;
     /*background-color: inherit;*/
     margin: 0;
-    color: #141872;
+    color: #FFF; /*#141872;*/
     /*height:38px;*/
 }
 
@@ -127,7 +129,7 @@ ul.menu {
         display: block;
         padding: 8px 10px;
         height: 20px;
-        width: 100px;
+        width: 130px;
         font-weight: 700;
         text-decoration: none;
         vertical-align: central;
