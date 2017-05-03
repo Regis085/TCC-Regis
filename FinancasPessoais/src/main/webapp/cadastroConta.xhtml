@@ -11,16 +11,13 @@
 		<h:form>
 			<h:panelGrid columns="2">
 				<h:outputLabel value="Nome" />
-				<h:inputText size="60" value="#{cadastroUsuarioBean.usuario.nome}" label="Nome"/>
-				<h:outputLabel value="Login" />
-				<h:inputText size="20" value="#{cadastroUsuarioBean.usuario.login}" label="Login"/>
-				<h:outputLabel value="CPF" />
-				<h:inputText size="14" value="#{cadastroUsuarioBean.usuario.cpf}" label="CPF"/>
-				<h:outputLabel value="Senha" />
-				<h:inputSecret size="6" value="#{cadastroUsuarioBean.usuario.senha}" label="Senha"/>
-				<h:commandButton value="Cadastrar" action="#{cadastroUsuarioBean.cadastrarUsuario}" />
-				<h:commandButton value="Voltar" action="#{cadastroUsuarioBean.voltar}" />
-				
+				<h:inputText size="30" value="#{cadastroContaBean.conta.nome}" label="Nome"/>
+				<h:outputLabel value="Tipo de Conta" />
+				<h:selectOneMenu id="tipos_conta" value="#{cadastroContaBean.conta.tipoConta}">
+				    <f:selectItems value="#{cadastroContaBean.tiposConta}"/>
+				</h:selectOneMenu>
+				<h:commandButton value="Cadastrar" action="#{cadastroContaBean.cadastrarConta}" />
+				<h:commandButton value="Voltar" action="index" />
 			</h:panelGrid>
 			<h:messages id="msgErro" style="color: red"/>			
 		</h:form>

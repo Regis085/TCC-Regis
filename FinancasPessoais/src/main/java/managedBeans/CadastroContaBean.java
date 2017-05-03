@@ -1,41 +1,49 @@
 package managedBeans;
 
+import java.util.List;
+
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import dominio.Conta;
-import service.UsuarioService;
-import service.impl.UsuarioServiceImpl;
+import dominio.TipoConta;
+import service.ContaService;
+import service.impl.ContaServiceImpl;
 
 @ManagedBean
 @SessionScoped
 public class CadastroContaBean {
-	private UsuarioService usuarioService = new UsuarioServiceImpl();
-	private Conta conta;
+	private ContaService contaService = new ContaServiceImpl();
+	private Conta conta = new Conta();
 
-//	public String cadastrarUsuario() {
-//		String retorno;
-//		boolean inseridoComSucesso = usuarioService.inserirUsuario(usuario);
-//		if (inseridoComSucesso) {
-//			retorno = "/TelaInicial";
-//		} else {
-////			FacesContext.getCurrentInstance().addMessage(null,
-////					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário não cadastrado!", "Erro no Cadastro!"));
-//			retorno = null;
-//		}
-//		return retorno;
-//	}
-//
-//	public String voltar() {
-//		return "/Login";
-//	}
-//
-//	public Usuario getUsuario() {
-//		return usuario;
-//	}
-//
-//	public void setUsuario(Usuario usuario) {
-//		this.usuario = usuario;
-//	}
+	public Conta getConta() {
+		return conta;
+	}
 
+	public void setConta(Conta conta) {
+		this.conta = conta;
+	}
+
+	public TipoConta[] getTiposConta() {
+		return TipoConta.values();
+	}
+	
+	public List<Conta> getContas() {
+		return contaService.listarContas();
+	}
+
+	public String cadastrarConta() {
+		String retorno;
+		boolean inseridoComSucesso = contaService.inserirConta(conta);
+		if (inseridoComSucesso) {
+			retorno = "/listaContas";
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conta não cadastrada!", "Erro no Cadastro!"));
+			retorno = null;
+		}
+		return retorno;
+	}
 }

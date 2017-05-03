@@ -1,8 +1,8 @@
 package managedBeans;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
@@ -13,7 +13,8 @@ import utils.SessionContext;
 import utils.Util;
 
 @ManagedBean
-@SessionScoped
+//@SessionScoped
+@ApplicationScoped
 public class LoginBean {
 
 	private UsuarioService usuarioService = new UsuarioServiceImpl();

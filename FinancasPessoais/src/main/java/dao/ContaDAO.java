@@ -1,12 +1,17 @@
 package dao;
 
+import java.util.List;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 
 import dominio.Conta;
+import dominio.Usuario;
+import teste.Pessoa2;
 import utils.JpaUtil;
 
 public class ContaDAO {
@@ -23,6 +28,27 @@ public class ContaDAO {
 			return null;
 		}
 	}
+	
+	public Conta porId(Long id) {
+		return em.find(Conta.class, id);
+	}
+
+	public List<Conta> todas() {
+		TypedQuery<Conta> query = em.createQuery("from Conta", Conta.class);
+		return query.getResultList();
+	}
+	
+//	public Conta getTodasContas(Usuario proprietario) {
+//		try {
+//			Conta conta = (Conta) em
+//					.createQuery("SELECT c from Conta c where c.id = :id")
+//					.setParameter("id", id).getSingleResult();
+//
+//			return conta;
+//		} catch (NoResultException e) {
+//			return null;
+//		}
+//	}
 	
 	public Conta inserirConta(Conta conta) {
 		

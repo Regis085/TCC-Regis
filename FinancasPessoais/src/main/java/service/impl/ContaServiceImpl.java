@@ -1,16 +1,19 @@
 package service.impl;
 
+import java.util.List;
+
 import javax.faces.application.FacesMessage;
 
 import dao.ContaDAO;
 import dominio.Conta;
 import dominio.Usuario;
 import service.ContaService;
+import utils.SessionContext;
 
 public class ContaServiceImpl implements ContaService {
 
 	private ContaDAO contaDAO = new ContaDAO();
-	
+
 	@Override
 	public Conta getContaPeloId(Long id) {
 		// TODO Auto-generated method stub
@@ -19,13 +22,21 @@ public class ContaServiceImpl implements ContaService {
 
 	@Override
 	public boolean inserirConta(Conta conta) {
+
+		Usuario u = (Usuario) SessionContext.getInstance().getAttribute("usuarioLogado");
+		conta.setProprietario(u);
+
 		boolean retorno;
 		FacesMessage mensagem = null;
 		Conta novaConta = null;
-		
+
 		novaConta = contaDAO.inserirConta(conta);
-		
-		return true;
+		if (novaConta != null)
+			retorno = true;
+		else
+			retorno = false;
+
+		return retorno;
 	}
 
 	@Override
@@ -34,4 +45,8 @@ public class ContaServiceImpl implements ContaService {
 		return false;
 	}
 
+	@Override
+	public List<Conta> listarContas() {
+		return contaDAO.todas();
+	}
 }
