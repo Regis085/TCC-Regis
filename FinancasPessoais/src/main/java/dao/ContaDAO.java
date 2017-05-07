@@ -67,7 +67,7 @@ public class ContaDAO {
 			e.printStackTrace();
 			return null;
 		} finally {
-			em.close();
+//			em.close();
 		}
 	}
 	
