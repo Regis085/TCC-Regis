@@ -6,23 +6,29 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 	<ui:define name="titulo">Tela de Exibição de Conta</ui:define>
+	
+	<style>
+		tr {
+			padding: 30px;
+		}
+	</style>
 
 	<ui:define name="corpo">
 		<h:form>
-			<h:commandButton value="Nova Conta" action="cadastroConta" />
-			<h:dataTable value="#{cadastroContaBean.contas}" var="conta"
+			<h:dataTable value="#{cadastroContaBean.contas}" var="conta" style="width: 500px; margin-top:30px; margin-left: 150px;"
 				styleClass="employeeTable" headerClass="employeeTableHeader"
 				rowClasses="employeeTableOddRow,employeeTableEvenRow">
 				<h:column>
-					<f:facet name="header">Nome</f:facet>    				
-			      	#{conta.nome}
+					<f:facet name="header">Nome</f:facet>
+					<span  style=" display: block; text-align: left;">#{conta.nome}</span>    				
 			   </h:column>
 				<h:column>
 					<f:facet name="header">Tipo</f:facet>
-			      	#{conta.tipoConta}
+			      	<span  style=" display: block; text-align: left;">#{conta.tipoConta}</span>
 			   </h:column>
 			</h:dataTable>
 			<h:messages id="msgErro" style="color: red" />
+			<h:commandButton value="Nova Conta" action="cadastroConta" style="margin-top:10px; margin-left: 370px;"/>
 		</h:form>
 	</ui:define>
 </ui:composition>

@@ -21,13 +21,18 @@ public class TelaInicioBean {
 	public TelaInicioBean() {
 		System.out.println("Entrou em LoginBean");
 		Usuario u = (Usuario) SessionContext.getInstance().getAttribute("usuarioLogado");
-		System.out.println(u.getNome());
-
-		this.nome = u.getNome();
-		this.login = u.getLogin();
-		this.id = u.getId();
-		this.nomePerfil = u.getPerfil().getNome();
-		this.cpf = u.getCpf();
+		if (u != null) {
+			System.out.println(u.getNome());
+			
+			this.nome = u.getNome();
+			this.login = u.getLogin();
+			this.id = u.getId();
+			this.nomePerfil = u.getPerfil().getNome();
+			this.cpf = u.getCpf();
+		}
+		else {
+			System.out.println("Sessão Finalizada!");
+		}
 	}
 	
 	public String logout() {
