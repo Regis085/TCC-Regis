@@ -1,0 +1,16 @@
+@charset "utf-8";
+
+/* Ajuste para Menu do PrimeFaces */
+.ui-layout-north {
+	z-index: 20 !important;
+	overflow: visible !important;
+}
+/* Ajuste para Menu do PrimeFaces */
+.ui-layout-north .ui-layout-unit-content {
+	overflow: visible !important;
+}
+
+/* Tamanho Global das fontes do PrimeFaces */
+.ui-widget, .ui-widget .ui-widget {
+font-size: 12px !important;
+}
