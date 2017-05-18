@@ -3,26 +3,36 @@
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 
 	<ui:define name="titulo">Tela de Cadastro de Usuário</ui:define>
 
 	<ui:define name="corpo">
 		<h:form>
-			<h:panelGrid columns="2">
-				<h:outputLabel value="Nome" />
-				<h:inputText size="60" value="#{cadastroUsuarioBean.usuario.nome}" label="Nome"/>
-				<h:outputLabel value="Login" />
-				<h:inputText size="20" value="#{cadastroUsuarioBean.usuario.login}" label="Login"/>
-				<h:outputLabel value="CPF" />
-				<h:inputText size="14" value="#{cadastroUsuarioBean.usuario.cpf}" label="CPF"/>
-				<h:outputLabel value="Senha" />
-				<h:inputSecret size="6" value="#{cadastroUsuarioBean.usuario.senha}" label="Senha"/>
-				<h:commandButton value="Cadastrar" action="#{cadastroUsuarioBean.cadastrarUsuario}" />
-				<h:commandButton value="Voltar" action="#{cadastroUsuarioBean.voltar}" />
+			<p:panel>
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Nome" />
+					<p:inputText size="40" value="#{cadastroUsuarioBean.usuario.nome}"
+						label="Nome" />
+					<p:outputLabel value="Login" />
+					<p:inputText size="20" value="#{cadastroUsuarioBean.usuario.login}"
+						label="Login" />
+					<p:outputLabel value="CPF" />
+					<p:inputText size="14" value="#{cadastroUsuarioBean.usuario.cpf}"
+						label="CPF" />
+					<p:outputLabel value="Senha" />
+					<p:password size="6" value="#{cadastroUsuarioBean.usuario.senha}"
+						label="Senha" />
+					<p:commandButton value="Cadastrar"
+						action="#{cadastroUsuarioBean.cadastrarUsuario}" />
+					<p:commandButton value="Voltar"
+						action="#{cadastroUsuarioBean.voltar}" />
+
+				</p:panelGrid>
 				
-			</h:panelGrid>
-			<h:messages id="msgErro" style="color: red"/>			
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+			</p:panel>
 		</h:form>
 	</ui:define>
 

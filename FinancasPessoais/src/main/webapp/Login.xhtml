@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <ui:composition template="/WEB-INF/template/Layout.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 
 	<ui:define name="titulo">Tela de Login</ui:define>
 
 	<ui:define name="corpo">
 		<h:form>
-			<h:panelGrid columns="2">
-				<h:outputLabel value="Login" />
-				<h:inputText size="60" value="#{loginBean.usuario.login}" label="Login"/>
-				<h:outputLabel value="Senha" />
-				<h:inputSecret size="6" value="#{loginBean.usuario.senha}" label="Senha"/>
-				<h:commandButton value="Entrar" action="#{loginBean.enviar}" />
-				<h:commandButton value="Cadastre-se" action="#{loginBean.cadastrar}"/>
-			</h:panelGrid>
-			<h:messages id="msgErro" style="color: red"/>
+			<p:panel>
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Login" />
+					<p:inputText required="true" size="20" value="#{loginBean.usuario.login}"
+						label="Login" />
+					<p:outputLabel value="Senha" />
+					<p:password size="6" required="true" value="#{loginBean.usuario.senha}"
+						label="Senha" />
+				</p:panelGrid>
+				<p:panelGrid columns="2">
+					<p:commandButton value="Entrar" action="#{loginBean.enviar}" />
+					<p:commandButton value="Cadastre-se"
+						action="#{loginBean.cadastrar}" />
+				</p:panelGrid>
+				<p:messages id="messages" showDetail="true" autoUpdate="true"
+					closable="true" />
+			</p:panel>
 		</h:form>
 	</ui:define>
 

@@ -3,32 +3,38 @@
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 
 	<ui:define name="titulo">Tela de Exibição de Conta</ui:define>
-	
+
 	<style>
-		tr {
-			padding: 30px;
-		}
-	</style>
+tr {
+	padding: 30px;
+}
+</style>
 
 	<ui:define name="corpo">
 		<h:form>
-			<h:dataTable value="#{cadastroContaBean.contas}" var="conta" style="width: 500px; margin-top:30px; margin-left: 150px;"
-				styleClass="employeeTable" headerClass="employeeTableHeader"
-				rowClasses="employeeTableOddRow,employeeTableEvenRow">
-				<h:column>
-					<f:facet name="header">Nome</f:facet>
-					<span  style=" display: block; text-align: left;">#{conta.nome}</span>    				
-			   </h:column>
-				<h:column>
-					<f:facet name="header">Tipo</f:facet>
-			      	<span  style=" display: block; text-align: left;">#{conta.tipoConta}</span>
-			   </h:column>
-			</h:dataTable>
-			<h:messages id="msgErro" style="color: red" />
-			<h:commandButton value="Nova Conta" action="cadastroConta" style="margin-top:10px; margin-left: 370px;"/>
+			<p:panel>
+				<h:dataTable value="#{cadastroContaBean.contas}" var="conta"
+					style="width: 500px; margin-top:30px; margin-left: 150px;"
+					styleClass="employeeTable" headerClass="employeeTableHeader"
+					rowClasses="employeeTableOddRow,employeeTableEvenRow">
+					<h:column>
+						<f:facet name="header">Nome</f:facet>
+						<span style="display: block; text-align: left;">#{conta.nome}</span>
+					</h:column>
+					<h:column>
+						<f:facet name="header">Tipo</f:facet>
+						<span style="display: block; text-align: left;">#{conta.tipoConta}</span>
+					</h:column>
+				</h:dataTable>
+				<h:messages id="msgErro" style="color: red" />
+				<p:commandButton value="Nova Conta"
+					action="cadastroConta?faces-redirect=true"
+					style="margin-top:10px; margin-left: 370px;" />
+			</p:panel>
 		</h:form>
 	</ui:define>
 </ui:composition>

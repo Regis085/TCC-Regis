@@ -21,7 +21,7 @@ public class LoginBean {
 	private Usuario usuario = new Usuario();
 
 	public String cadastrar() {
-		return "/CadastroUsuario";
+		return "/CadastroUsuario?faces-redirect=true";
 	}
 
 	public String enviar() {
@@ -32,7 +32,7 @@ public class LoginBean {
 		if (usuario == null) {
 			usuario = new Usuario();
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário não encontrado!", "Erro no Login!"));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Verifique seu login e senha.", "Tente novamente."));
 			return null;
 		} else {
 //			return "/TelaInicial?faces-redirect=true";

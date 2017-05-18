@@ -38,7 +38,7 @@ public class CadastroContaBean {
 		String retorno;
 		boolean inseridoComSucesso = contaService.inserirConta(conta);
 		if (inseridoComSucesso) {
-			retorno = "/listaContas";
+			retorno = "/listaContas?faces-redirect=true";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conta não cadastrada!", "Erro no Cadastro!"));

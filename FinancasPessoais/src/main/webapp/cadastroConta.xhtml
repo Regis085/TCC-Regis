@@ -3,23 +3,30 @@
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 
 	<ui:define name="titulo">Tela de Cadastro de Conta</ui:define>
 
 	<ui:define name="corpo">
 		<h:form>
-			<h:panelGrid columns="2">
-				<h:outputLabel value="Nome" />
-				<h:inputText size="30" value="#{cadastroContaBean.conta.nome}" label="Nome"/>
-				<h:outputLabel value="Tipo de Conta" />
-				<h:selectOneMenu id="tipos_conta" value="#{cadastroContaBean.conta.tipoConta}">
-				    <f:selectItems value="#{cadastroContaBean.tiposConta}"/>
-				</h:selectOneMenu>
-				<h:commandButton value="Cadastrar" action="#{cadastroContaBean.cadastrarConta}" />
-				<h:commandButton value="Voltar" action="listaContas" />
-			</h:panelGrid>
-			<h:messages id="msgErro" style="color: red"/>			
+			<p:panel>
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Nome" />
+					<p:inputText size="30" value="#{cadastroContaBean.conta.nome}"
+						label="Nome" />
+					<p:outputLabel value="Tipo de Conta" />
+					<p:selectOneMenu id="tipos_conta"
+						value="#{cadastroContaBean.conta.tipoConta}">
+						<f:selectItems value="#{cadastroContaBean.tiposConta}" />
+					</p:selectOneMenu>
+					<p:commandButton value="Cadastrar"
+						action="#{cadastroContaBean.cadastrarConta}" />
+					<p:commandButton value="Voltar"
+						action="listaContas?faces-redirect=true" />
+				</p:panelGrid>
+				<p:messages id="msgErro" style="color: red" />
+			</p:panel>
 		</h:form>
 	</ui:define>
 
