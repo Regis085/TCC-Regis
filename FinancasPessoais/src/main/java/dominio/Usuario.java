@@ -29,22 +29,22 @@ public class Usuario {
 	@Column(name = "nome", length = 60, nullable = false)
 	private String nome;
 
-	@Column(name = "sobrenome", length = 60, nullable = false)
+	@Column(name = "sobrenome", length = 60, nullable = true)
 	private String sobrenome;
 
-	@Column(name = "dataNascimento", nullable = false)
+	@Column(name = "dataNascimento", nullable = true)
 	private Date dataNascimento;
 
-	@Column(name = "cpf", length = 14, nullable = false, unique = true)
+	@Column(name = "cpf", length = 14, nullable = true, unique = true)
 	private String cpf;
 
-	@Column(name = "rg", length = 7, nullable = false, unique = true)
+	@Column(name = "rg", length = 7, nullable = true, unique = true)
 	private String rg;
 
-	@Column(name = "cidade", length = 60, nullable = false, unique = true)
+	@Column(name = "cidade", length = 60, nullable = true, unique = true)
 	private String cidade;
 
-	@Column(name = "estado", length = 40, nullable = false, unique = true)
+	@Column(name = "estado", length = 40, nullable = true, unique = true)
 	private String estado;
 
 	@Column(name = "senha", length = 6, nullable = false)
