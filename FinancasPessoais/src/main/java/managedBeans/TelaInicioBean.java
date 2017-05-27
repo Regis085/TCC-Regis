@@ -38,7 +38,7 @@ public class TelaInicioBean {
 	public String logout() {
 		HttpSession session = Util.getSession();
 		session.invalidate();
-		return "/Login?faces-redirect=true";
+		return "/pages/login2?faces-redirect=true";
 	}
 
 	// public String getNomeUsuario() {

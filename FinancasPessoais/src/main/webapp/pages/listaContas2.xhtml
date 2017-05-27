@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<ui:composition template="/templates/modelo-base.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menu-principal.xhtml"></ui:include>
+	</ui:define>
+	<ui:define name="conteudo">
+		<h:form>
+			<p:panel>
+				<p:dataTable value="#{cadastroContaBean.contasDoUsuario}" var="conta">
+					<p:column headerText="Nome">
+						<h:outputText value="#{conta.nome}" />
+					</p:column>
+					<p:column headerText="Tipo">
+						<h:outputText value="#{conta.tipoConta}" />
+					</p:column>
+				</p:dataTable>
+				<h:messages id="msgErro" style="color: red" />
+				<p:commandButton value="Nova Conta"
+					action="cadastroConta2?faces-redirect=true" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

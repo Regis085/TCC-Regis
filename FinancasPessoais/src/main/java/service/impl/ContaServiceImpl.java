@@ -2,8 +2,6 @@ package service.impl;
 
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
-
 import dao.ContaDAO;
 import dominio.Conta;
 import dominio.Usuario;
@@ -27,7 +25,7 @@ public class ContaServiceImpl implements ContaService {
 		conta.setProprietario(u);
 
 		boolean retorno;
-		FacesMessage mensagem = null;
+//		FacesMessage mensagem = null;
 		Conta novaConta = null;
 
 		novaConta = contaDAO.inserirConta(conta);
@@ -48,5 +46,12 @@ public class ContaServiceImpl implements ContaService {
 	@Override
 	public List<Conta> listarContas() {
 		return contaDAO.todas();
+	}
+
+	@Override
+	public List<Conta> listarContasPorUsuario() {
+		Usuario u = (Usuario) SessionContext.getInstance().getAttribute("usuarioLogado");
+		List<Conta> listaConta = contaDAO.listarContasPorUsuario(u.getId());
+		return listaConta;
 	}
 }

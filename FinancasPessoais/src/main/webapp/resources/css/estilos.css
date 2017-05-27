@@ -12,5 +12,6 @@
 
 /* Tamanho Global das fontes do PrimeFaces */
 .ui-widget, .ui-widget .ui-widget {
-font-size: 12px !important;
+//font-size: 12px !important;
+font-size: 15px !important;
 }

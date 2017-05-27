@@ -10,25 +10,22 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import dominio.Conta;
-import dominio.Usuario;
-import teste.Pessoa2;
 import utils.JpaUtil;
 
 public class ContaDAO {
 	private EntityManager em = JpaUtil.getEntityManager();
-	
+
 	public Conta getContaPeloId(Long id) {
 		try {
-			Conta conta = (Conta) em
-					.createQuery("SELECT c from Conta c where c.id = :id")
-					.setParameter("id", id).getSingleResult();
+			Conta conta = (Conta) em.createQuery("SELECT c from Conta c where c.id = :id").setParameter("id", id)
+					.getSingleResult();
 
 			return conta;
 		} catch (NoResultException e) {
 			return null;
 		}
 	}
-	
+
 	public Conta porId(Long id) {
 		return em.find(Conta.class, id);
 	}
@@ -37,21 +34,34 @@ public class ContaDAO {
 		TypedQuery<Conta> query = em.createQuery("from Conta", Conta.class);
 		return query.getResultList();
 	}
-	
-//	public Conta getTodasContas(Usuario proprietario) {
-//		try {
-//			Conta conta = (Conta) em
-//					.createQuery("SELECT c from Conta c where c.id = :id")
-//					.setParameter("id", id).getSingleResult();
-//
-//			return conta;
-//		} catch (NoResultException e) {
-//			return null;
-//		}
-//	}
-	
+
+	public List<Conta> listarContasPorUsuario(Short idUsuario) {
+		try {
+			@SuppressWarnings("unchecked")
+			List<Conta> listaConta = (List<Conta>) em
+					.createQuery("SELECT c from Conta c " + " INNER JOIN c.proprietario u " + " WHERE u.id = :idUsuario")
+					.setParameter("idUsuario", idUsuario).getResultList();
+
+			return listaConta;
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+
+	// public Conta getTodasContas(Usuario proprietario) {
+	// try {
+	// Conta conta = (Conta) em
+	// .createQuery("SELECT c from Conta c where c.id = :id")
+	// .setParameter("id", id).getSingleResult();
+	//
+	// return conta;
+	// } catch (NoResultException e) {
+	// return null;
+	// }
+	// }
+
 	public Conta inserirConta(Conta conta) {
-		
+
 		EntityTransaction trx = em.getTransaction();
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
@@ -67,10 +77,10 @@ public class ContaDAO {
 			e.printStackTrace();
 			return null;
 		} finally {
-//			em.close();
+			// em.close();
 		}
 	}
-	
+
 	public boolean deletarConta(Conta conta) {
 		try {
 			em.remove(conta);

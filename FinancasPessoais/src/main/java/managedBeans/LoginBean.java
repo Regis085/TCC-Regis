@@ -21,7 +21,7 @@ public class LoginBean {
 	private Usuario usuario = new Usuario();
 
 	public String cadastrar() {
-		return "/CadastroUsuario?faces-redirect=true";
+		return "/pages/cadastro-usuario?faces-redirect=true";
 	}
 
 	public String enviar() {
@@ -35,8 +35,7 @@ public class LoginBean {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Verifique seu login e senha.", "Tente novamente."));
 			return null;
 		} else {
-//			return "/TelaInicial?faces-redirect=true";
-			return "/index?faces-redirect=true";
+			return "/pages/index2?faces-redirect=true";
 		}
 	}
 
@@ -51,6 +50,6 @@ public class LoginBean {
 	public String logout() {
 		HttpSession session = Util.getSession();
 		session.invalidate();
-		return "login";
+		return "/pages/login2?faces-redirect=true";
 	}
 }

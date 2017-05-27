@@ -9,4 +9,5 @@ public interface ContaService {
 	boolean inserirConta(Conta conta);
 	public boolean deletarConta(Conta conta);
 	public List<Conta> listarContas();
+	public List<Conta> listarContasPorUsuario();
 }

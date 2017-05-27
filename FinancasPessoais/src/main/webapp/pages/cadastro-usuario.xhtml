@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<ui:composition template="/templates/modelo-base.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menu-principal.xhtml"></ui:include>
+	</ui:define>
+	<ui:define name="conteudo">
+		<h:form>
+			<p:panel>
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Nome" />
+					<p:inputText size="40" value="#{cadastroUsuarioBean.usuario.nome}"
+						label="Nome" />
+					<p:outputLabel value="Login" />
+					<p:inputText size="20" value="#{cadastroUsuarioBean.usuario.login}"
+						label="Login" />
+					<p:outputLabel value="CPF" />
+					<p:inputText size="14" value="#{cadastroUsuarioBean.usuario.cpf}"
+						label="CPF" />
+					<p:outputLabel value="Senha" />
+					<p:password size="6" value="#{cadastroUsuarioBean.usuario.senha}"
+						label="Senha" />
+					<p:commandButton value="Cadastrar"
+						action="#{cadastroUsuarioBean.cadastrarUsuario}" />
+					<p:commandButton value="Voltar"
+						action="#{cadastroUsuarioBean.voltar}" />
+
+				</p:panelGrid>
+
+				<p:messages id="messages" showDetail="true" autoUpdate="true"
+					closable="true" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
