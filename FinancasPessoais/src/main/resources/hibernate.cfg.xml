@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.password">root</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost/financaspessoais</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+		<property name="hibernate.show_sql">false</property> <!-- Ver o SQL que o Hibernate está gerando através do Console -->
+		<property name="hibernate.format_sql">false</property> <!--Essa propriedade é mais para indentação do "show_sql" -->
+		<property name="hbm2ddl.auto">update</property>
+		
+		<mapping class="com.financaspessoais.model.Banco" />
+		<mapping class="com.financaspessoais.model.CartaoDeCredito" />
+		<mapping class="com.financaspessoais.model.Conta" />
+		<mapping class="com.financaspessoais.model.ContaBancaria" />
+		<mapping class="com.financaspessoais.model.Despesa" />
+		<mapping class="com.financaspessoais.model.Estabelecimento" />
+		<mapping class="com.financaspessoais.model.FaturaCartao" />
+		<mapping class="com.financaspessoais.model.ItemLancamentoCartao" />
+		<mapping class="com.financaspessoais.model.Lancamento" />
+		<mapping class="com.financaspessoais.model.LancamentoCartao" />
+		<mapping class="com.financaspessoais.model.Perfil" />
+		<mapping class="com.financaspessoais.model.Receita" />
+		<mapping class="com.financaspessoais.model.StatusFaturaCartao" />
+		<mapping class="com.financaspessoais.model.StatusItemLancamentoCartao" />
+		<mapping class="com.financaspessoais.model.TipoConta" />
+		<mapping class="com.financaspessoais.model.TipoDespesa" />
+		<mapping class="com.financaspessoais.model.TipoReceita" />
+		<mapping class="com.financaspessoais.model.Transferencia" />
+		<mapping class="com.financaspessoais.model.Usuario" />
+		
+	</session-factory>
+</hibernate-configuration>

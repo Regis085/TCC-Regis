@@ -7,23 +7,38 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<ui:define name="menu">
-		<ui:include src="/includes/menu-principal.xhtml"></ui:include>
+		<ui:include src="/includes/menu-deslogado.xhtml"></ui:include>
 	</ui:define>
 	<ui:define name="conteudo">
 		<h:form>
 			<p:panel>
 				<p:panelGrid columns="2">
-					<p:outputLabel value="Nome" />
-					<p:inputText size="40" value="#{cadastroUsuarioBean.usuario.nome}"
+					<p:outputLabel value="Nome" for="nome"/>
+					<p:inputText id="nome" size="40" value="#{cadastroUsuarioBean.usuario.nome}"
 						label="Nome" />
-					<p:outputLabel value="Login" />
-					<p:inputText size="20" value="#{cadastroUsuarioBean.usuario.login}"
-						label="Login" />
-					<p:outputLabel value="CPF" />
-					<p:inputText size="14" value="#{cadastroUsuarioBean.usuario.cpf}"
+					<p:outputLabel value="Sobrenome" for="sobrenome"/>
+					<p:inputText id="sobrenome" size="40" value="#{cadastroUsuarioBean.usuario.nome}"
+						label="Sobrenome" />
+					<p:outputLabel value="Data de Nascimento" for="data_nascimento" />
+					<p:calendar id="data_nascimento" value="#{cadastroUsuarioBean.usuario.dataNascimento}"
+						label="DataNascimento" />
+					<p:outputLabel value="CPF" for="cpf" />
+					<p:inputText id="cpf" size="20" value="#{cadastroUsuarioBean.usuario.cpf}"
 						label="CPF" />
-					<p:outputLabel value="Senha" />
-					<p:password size="6" value="#{cadastroUsuarioBean.usuario.senha}"
+					<p:outputLabel value="RG" for="rg" />
+					<p:inputText id="rg" size="20" value="#{cadastroUsuarioBean.usuario.rg}"
+						label="RG" />
+					<p:outputLabel value="Cidade" for="cidade" />
+					<p:inputText id="cidade" size="50"
+						value="#{cadastroUsuarioBean.usuario.cidade}" label="Cidade" />
+					<p:outputLabel value="Estado" for="estado" />
+					<p:inputText id="estado" size="50"
+						value="#{cadastroUsuarioBean.usuario.estado}" label="Estado" />
+					<p:outputLabel value="Login" for="login" />
+					<p:inputText id="login" size="20" value="#{cadastroUsuarioBean.usuario.login}"
+						label="Login" />
+					<p:outputLabel value="Senha" for="senha" />
+					<p:password id="senha" size="6" value="#{cadastroUsuarioBean.usuario.senha}"
 						label="Senha" />
 					<p:commandButton value="Cadastrar"
 						action="#{cadastroUsuarioBean.cadastrarUsuario}" />
