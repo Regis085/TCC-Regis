@@ -4,8 +4,14 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
-
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui">
+	
+	<f:metadata>
+		<f:viewAction action="#{cadastroContaBean.prepararCadastro}" />
+		<o:viewParam name="id" value="#{cadastroContaBean.conta}" />
+	</f:metadata>
+	
 	<ui:define name="menu">
 		<ui:include src="/includes/menu-principal.xhtml"></ui:include>
 	</ui:define>
@@ -13,18 +19,19 @@
 		<h:form>
 			<p:panel>
 				<p:panelGrid columns="2">
+					
 					<p:outputLabel value="Nome" />
 					<p:inputText size="30" value="#{cadastroContaBean.conta.nome}"
 						label="Nome" />
-					<p:outputLabel value="Tipo de Conta" />
-					<p:selectOneMenu id="tipos_conta"
-						value="#{cadastroContaBean.conta.tipoConta}">
-						<f:selectItems value="#{cadastroContaBean.tiposConta}" />
+						
+					<p:outputLabel value="Tipo de Conta" for="tipos_conta"/>
+					<p:selectOneMenu id="tipos_conta" label="Tipo de Conta" value="#{cadastroContaBean.conta.tipoConta}">
+						<f:selectItems value="#{cadastroContaBean.tiposConta}" var="tipo" itemValue="#{tipo}" itemLabel="#{tipo.descricao}"/>
 					</p:selectOneMenu>
-					<p:commandButton value="Cadastrar"
-						action="#{cadastroContaBean.cadastrarConta}" />
-					<p:commandButton value="Voltar"
-						action="listaContas2?faces-redirect=true" />
+					
+					<p:commandButton value="Salvar" action="#{cadastroContaBean.cadastrarConta}" />
+					
+					<p:commandButton value="Voltar" action="listaContas2?faces-redirect=true" />
 				</p:panelGrid>
 				<p:messages id="msgErro" style="color: red" />
 			</p:panel>

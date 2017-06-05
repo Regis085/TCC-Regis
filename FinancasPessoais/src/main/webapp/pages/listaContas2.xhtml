@@ -12,12 +12,23 @@
 	<ui:define name="conteudo">
 		<h:form>
 			<p:panel>
-				<p:dataTable value="#{cadastroContaBean.contasDoUsuario}" var="conta">
+				<p:dataTable value="#{cadastroContaBean.contasDoUsuario}" var="conta"
+					border="1" cellspacing="0" cellpadding="2" paginator="true" rows="5" paginatorPosition="bottom">
 					<p:column headerText="Nome">
 						<h:outputText value="#{conta.nome}" />
 					</p:column>
 					<p:column headerText="Tipo">
-						<h:outputText value="#{conta.tipoConta}" />
+						<h:outputText value="#{conta.tipoConta.descricao}" />
+					</p:column>
+					<p:column>
+						<p:button icon="ui-icon-pencil" title="Editar" outcome="/pages/cadastroConta2">
+							<f:param name="id" value="#{conta.id}" />
+						</p:button>
+						<p:commandButton icon="ui-icon-trash" title="Excluir" process="@this" update="@form"
+							action="#{cadastroContaBean.excluir}">
+							<f:setPropertyActionListener value="#{conta}"
+								target="#{cadastroContaBean.contaSelecionada}" />
+						</p:commandButton>
 					</p:column>
 				</p:dataTable>
 				<h:messages id="msgErro" style="color: red" />

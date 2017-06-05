@@ -1,5 +1,6 @@
 package com.financaspessoais.service.impl;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.financaspessoais.dao.ContaDAO;
@@ -8,15 +9,10 @@ import com.financaspessoais.model.Usuario;
 import com.financaspessoais.service.ContaService;
 import com.financaspessoais.util.SessionContext;
 
-public class ContaServiceImpl implements ContaService {
-
+public class ContaServiceImpl implements ContaService, Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private ContaDAO contaDAO = new ContaDAO();
-
-	@Override
-	public Conta getContaPeloId(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public boolean inserirConta(Conta conta) {
@@ -28,7 +24,7 @@ public class ContaServiceImpl implements ContaService {
 //		FacesMessage mensagem = null;
 		Conta novaConta = null;
 
-		novaConta = contaDAO.inserirConta(conta);
+		novaConta = contaDAO.criarOuAtualizarConta(conta);
 		if (novaConta != null)
 			retorno = true;
 		else
@@ -38,20 +34,24 @@ public class ContaServiceImpl implements ContaService {
 	}
 
 	@Override
-	public boolean deletarConta(Conta conta) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public List<Conta> listarContas() {
-		return contaDAO.todas();
+		return this.contaDAO.listarContas();
 	}
 
 	@Override
 	public List<Conta> listarContasPorUsuario() {
 		Usuario u = (Usuario) SessionContext.getInstance().getAttribute("usuarioLogado");
-		List<Conta> listaConta = contaDAO.listarContasPorUsuario(u.getId());
+		List<Conta> listaConta = this.contaDAO.listarContasPorUsuario(u.getId());
 		return listaConta;
+	}
+
+	@Override
+	public void excluirConta(Conta conta) {
+		this.contaDAO.excluirConta(conta);
+	}
+
+	@Override
+	public Conta buscarConta(Integer id) {
+		return this.contaDAO.buscarConta(id);
 	}
 }

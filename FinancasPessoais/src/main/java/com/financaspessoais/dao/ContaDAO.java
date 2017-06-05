@@ -1,5 +1,6 @@
 package com.financaspessoais.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -12,25 +13,28 @@ import javax.persistence.TypedQuery;
 import com.financaspessoais.model.Conta;
 import com.financaspessoais.util.JpaUtil;
 
-public class ContaDAO {
+public class ContaDAO implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+
 	private EntityManager em = JpaUtil.getEntityManager();
 
-	public Conta getContaPeloId(Long id) {
+	public Conta buscarConta(Integer id) {
+		
 		try {
-			Conta conta = (Conta) em.createQuery("SELECT c from Conta c where c.id = :id").setParameter("id", id)
-					.getSingleResult();
-
-			return conta;
+			if (id != null) {
+//				Conta conta = (Conta) em.createQuery("SELECT c from Conta c where c.id = :id").setParameter("id", id)
+//						.getSingleResult();
+				return em.find(Conta.class, id);
+			}
+			return null;
+			
 		} catch (NoResultException e) {
 			return null;
 		}
 	}
 
-	public Conta porId(Long id) {
-		return em.find(Conta.class, id);
-	}
-
-	public List<Conta> todas() {
+	public List<Conta> listarContas() {
 		TypedQuery<Conta> query = em.createQuery("from Conta", Conta.class);
 		return query.getResultList();
 	}
@@ -60,13 +64,13 @@ public class ContaDAO {
 	// }
 	// }
 
-	public Conta inserirConta(Conta conta) {
+	public Conta criarOuAtualizarConta(Conta conta) {
 
 		EntityTransaction trx = em.getTransaction();
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
 			trx.begin();
-			em.persist(conta);
+			em.merge(conta);
 			trx.commit();
 			return conta;
 		} catch (Exception e) {
@@ -81,9 +85,12 @@ public class ContaDAO {
 		}
 	}
 
-	public boolean deletarConta(Conta conta) {
+	public boolean excluirConta(Conta conta) {
+		EntityTransaction trx = em.getTransaction();
 		try {
+			trx.begin();
 			em.remove(conta);
+			trx.commit();
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
