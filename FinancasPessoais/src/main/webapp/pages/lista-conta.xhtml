@@ -21,7 +21,7 @@
 						<h:outputText value="#{conta.tipoConta.descricao}" />
 					</p:column>
 					<p:column>
-						<p:button icon="ui-icon-pencil" title="Editar" outcome="/pages/cadastroConta2">
+						<p:button icon="ui-icon-pencil" title="Editar" outcome="/pages/cadastro-conta">
 							<f:param name="id" value="#{conta.id}" />
 						</p:button>
 						<p:commandButton icon="ui-icon-trash" title="Excluir" process="@this" update="@form"
@@ -33,7 +33,7 @@
 				</p:dataTable>
 				<h:messages id="msgErro" style="color: red" />
 				<p:commandButton value="Nova Conta"
-					action="cadastroConta2?faces-redirect=true" />
+					action="cadastro-conta?faces-redirect=true" />
 			</p:panel>
 		</h:form>
 	</ui:define>

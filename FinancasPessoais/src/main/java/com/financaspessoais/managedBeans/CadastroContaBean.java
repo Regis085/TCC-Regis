@@ -60,7 +60,7 @@ public class CadastroContaBean implements Serializable{
 		String retorno;
 		boolean inseridoComSucesso = contaService.inserirConta(conta);
 		if (inseridoComSucesso) {
-			retorno = "/pages/listaContas2?faces-redirect=true";
+			retorno = "/pages/lista-conta?faces-redirect=true";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conta não cadastrada!", "Erro no Cadastro!"));

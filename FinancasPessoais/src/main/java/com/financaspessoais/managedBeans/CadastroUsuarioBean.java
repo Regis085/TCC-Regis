@@ -17,7 +17,7 @@ public class CadastroUsuarioBean {
 		String retorno;
 		boolean inseridoComSucesso = usuarioService.inserirUsuario(usuario);
 		if (inseridoComSucesso) {
-			retorno = "/pages/index2?faces-redirect=true";
+			retorno = "/pages/index?faces-redirect=true";
 		} else {
 //			FacesContext.getCurrentInstance().addMessage(null,
 //					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário não cadastrado!", "Erro no Cadastro!"));
@@ -27,7 +27,7 @@ public class CadastroUsuarioBean {
 	}
 
 	public String voltar() {
-		return "/pages/login2?faces-redirect=true";
+		return "/pages/login?faces-redirect=true";
 	}
 
 	public Usuario getUsuario() {

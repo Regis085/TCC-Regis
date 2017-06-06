@@ -41,7 +41,7 @@ public class TelaInicioBean implements Serializable {
 	public String logout() {
 		HttpSession session = Util.getSession();
 		session.invalidate();
-		return "/pages/login2?faces-redirect=true";
+		return "/pages/login?faces-redirect=true";
 	}
 
 	// public String getNomeUsuario() {

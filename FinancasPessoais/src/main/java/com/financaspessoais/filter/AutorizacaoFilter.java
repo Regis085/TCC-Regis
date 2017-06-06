@@ -39,12 +39,12 @@ public class AutorizacaoFilter implements Filter {
 				System.out.println("Usuário logado: " + usuario);
 		}
 		
-		if (isNotLogado && !request.getRequestURI().endsWith("/pages/login2.xhtml")
+		if (isNotLogado && !request.getRequestURI().endsWith("/pages/login.xhtml")
 				&& !request.getRequestURI().endsWith("/pages/cadastro-usuario.xhtml")
 				&& !request.getRequestURI().contains("/javax.faces.resource/")) {
 			
 			System.out.println("Acesso não autorizado, não há usuário logado na sessão.");
-			response.sendRedirect(request.getContextPath() + "/pages/login2.xhtml");
+			response.sendRedirect(request.getContextPath() + "/pages/login.xhtml");
 		}
 		else {
 			chain.doFilter(req, res);

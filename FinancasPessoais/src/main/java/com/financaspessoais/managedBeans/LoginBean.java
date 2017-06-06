@@ -1,5 +1,7 @@
 package com.financaspessoais.managedBeans;
 
+import java.io.Serializable;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -15,8 +17,9 @@ import com.financaspessoais.util.Util;
 @ManagedBean
 @SessionScoped
 //@ApplicationScoped
-public class LoginBean {
+public class LoginBean implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 	private UsuarioService usuarioService = new UsuarioServiceImpl();
 	private Usuario usuario = new Usuario();
 
@@ -35,7 +38,7 @@ public class LoginBean {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Verifique seu login e senha.", "Tente novamente."));
 			return null;
 		} else {
-			return "/pages/index2?faces-redirect=true";
+			return "/pages/index?faces-redirect=true";
 		}
 	}
 
@@ -50,6 +53,6 @@ public class LoginBean {
 	public String logout() {
 		HttpSession session = Util.getSession();
 		session.invalidate();
-		return "/pages/login2?faces-redirect=true";
+		return "/pages/login?faces-redirect=true";
 	}
 }
