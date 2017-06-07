@@ -6,7 +6,6 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
 import com.financaspessoais.model.Banco;
-import com.financaspessoais.model.Conta;
 import com.financaspessoais.service.BancoService;
 import com.financaspessoais.service.impl.BancoServiceImpl;
 
