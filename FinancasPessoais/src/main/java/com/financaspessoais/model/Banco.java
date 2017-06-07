@@ -1,20 +1,30 @@
 package com.financaspessoais.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="banco")
-public class Banco {
+public class Banco implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false, unique = true)
-	private Long id;
+	private Integer id;
+
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "usuario_id")
+	private Usuario proprietario;
 	
 	@Column(name="nome", nullable = false, unique = true)
 	private String nome;
@@ -28,11 +38,11 @@ public class Banco {
 	@Column(name="endereco", nullable = true, length=255)
 	private String endereco;
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -67,6 +77,12 @@ public class Banco {
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
-	
-	
+
+	public Usuario getProprietario() {
+		return proprietario;
+	}
+
+	public void setProprietario(Usuario proprietario) {
+		this.proprietario = proprietario;
+	}
 }

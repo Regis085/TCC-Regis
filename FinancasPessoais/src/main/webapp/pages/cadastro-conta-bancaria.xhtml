@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<ui:composition template="/templates/modelo-base.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui">
+	
+	<f:metadata>
+		<f:viewAction action="#{contaBancariaMB.prepararCadastro}" />
+		<o:viewParam name="id" value="#{contaBancariaMB.conta}" />
+	</f:metadata>
+	
+	<ui:define name="menu">
+		<ui:include src="/includes/menu-principal.xhtml"></ui:include>
+	</ui:define>
+	<ui:define name="conteudo">
+		<h:form>
+			<p:panel>
+				<p:panelGrid columns="2">
+					
+					<p:outputLabel value="Nome" for="nome_conta"/>
+					<p:inputText id="nome_conta" size="30" value="#{contaBancariaMB.contaBancaria.nome}"
+						label="Nome" />
+						
+					<p:outputLabel value="Tipo de Conta" for="tipos_conta"/>
+					<p:selectOneMenu id="tipos_conta" label="Tipo de Conta" value="#{contaBancariaMB.conta.tipoConta}">
+						<f:selectItems value="#{contaBancariaMB.contaBancaria.listaBanco}" var="tipo" itemValue="#{tipo}" itemLabel="#{tipo.descricao}"/>
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Número da Conta" for="numero_conta"/>
+					<p:inputText id="numero_conta" size="12" value="#{contaBancariaMB.contaBancaria.numeroConta}"
+						label="Número da Conta" />
+						
+					<p:outputLabel value="" for=""/>
+					<p:inputText id="" size="10" value="#{contaBancariaMB.contaBancaria.numeroAgencia}"
+						label="" />
+						
+					<p:outputLabel value="" for=""/>
+					<p:inputText id="" size="10" value="#{contaBancariaMB.contaBancaria.telefoneAgencia}"
+						label="" />
+						
+					<p:outputLabel value="" for=""/>
+					<p:inputText id="" size="10" value="#{contaBancariaMB.contaBancaria.enderecoAgencia}"
+						label="" />
+						
+					<p:outputLabel value="" for=""/>
+					<p:inputText id="" size="10" value="#{contaBancariaMB.contaBancaria.nomeGerente}"
+						label="" />
+						
+					<p:outputLabel value="" for=""/>
+					<p:inputText id="" size="10" value="#{contaBancariaMB.contaBancaria.telefoneGerente}"
+						label="" />
+						
+					<p:outputLabel value="" for=""/>
+					<p:inputText id="" size="10" value="#{contaBancariaMB.contaBancaria.emailGerente}"
+						label="" />
+						
+					<p:commandButton value="Salvar" action="#{contaBancariaMB.cadastrarConta}" />
+					<p:commandButton value="Voltar" action="lista-conta?faces-redirect=true" />
+					
+				</p:panelGrid>
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -17,7 +17,7 @@ import com.financaspessoais.util.Util;
 @ManagedBean
 @SessionScoped
 //@ApplicationScoped
-public class LoginBean implements Serializable{
+public class LoginMB implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private UsuarioService usuarioService = new UsuarioServiceImpl();

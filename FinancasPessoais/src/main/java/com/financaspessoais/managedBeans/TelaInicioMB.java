@@ -12,7 +12,7 @@ import com.financaspessoais.util.Util;
 
 @ManagedBean
 @SessionScoped
-public class TelaInicioBean implements Serializable {
+public class TelaInicioMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String nome;
@@ -21,8 +21,8 @@ public class TelaInicioBean implements Serializable {
 	private String nomePerfil;
 	private String cpf;
 
-	public TelaInicioBean() {
-		System.out.println("Entrou em TelaInicioBean");
+	public TelaInicioMB() {
+		System.out.println("Entrou em TelaInicioMB");
 		Usuario u = (Usuario) SessionContext.getInstance().getAttribute("usuarioLogado");
 		if (u != null) {
 			System.out.println("Nome do Usuário: " + u.getNome());

@@ -1,5 +1,7 @@
 package com.financaspessoais.service.impl;
 
+import java.io.Serializable;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
@@ -9,14 +11,15 @@ import com.financaspessoais.model.Usuario;
 import com.financaspessoais.service.UsuarioService;
 import com.financaspessoais.util.SessionContext;
 
-public class UsuarioServiceImpl implements UsuarioService {
+public class UsuarioServiceImpl implements UsuarioService, Serializable {
 
-	private UsuarioDAO usuarioDAO = new UsuarioDAO();
+	private static final long serialVersionUID = 1L;
+	private UsuarioDAO usuarioDAO;
 	private static final Short ID_PERFIL_PADRAO = new Short("2");
 
 	@Override
 	public Usuario getUsuario(String login, String senha) {
-		Usuario u = usuarioDAO.getUsuario(login, senha);
+		Usuario u = getUsuarioDAO().buscarPorLoginESenha(login, senha);
 		SessionContext.getInstance().setAttribute("usuarioLogado", u);
 		return u;
 	}
@@ -54,7 +57,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 			FacesContext.getCurrentInstance().addMessage(null, mensagem);
 			retorno = false;
 		} else {
-			novoUsuario = usuarioDAO.inserirUsuario(usuario);
+			novoUsuario = getUsuarioDAO().criar(usuario);
 		}
 
 		if (novoUsuario == null) {
@@ -69,7 +72,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Override
 	public boolean deletarUsuario(Usuario usuario) {
-		return usuarioDAO.deletarUsuario(usuario);
+		return getUsuarioDAO().excluir(usuario);
 	}
-
+	
+	private UsuarioDAO getUsuarioDAO() {
+		if (this.usuarioDAO == null)
+			this.usuarioDAO = new UsuarioDAO();
+		return this.usuarioDAO;
+	}
 }

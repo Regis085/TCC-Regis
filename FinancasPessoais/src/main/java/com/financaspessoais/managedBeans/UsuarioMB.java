@@ -9,7 +9,7 @@ import com.financaspessoais.service.impl.UsuarioServiceImpl;
 
 @ManagedBean
 @SessionScoped
-public class CadastroUsuarioBean {
+public class UsuarioMB {
 	private UsuarioService usuarioService = new UsuarioServiceImpl();
 	private Usuario usuario = new Usuario();
 

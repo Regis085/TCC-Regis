@@ -8,8 +8,8 @@
 	xmlns:o="http://omnifaces.org/ui">
 	
 	<f:metadata>
-		<f:viewAction action="#{cadastroContaBean.prepararCadastro}" />
-		<o:viewParam name="id" value="#{cadastroContaBean.conta}" />
+		<f:viewAction action="#{contaMB.prepararCadastro}" />
+		<o:viewParam name="id" value="#{contaMB.conta}" />
 	</f:metadata>
 	
 	<ui:define name="menu">
@@ -20,20 +20,24 @@
 			<p:panel>
 				<p:panelGrid columns="2">
 					
-					<p:outputLabel value="Nome" />
-					<p:inputText size="30" value="#{cadastroContaBean.conta.nome}"
+					<p:outputLabel value="Nome" for="nome_conta"/>
+					<p:inputText id="nome_conta" size="30" value="#{contaMB.conta.nome}"
 						label="Nome" />
 						
 					<p:outputLabel value="Tipo de Conta" for="tipos_conta"/>
-					<p:selectOneMenu id="tipos_conta" label="Tipo de Conta" value="#{cadastroContaBean.conta.tipoConta}">
-						<f:selectItems value="#{cadastroContaBean.tiposConta}" var="tipo" itemValue="#{tipo}" itemLabel="#{tipo.descricao}"/>
+					<p:selectOneMenu id="tipos_conta" label="Tipo de Conta" value="#{ContaBean.conta.tipoConta}">
+						<f:selectItems value="#{contaMB.tiposConta}" var="tipo" itemValue="#{tipo}" itemLabel="#{tipo.descricao}"/>
 					</p:selectOneMenu>
 					
-					<p:commandButton value="Salvar" action="#{cadastroContaBean.cadastrarConta}" />
+					<p:outputLabel value="Número da Conta" for="numero_conta"/>
+					<p:inputText id="numero_conta" size="12" value="#{ContaBean.contaBancaria.numeroConta}"
+						label="Número da Conta" />
 					
+					<p:commandButton value="Salvar" action="#{contaMB.cadastrarConta}" />
 					<p:commandButton value="Voltar" action="lista-conta?faces-redirect=true" />
+					
 				</p:panelGrid>
-				<p:messages id="msgErro" style="color: red" />
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 			</p:panel>
 		</h:form>
 	</ui:define>

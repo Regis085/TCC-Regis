@@ -15,14 +15,14 @@
 				<p:panelGrid columns="2">
 					<p:outputLabel value="Login" />
 					<p:inputText size="20"
-						value="#{loginBean.usuario.login}" label="Login" />
+						value="#{loginMB.usuario.login}" label="Login" />
 					<p:outputLabel value="Senha" />
 					<p:password size="6"
-						value="#{loginBean.usuario.senha}" label="Senha" />
+						value="#{loginMB.usuario.senha}" label="Senha" />
 				</p:panelGrid>
 				<p:panelGrid columns="2">
-					<p:commandButton value="Entrar" action="#{loginBean.enviar}" />
-					<p:commandButton value="Cadastre-se" action="#{loginBean.cadastrar}" />
+					<p:commandButton value="Entrar" action="#{loginMB.enviar}" />
+					<p:commandButton value="Cadastre-se" action="#{loginMB.cadastrar}" />
 				</p:panelGrid>
 				<p:messages id="messages" showDetail="true" autoUpdate="true"
 					closable="true" />

@@ -1,5 +1,7 @@
 package com.financaspessoais.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -8,7 +10,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "conta_bancaria")
-public class ContaBancaria extends Conta {
+public class ContaBancaria extends Conta implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	@Column(name = "numero_agencia", nullable = true, length = 10)
 	private String numeroAgencia;

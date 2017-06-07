@@ -1,56 +1,83 @@
 package com.financaspessoais.dao;
 
+import java.io.Serializable;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 
 import com.financaspessoais.model.Usuario;
 import com.financaspessoais.util.JpaUtil;
 
-public class UsuarioDAO {
-	private EntityManager em = JpaUtil.getEntityManager();
-
-	public Usuario getUsuario(String login, String senha) {
-
+public class UsuarioDAO implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	
+	private EntityManager entityManager = JpaUtil.getEntityManager();
+	
+	public Usuario buscarPorId(Short id) {
+		
+		Usuario usuario = null;
 		try {
-			Usuario usuario = (Usuario) em
-					.createQuery("SELECT u from Usuario u where u.login = :login and u.senha = :senha")
-					.setParameter("login", login).setParameter("senha", senha).getSingleResult();
-
-			return usuario;
-		} catch (NoResultException e) {
-			return null;
+			if (id != null)
+				usuario = entityManager.find(Usuario.class, id);
 		}
+		catch (NoResultException e) {
+			System.out.println("Não localizado na base de dados");
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return usuario;
 	}
 
-	public Usuario inserirUsuario(Usuario usuario) {
+	public Usuario buscarPorLoginESenha(String login, String senha) {
 
-		EntityTransaction trx = em.getTransaction();
+		Usuario usuario = null;
+		try {
+			Query query = entityManager.createQuery("SELECT u from Usuario u where u.login = :login and u.senha = :senha");
+			query.setParameter("login", login);
+			query.setParameter("senha", senha);
+			usuario = (Usuario) query.getSingleResult();
+		}
+		catch (NoResultException e) {
+			System.out.println("Não localizado na base de dados");
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return usuario;
+	}
+
+	public Usuario criar(Usuario usuario) {
+
+		EntityTransaction transacao = entityManager.getTransaction();
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
-			trx.begin();
-			em.persist(usuario);
-			trx.commit();
+			transacao.begin();
+			entityManager.persist(usuario);
+			transacao.commit();
 			return usuario;
-		} catch (Exception e) {
-			trx.rollback();
+		}
+		catch (Exception e) {
+			transacao.rollback();
 			FacesMessage mensagem = new FacesMessage(e.getMessage());
 			mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);
 			context.addMessage(null, mensagem);
 			e.printStackTrace();
 			return null;
-		} finally {
-//			em.close();
 		}
 	}
 
-	public boolean deletarUsuario(Usuario usuario) {
+	public boolean excluir(Usuario usuario) {
 		try {
-			em.remove(usuario);
+			entityManager.remove(usuario);
 			return true;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<ui:composition template="/templates/modelo-base.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui">
+	
+	<f:metadata>
+		<f:viewAction action="#{bancoMB.prepararCadastro}" />
+		<o:viewParam name="id" value="#{bancoMB.banco}" />
+	</f:metadata>
+	
+	<ui:define name="menu">
+		<ui:include src="/includes/menu-principal.xhtml"></ui:include>
+	</ui:define>
+	<ui:define name="conteudo">
+		<h:form>
+			<p:panel>
+				<p:panelGrid columns="2">
+					
+					<p:outputLabel value="Nome" for="nome_banco"/>
+					<p:inputText id="nome_banco" size="30" value="#{bancoMB.banco.nome}"/>
+					
+					<p:outputLabel value="Site" for="site_banco"/>
+					<p:inputText id="site_banco" size="30" value="#{bancoMB.banco.site}" />
+					
+					<p:outputLabel value="Telefone" for="telefone_banco"/>
+					<p:inputText id="telefone_banco" size="30" value="#{bancoMB.banco.telefone}"/>
+					
+					<p:outputLabel value="Endereço" for="endereco_banco"/>
+					<p:inputTextarea id="endereco_banco" size="30" value="#{bancoMB.banco.endereco}" rows="10" cols="50"/>
+					
+					<p:commandButton value="Salvar" action="#{bancoMB.cadastrarBanco}" />
+					<p:commandButton value="Voltar" action="lista-banco?faces-redirect=true" />
+					
+				</p:panelGrid>
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

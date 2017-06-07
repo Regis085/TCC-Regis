@@ -12,28 +12,34 @@
 	<ui:define name="conteudo">
 		<h:form>
 			<p:panel>
-				<p:dataTable value="#{contaMB.contasDoUsuario}" var="conta"
+				<p:dataTable value="#{bancoMB.bancosDoUsuario}" var="banco"
 					border="1" cellspacing="0" cellpadding="2" paginator="true" rows="5" paginatorPosition="bottom">
 					<p:column headerText="Nome">
-						<h:outputText value="#{conta.nome}" />
+						<h:outputText value="#{banco.nome}" />
 					</p:column>
-					<p:column headerText="Tipo">
-						<h:outputText value="#{conta.tipoConta.descricao}" />
+					<p:column headerText="Telefone">
+						<h:outputText value="#{banco.telefone}" />
+					</p:column>
+					<p:column headerText="Website">
+						<h:outputText value="#{banco.site}" />
+					</p:column>
+					<p:column headerText="Endereço">
+						<h:outputText value="#{banco.endereco}" />
 					</p:column>
 					<p:column>
-						<p:button icon="ui-icon-pencil" title="Editar" outcome="/pages/cadastro-conta">
-							<f:param name="id" value="#{conta.id}" />
+						<p:button icon="ui-icon-pencil" title="Editar" outcome="/pages/cadastro-banco">
+							<f:param name="id" value="#{banco.id}" />
 						</p:button>
 						<p:commandButton icon="ui-icon-trash" title="Excluir" process="@this" update="@form"
-							action="#{contaMB.excluir}">
-							<f:setPropertyActionListener value="#{conta}"
-								target="#{contaMB.contaSelecionada}" />
+							action="#{bancoMB.excluir}">
+							<f:setPropertyActionListener value="#{banco}"
+								target="#{bancoMB.bancoSelecionado}" />
 						</p:commandButton>
 					</p:column>
 				</p:dataTable>
 				<h:messages id="msgErro" style="color: red" />
-				<p:commandButton value="Nova Conta"
-					action="cadastro-conta?faces-redirect=true" />
+				<p:commandButton value="Novo Banco"
+					action="cadastro-banco?faces-redirect=true" />
 			</p:panel>
 		</h:form>
 	</ui:define>

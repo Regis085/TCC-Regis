@@ -10,24 +10,24 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
-import com.financaspessoais.model.Conta;
+import com.financaspessoais.model.Banco;
 import com.financaspessoais.util.JpaUtil;
 
-public class ContaDAO implements Serializable{
+public class BancoDAO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
 	private EntityManager entityManager = JpaUtil.getEntityManager();
 	
-	public Conta criarOuAtualizar(Conta conta) {
+	public Banco criarOuAtualizar(Banco banco) {
 
 		EntityTransaction transacao = entityManager.getTransaction();
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
 			transacao.begin();
-			entityManager.merge(conta);
+			entityManager.merge(banco);
 			transacao.commit();
-			return conta;
+			return banco;
 		} 
 		catch (Exception e) {
 			transacao.rollback();
@@ -39,11 +39,11 @@ public class ContaDAO implements Serializable{
 		}
 	}
 
-	public Conta buscarPorId(Integer id) {
+	public Banco buscarPorId(Integer id) {
 		
 		try {
 			if (id != null)
-				return entityManager.find(Conta.class, id);
+				return entityManager.find(Banco.class, id);
 			return null;
 		}
 		catch (NoResultException e) {
@@ -51,29 +51,29 @@ public class ContaDAO implements Serializable{
 		}
 	}
 
-	public List<Conta> listarTudo() {
-		TypedQuery<Conta> query = entityManager.createQuery("from Conta", Conta.class);
+	public List<Banco> listarTudo() {
+		TypedQuery<Banco> query = entityManager.createQuery("from Banco", Banco.class);
 		return query.getResultList();
 	}
 
-	public List<Conta> listarPorProprietario(Short idUsuario) {
+	public List<Banco> listarPorProprietario(Short idUsuario) {
 		try {
 			@SuppressWarnings("unchecked")
-			List<Conta> listaConta = (List<Conta>) entityManager
-					.createQuery("SELECT c from Conta c " + " INNER JOIN c.proprietario u " + " WHERE u.id = :idUsuario")
+			List<Banco> listaBanco = (List<Banco>) entityManager
+					.createQuery("SELECT b from Banco b " + " INNER JOIN b.proprietario u " + " WHERE u.id = :idUsuario")
 					.setParameter("idUsuario", idUsuario).getResultList();
-			return listaConta;
+			return listaBanco;
 		}
 		catch (NoResultException e) {
 			return null;
 		}
 	}
 
-	public boolean excluir(Conta conta) {
+	public boolean excluir(Banco banco) {
 		EntityTransaction transacao = entityManager.getTransaction();
 		try {
 			transacao.begin();
-			entityManager.remove(conta);
+			entityManager.remove(banco);
 			transacao.commit();
 			return true;
 		}

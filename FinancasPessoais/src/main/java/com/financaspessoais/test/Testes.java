@@ -17,7 +17,12 @@ import com.financaspessoais.util.JpaUtil;
 public class Testes {
 
 	public static void main(String[] args) {
-		testarContas();
+//		testarContas();
+		testarContaBancaria();
+	}
+	
+	private static void testarContaBancaria() {
+		
 	}
 	
 	private static void testarContas() {
@@ -26,7 +31,7 @@ public class Testes {
 		u.setId(new Short("1"));
 		
 		Banco b = new Banco();
-		b.setId(1L);
+		b.setId(1);
 		
 		ContaService cs = new ContaServiceImpl();
 		ContaBancaria novaConta = new ContaBancaria();
@@ -39,7 +44,7 @@ public class Testes {
 		novaConta.setEnderecoAgencia("Cais do Apolo, Recife - PE");
 		novaConta.setTipoConta(TipoConta.BANCARIA);
 		
-		boolean isSucesso = cs.inserirConta(novaConta);
+		boolean isSucesso = cs.criarOuAtualizarConta(novaConta);
 		if (isSucesso) {
 			System.out.println("Conta inserida com Sucesso");
 			System.out.println("Id Conta inserida: " + novaConta.getId());
