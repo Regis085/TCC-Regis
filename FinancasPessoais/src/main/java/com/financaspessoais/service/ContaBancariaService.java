@@ -12,6 +12,8 @@ public interface ContaBancariaService {
 
 	List<ContaBancaria> listarContasBancariasPorUsuario();
 
-	void excluirConta(ContaBancaria contaBancariaSelecionada);
+	void excluirConta(ContaBancaria contaBancaria);
+	
+	public ContaBancaria buscarContaBancaria(Integer id);
 
 }

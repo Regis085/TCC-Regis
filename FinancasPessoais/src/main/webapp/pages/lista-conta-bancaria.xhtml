@@ -12,7 +12,7 @@
 	<ui:define name="conteudo">
 		<h:form>
 			<p:panel>
-				<p:dataTable value="#{contaMB.contasDoUsuario}" var="conta"
+				<p:dataTable value="#{contaBancariaMB.contasDoUsuario}" var="conta"
 					border="1" cellspacing="0" cellpadding="2" paginator="true" rows="5" paginatorPosition="bottom">
 					<p:column headerText="Nome">
 						<h:outputText value="#{conta.nome}" />
@@ -20,23 +20,35 @@
 					<p:column headerText="Tipo">
 						<h:outputText value="#{conta.tipoConta.descricao}" />
 					</p:column>
+					<p:column headerText="Número Agência">
+						<h:outputText value="#{conta.numeroAgencia}" />
+					</p:column>
+					<p:column headerText="Número Conta">
+						<h:outputText value="#{conta.numeroConta}" />
+					</p:column>
+					<p:column headerText="Nome Gerente">
+						<h:outputText value="#{conta.nomeGerente}" />
+					</p:column>
+					<p:column headerText="Fone Agência">
+						<h:outputText value="#{conta.telefoneAgencia}" />
+					</p:column>
 					<p:column headerText="Descrição">
 						<h:outputText value="#{conta.descricao}" />
 					</p:column>
 					<p:column>
-						<p:button icon="ui-icon-pencil" title="Editar" outcome="/pages/cadastro-conta">
+						<p:button icon="ui-icon-pencil" title="Editar" outcome="/pages/cadastro-conta-bancaria">
 							<f:param name="id" value="#{conta.id}" />
 						</p:button>
 						<p:commandButton icon="ui-icon-trash" title="Excluir" process="@this" update="@form"
-							action="#{contaMB.excluir}">
+							action="#{contaBancariaMB.excluir}">
 							<f:setPropertyActionListener value="#{conta}"
-								target="#{contaMB.contaSelecionada}" />
+								target="#{contaBancariaMB.contaBancariaSelecionada}" />
 						</p:commandButton>
 					</p:column>
 				</p:dataTable>
 				<h:messages id="msgErro" style="color: red" />
-				<p:commandButton value="Nova Conta"
-					action="cadastro-conta?faces-redirect=true" />
+				<p:commandButton value="Nova Conta Bancária"
+					action="cadastro-conta-bancaria?faces-redirect=true" />
 			</p:panel>
 		</h:form>
 	</ui:define>

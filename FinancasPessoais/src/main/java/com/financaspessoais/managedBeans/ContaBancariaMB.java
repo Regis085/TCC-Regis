@@ -1,7 +1,6 @@
 package com.financaspessoais.managedBeans;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -12,7 +11,9 @@ import javax.faces.context.FacesContext;
 import com.financaspessoais.model.Banco;
 import com.financaspessoais.model.Conta;
 import com.financaspessoais.model.ContaBancaria;
+import com.financaspessoais.service.BancoService;
 import com.financaspessoais.service.ContaBancariaService;
+import com.financaspessoais.service.impl.BancoServiceImpl;
 import com.financaspessoais.service.impl.ContaBancariaServiceImpl;
 
 @ManagedBean
@@ -22,13 +23,14 @@ public class ContaBancariaMB implements Serializable {
 	private ContaBancariaService contaBancariaService = new ContaBancariaServiceImpl();
 	private ContaBancaria contaBancariaSelecionada;
 	private ContaBancaria contaBancaria;
+	private BancoService bancoService = new BancoServiceImpl();
 	private List<Banco> listaBanco;
 
 	public void prepararCadastro() {
 		if (this.contaBancaria == null)
 			this.contaBancaria = new ContaBancaria();
 		if (this.listaBanco == null) {
-			listaBanco = new ArrayList<Banco>(); // TODO fazer consulta para trazer bancos.
+			listaBanco = bancoService.listarPorUsuario(); 
 		}
 	}
 

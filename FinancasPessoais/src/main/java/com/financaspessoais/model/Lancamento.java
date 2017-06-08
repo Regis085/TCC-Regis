@@ -1,5 +1,6 @@
 package com.financaspessoais.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -18,7 +19,8 @@ import javax.persistence.TemporalType;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "lancamento")
-public class Lancamento {
+public class Lancamento implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue
@@ -28,7 +30,7 @@ public class Lancamento {
 	@JoinColumn(name = "id_proprietario")
 	private Usuario proprietario;
 
-	@Column(name="descricao", length = 80, nullable = true)
+	@Column(name = "descricao", length = 255, nullable = true)
 	private String descricao;
 
 	@Column(name = "valor", precision = 10, scale = 2, nullable = false)

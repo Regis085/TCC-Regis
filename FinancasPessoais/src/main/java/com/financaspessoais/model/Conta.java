@@ -36,6 +36,9 @@ public class Conta implements Serializable {
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private TipoConta tipoConta;
+	
+	@Column(name="descricao", length = 255, nullable = true)
+	private String descricao;
 
 	public Integer getId() {
 		return id;
@@ -68,15 +71,20 @@ public class Conta implements Serializable {
 	public void setTipoConta(TipoConta tipoConta) {
 		this.tipoConta = tipoConta;
 	}
+	
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result + ((proprietario == null) ? 0 : proprietario.hashCode());
-		result = prime * result + ((tipoConta == null) ? 0 : tipoConta.hashCode());
 		return result;
 	}
 
@@ -93,18 +101,6 @@ public class Conta implements Serializable {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
-			return false;
-		if (nome == null) {
-			if (other.nome != null)
-				return false;
-		} else if (!nome.equals(other.nome))
-			return false;
-		if (proprietario == null) {
-			if (other.proprietario != null)
-				return false;
-		} else if (!proprietario.equals(other.proprietario))
-			return false;
-		if (tipoConta != other.tipoConta)
 			return false;
 		return true;
 	}

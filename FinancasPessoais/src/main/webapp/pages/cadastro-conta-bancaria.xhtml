@@ -9,7 +9,7 @@
 	
 	<f:metadata>
 		<f:viewAction action="#{contaBancariaMB.prepararCadastro}" />
-		<o:viewParam name="id" value="#{contaBancariaMB.conta}" />
+		<o:viewParam name="id" value="#{contaBancariaMB.contaBancaria}" />
 	</f:metadata>
 	
 	<ui:define name="menu">
@@ -24,41 +24,38 @@
 					<p:inputText id="nome_conta" size="30" value="#{contaBancariaMB.contaBancaria.nome}"
 						label="Nome" />
 						
-					<p:outputLabel value="Tipo de Conta" for="tipos_conta"/>
-					<p:selectOneMenu id="tipos_conta" label="Tipo de Conta" value="#{contaBancariaMB.conta.tipoConta}">
-						<f:selectItems value="#{contaBancariaMB.contaBancaria.listaBanco}" var="tipo" itemValue="#{tipo}" itemLabel="#{tipo.descricao}"/>
+					<p:outputLabel value="Banco" for="banco"/>
+					<p:selectOneMenu id="banco" value="#{contaBancariaMB.contaBancaria.banco}">
+						<f:selectItems value="#{contaBancariaMB.listaBanco}" var="banco" itemValue="#{banco}" itemLabel="#{banco.nome}"/>
 					</p:selectOneMenu>
+						
+					<p:outputLabel value="Número da Agência" for="numero_agencia"/>
+					<p:inputText id="numero_agencia" size="10" value="#{contaBancariaMB.contaBancaria.numeroAgencia}"/>
 					
 					<p:outputLabel value="Número da Conta" for="numero_conta"/>
 					<p:inputText id="numero_conta" size="12" value="#{contaBancariaMB.contaBancaria.numeroConta}"
 						label="Número da Conta" />
 						
-					<p:outputLabel value="" for=""/>
-					<p:inputText id="" size="10" value="#{contaBancariaMB.contaBancaria.numeroAgencia}"
-						label="" />
+					<p:outputLabel value="Telefone da Agência" for="telefone_agencia"/>
+					<p:inputText id="telefone_agencia" size="10" value="#{contaBancariaMB.contaBancaria.telefoneAgencia}" />
 						
-					<p:outputLabel value="" for=""/>
-					<p:inputText id="" size="10" value="#{contaBancariaMB.contaBancaria.telefoneAgencia}"
-						label="" />
+					<p:outputLabel value="Endereço da Agência" for="endereco_agencia"/>
+					<p:inputTextarea id="endereco_agencia" value="#{contaBancariaMB.contaBancaria.enderecoAgencia}" />
+					
+					<p:outputLabel value="Descrição" for="descricao_conta"/>
+					<p:inputTextarea id="descricao_conta" value="#{contaBancariaMB.contaBancaria.descricao}" />
 						
-					<p:outputLabel value="" for=""/>
-					<p:inputText id="" size="10" value="#{contaBancariaMB.contaBancaria.enderecoAgencia}"
-						label="" />
+					<p:outputLabel value="Nome do(a) Gerente" for="nome_gerente"/>
+					<p:inputText id="nome_gerente" size="10" value="#{contaBancariaMB.contaBancaria.nomeGerente}" />
 						
-					<p:outputLabel value="" for=""/>
-					<p:inputText id="" size="10" value="#{contaBancariaMB.contaBancaria.nomeGerente}"
-						label="" />
+					<p:outputLabel value="Telefone do(a) Gerente" for="telefone_gerente"/>
+					<p:inputText id="telefone_gerente" size="10" value="#{contaBancariaMB.contaBancaria.telefoneGerente}" />
 						
-					<p:outputLabel value="" for=""/>
-					<p:inputText id="" size="10" value="#{contaBancariaMB.contaBancaria.telefoneGerente}"
-						label="" />
-						
-					<p:outputLabel value="" for=""/>
-					<p:inputText id="" size="10" value="#{contaBancariaMB.contaBancaria.emailGerente}"
-						label="" />
+					<p:outputLabel value="E-mail do(a) Gerente" for="email_gerente"/>
+					<p:inputText id="email_gerente" size="10" value="#{contaBancariaMB.contaBancaria.emailGerente}" />
 						
 					<p:commandButton value="Salvar" action="#{contaBancariaMB.cadastrarConta}" />
-					<p:commandButton value="Voltar" action="lista-conta?faces-redirect=true" />
+					<p:commandButton value="Voltar" action="lista-conta-bancaria?faces-redirect=true" />
 					
 				</p:panelGrid>
 				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />

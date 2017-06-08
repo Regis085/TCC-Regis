@@ -23,15 +23,13 @@
 					<p:outputLabel value="Nome" for="nome_conta"/>
 					<p:inputText id="nome_conta" size="30" value="#{contaMB.conta.nome}"
 						label="Nome" />
+					<p:outputLabel value="Descrição" for="descricao_conta"/>
+					<p:inputTextarea id="descricao_conta" value="#{contaMB.conta.descricao}" />
 						
-					<p:outputLabel value="Tipo de Conta" for="tipos_conta"/>
-					<p:selectOneMenu id="tipos_conta" label="Tipo de Conta" value="#{ContaBean.conta.tipoConta}">
-						<f:selectItems value="#{contaMB.tiposConta}" var="tipo" itemValue="#{tipo}" itemLabel="#{tipo.descricao}"/>
-					</p:selectOneMenu>
-					
-					<p:outputLabel value="Número da Conta" for="numero_conta"/>
-					<p:inputText id="numero_conta" size="12" value="#{ContaBean.contaBancaria.numeroConta}"
-						label="Número da Conta" />
+<!-- 					<p:outputLabel value="Tipo de Conta" for="tipos_conta"/> -->
+<!-- 					<p:selectOneMenu id="tipos_conta" label="Tipo de Conta" value="#{contaMB.conta.tipoConta}"> -->
+<!-- 						<f:selectItems value="#{contaMB.tiposConta}" var="tipo" itemValue="#{tipo}" itemLabel="#{tipo.descricao}"/> -->
+<!-- 					</p:selectOneMenu> -->
 					
 					<p:commandButton value="Salvar" action="#{contaMB.cadastrarConta}" />
 					<p:commandButton value="Voltar" action="lista-conta?faces-redirect=true" />

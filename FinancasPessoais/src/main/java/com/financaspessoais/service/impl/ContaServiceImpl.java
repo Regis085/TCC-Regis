@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.financaspessoais.dao.ContaDAO;
 import com.financaspessoais.model.Conta;
+import com.financaspessoais.model.TipoConta;
 import com.financaspessoais.model.Usuario;
 import com.financaspessoais.service.ContaService;
 import com.financaspessoais.util.SessionContext;
@@ -19,6 +20,8 @@ public class ContaServiceImpl implements ContaService, Serializable {
 
 		Usuario u = (Usuario) SessionContext.getInstance().getAttribute("usuarioLogado");
 		conta.setProprietario(u);
+		
+		conta.setTipoConta(TipoConta.OUTRO);
 
 		boolean retorno;
 //		FacesMessage mensagem = null;
