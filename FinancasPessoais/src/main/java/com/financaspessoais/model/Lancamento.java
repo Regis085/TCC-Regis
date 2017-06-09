@@ -19,7 +19,7 @@ import javax.persistence.TemporalType;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "lancamento")
-public class Lancamento implements Serializable {
+public abstract class Lancamento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

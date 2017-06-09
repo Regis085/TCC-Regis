@@ -1,14 +1,17 @@
 package com.financaspessoais.test;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import com.financaspessoais.dao.TipoDespesaDAO;
 import com.financaspessoais.model.Banco;
 import com.financaspessoais.model.Conta;
 import com.financaspessoais.model.ContaBancaria;
 import com.financaspessoais.model.TipoConta;
+import com.financaspessoais.model.TipoDespesa;
 import com.financaspessoais.model.Usuario;
 import com.financaspessoais.service.ContaService;
 import com.financaspessoais.service.impl.ContaServiceImpl;
@@ -18,14 +21,40 @@ public class Testes {
 
 	public static void main(String[] args) {
 //		testarContas();
-		testarContaBancaria();
+		salvarTipoDespesa();
+//		removerTipoDespesa();
+		listarTiposDespesa();
 	}
 	
-	private static void testarContaBancaria() {
-		
+	public static void listarTiposDespesa() {
+		TipoDespesaDAO dao = new TipoDespesaDAO();
+		List<TipoDespesa> lista = dao.listar();
+		for(TipoDespesa t : lista) {
+			System.out.println(t);
+		}
+	}
+
+	public static void removerTipoDespesa() {
+		TipoDespesaDAO dao = new TipoDespesaDAO();
+		TipoDespesa t = dao.buscarPorId(new Short("1"));
+		System.out.println("Tipo Despesa: " + t.toString());
+		dao.remover(new Short("1"));
+		t = dao.buscarPorId(new Short("1"));
+		System.out.println("Tipo Despesa: " + t.toString());
 	}
 	
-	private static void testarContas() {
+	public static void salvarTipoDespesa() {
+		TipoDespesa tipoDespesa = new TipoDespesa();
+		TipoDespesaDAO dao = new TipoDespesaDAO();
+		tipoDespesa.setDescricao("teste 5");
+		tipoDespesa.setNome("teste 5");
+		tipoDespesa.setValorPrevisto(new BigDecimal("1890.75"));
+		dao.criar(tipoDespesa);
+		TipoDespesa t = dao.buscarPorId(tipoDespesa.getId());
+		System.out.println("Tipo Despesa: " + t.toString());
+	}
+	
+	public static void testarContas() {
 		
 		Usuario u = new Usuario();
 		u.setId(new Short("1"));
@@ -55,6 +84,7 @@ public class Testes {
 		
 		EntityManager em = JpaUtil.getEntityManager();
 		Query q = em.createQuery("Select c FROM Conta c");
+		@SuppressWarnings("unchecked")
 		List<Conta> contas = q.getResultList();
 		for (Conta c : contas) {
 			System.out.println(c.getNome());

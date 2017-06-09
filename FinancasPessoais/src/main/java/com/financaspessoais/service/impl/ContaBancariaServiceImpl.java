@@ -39,7 +39,7 @@ public class ContaBancariaServiceImpl implements ContaBancariaService, Serializa
 
 	@Override
 	public List<ContaBancaria> listarContasBancarias() {
-		return getContaBancariaDAO().listarTudo();
+		return getContaBancariaDAO().listar();
 	}
 
 	@Override

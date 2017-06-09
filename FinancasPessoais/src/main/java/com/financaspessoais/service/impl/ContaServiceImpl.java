@@ -38,7 +38,7 @@ public class ContaServiceImpl implements ContaService, Serializable {
 
 	@Override
 	public List<Conta> listarContas() {
-		return getContaDAO().listarTudo();
+		return getContaDAO().listar();
 	}
 
 	@Override

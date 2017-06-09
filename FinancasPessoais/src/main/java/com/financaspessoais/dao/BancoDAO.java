@@ -1,61 +1,18 @@
 package com.financaspessoais.dao;
 
-import java.io.Serializable;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
 
 import com.financaspessoais.model.Banco;
 import com.financaspessoais.util.JpaUtil;
 
-public class BancoDAO implements Serializable{
-	
-	private static final long serialVersionUID = 1L;
+public class BancoDAO extends GenericDAO<Banco, Integer>{
 
 	private EntityManager entityManager = JpaUtil.getEntityManager();
 	
-	public Banco criarOuAtualizar(Banco banco) {
-
-		EntityTransaction transacao = entityManager.getTransaction();
-		FacesContext context = FacesContext.getCurrentInstance();
-		try {
-			transacao.begin();
-			entityManager.merge(banco);
-			transacao.commit();
-			return banco;
-		} 
-		catch (Exception e) {
-			transacao.rollback();
-			FacesMessage mensagem = new FacesMessage(e.getMessage());
-			mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);
-			context.addMessage(null, mensagem);
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	public Banco buscarPorId(Integer id) {
-		
-		try {
-			if (id != null)
-				return entityManager.find(Banco.class, id);
-			return null;
-		}
-		catch (NoResultException e) {
-			return null;
-		}
-	}
-
-	public List<Banco> listarTudo() {
-		TypedQuery<Banco> query = entityManager.createQuery("from Banco", Banco.class);
-		return query.getResultList();
-	}
-
 	public List<Banco> listarPorProprietario(Short idUsuario) {
 		try {
 			@SuppressWarnings("unchecked")
