@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<ui:composition template="/templates/modelo-base.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui">
+	
+	<f:metadata>
+		<f:viewAction action="#{tipoReceitaMB.prepararCadastro}" />
+		<o:viewParam name="id" value="#{tipoReceitaMB.tipoReceita}" />
+	</f:metadata>
+	
+	<ui:define name="menu">
+		<ui:include src="/includes/menu-principal.xhtml"></ui:include>
+	</ui:define>
+	<ui:define name="conteudo">
+		<h:form>
+			<p:panel>
+				<p:panelGrid columns="2">
+					
+					<p:outputLabel value="Nome" for="nome_tipoReceita"/>
+					<p:inputText id="nome_tipoReceita" size="30" value="#{tipoReceitaMB.tipoReceita.nome}"/>
+					
+					<h:outputLabel value="Valor Previsto" for="valorPrevisto_tipoReceita"/>
+					<h:inputText id="valorPrevisto_tipoReceita" size="12" value="#{tipoReceitaMB.tipoReceita.valorPrevisto}" label="Valor">
+						<f:convertNumber locale="pt_BR" maxFractionDigits="2" minFractionDigits="2" />
+					</h:inputText>
+					
+					<p:outputLabel value="Descrição" for="descricao_tipoReceita"/>
+					<p:inputTextarea id="descricao_tipoReceita" size="30" value="#{tipoReceitaMB.tipoReceita.descricao}" rows="10" cols="50"/>
+					
+					<p:commandButton value="Salvar" action="#{tipoReceitaMB.cadastrarTipoReceita}" />
+					<p:commandButton value="Voltar" action="lista-tipo-receita?faces-redirect=true" />
+					
+				</p:panelGrid>
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

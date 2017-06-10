@@ -33,7 +33,7 @@ public class TipoDespesaServiceImpl implements TipoDespesaService, Serializable 
 
 	@Override
 	public void remover(TipoDespesa tipoDespesa) {
-		// TODO Auto-generated method stub
+		this.getTipoDespesaDAO().remover(tipoDespesa.getId());
 
 	}
 

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<ui:composition template="/templates/modelo-base.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui">
+	
+	<f:metadata>
+		<f:viewAction action="#{tipoDespesaMB.prepararCadastro}" />
+		<o:viewParam name="id" value="#{tipoDespesaMB.tipoDespesa}" />
+	</f:metadata>
+	
+	<ui:define name="menu">
+		<ui:include src="/includes/menu-principal.xhtml"></ui:include>
+	</ui:define>
+	<ui:define name="conteudo">
+		<h:form>
+			<p:panel>
+				<p:panelGrid columns="2">
+					
+					<p:outputLabel value="Nome" for="nome_tipoDespesa"/>
+					<p:inputText id="nome_tipoDespesa" size="30" value="#{tipoDespesaMB.tipoDespesa.nome}"/>
+					
+					<h:outputLabel value="Valor Previsto" for="valorPrevisto_tipoDespesa"/>
+					<h:inputText id="valorPrevisto_tipoDespesa" size="12" value="#{tipoDespesaMB.tipoDespesa.valorPrevisto}" label="Valor">
+						<f:convertNumber locale="pt_BR" maxFractionDigits="2" minFractionDigits="2" />
+					</h:inputText>
+					
+					<p:outputLabel value="Descrição" for="descricao_tipoDespesa"/>
+					<p:inputTextarea id="descricao_tipoDespesa" size="30" value="#{tipoDespesaMB.tipoDespesa.descricao}" rows="10" cols="50"/>
+					
+					<p:commandButton value="Salvar" action="#{tipoDespesaMB.cadastrarTipoDespesa}" />
+					<p:commandButton value="Voltar" action="lista-tipo-despesa?faces-redirect=true" />
+					
+				</p:panelGrid>
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -26,7 +26,7 @@ public class TipoDespesaMB implements Serializable {
 			this.tipoDespesa = new TipoDespesa();		
 	}
 	
-	public String cadastrarTipoReceita() {
+	public String cadastrarTipoDespesa() {
 		String retorno;
 		boolean inseridoComSucesso = getTipoDespesaService().criarOuAtualizar(tipoDespesa);
 		if (inseridoComSucesso) {
@@ -44,7 +44,7 @@ public class TipoDespesaMB implements Serializable {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
 			getTipoDespesaService().remover(this.tipoDespesaSelecionada);
-			this.getTiposReceitasDoUsuario();
+			this.getTiposDespesaDoUsuario();
 			context.addMessage(null, new FacesMessage("Tipo de Despesa excluído com sucesso!"));
 		} 
 		catch (Exception e) {
@@ -55,7 +55,7 @@ public class TipoDespesaMB implements Serializable {
 	}
 
 	// Getters e Setters
-	public List<TipoDespesa> getTiposReceitasDoUsuario() {
+	public List<TipoDespesa> getTiposDespesaDoUsuario() {
 		return getTipoDespesaService().listarPorUsuario();
 	}
 	

@@ -44,7 +44,7 @@ public class TipoReceitaMB implements Serializable {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
 			getTipoReceitaService().remover(this.tipoReceitaSelecionada);
-			this.getTiposReceitasDoUsuario();
+			this.getTiposReceitaDoUsuario();
 			context.addMessage(null, new FacesMessage("Tipo de Receita excluído com sucesso!"));
 		} 
 		catch (Exception e) {
@@ -55,7 +55,7 @@ public class TipoReceitaMB implements Serializable {
 	}
 
 	// Getters e Setters
-	public List<TipoReceita> getTiposReceitasDoUsuario() {
+	public List<TipoReceita> getTiposReceitaDoUsuario() {
 		return getTipoReceitaService().listarPorUsuario();
 	}
 

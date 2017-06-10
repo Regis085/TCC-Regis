@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<ui:composition template="/templates/modelo-base.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menu-principal.xhtml"></ui:include>
+	</ui:define>
+	<ui:define name="conteudo">
+		<h:form>
+			<p:panel>
+				<p:dataTable value="#{tipoDespesaMB.tiposDespesaDoUsuario}" var="tipoDespesa"
+					border="1" cellspacing="0" cellpadding="2" paginator="true" rows="5" paginatorPosition="bottom">
+					<p:column headerText="Nome">
+						<h:outputText value="#{tipoDespesa.nome}" />
+					</p:column>
+					<p:column headerText="Valor Previsto">
+						<h:outputText value="#{tipoDespesa.valorPrevisto}">
+							<f:convertNumber type="currency" locale="pt_BR" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Descrição">
+						<h:outputText value="#{tipoDespesa.descricao}" />
+					</p:column>
+					<p:column>
+						<p:button icon="ui-icon-pencil" title="Editar" outcome="/pages/cadastro-tipo-despesa">
+							<f:param name="id" value="#{tipoDespesa.id}" />
+						</p:button>
+						<p:commandButton icon="ui-icon-trash" title="Excluir" process="@this" update="@form"
+							action="#{tipoDespesaMB.excluir}">
+							<f:setPropertyActionListener value="#{tipoDespesa}"
+								target="#{tipoDespesaMB.tipoDespesaSelecionada}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+				<h:messages id="msgErro" style="color: red" />
+				<p:commandButton value="Novo Tipo de Despesa"
+					action="cadastro-tipo-despesa?faces-redirect=true" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
