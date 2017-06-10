@@ -29,14 +29,6 @@ public class SessionContext {
 		}
 	}
 
-	public Usuario getUsuarioLogado() {
-		return (Usuario) getAttribute("usuarioLogado");
-	}
-
-	public void setUsuarioLogado(Usuario usuario) {
-		setAttribute("usuarioLogado", usuario);
-	}
-
 	public void encerrarSessao() {
 		currentExternalContext().invalidateSession();
 	}
@@ -47,5 +39,13 @@ public class SessionContext {
 
 	public void setAttribute(String nome, Object valor) {
 		currentExternalContext().getSessionMap().put(nome, valor);
+	}
+	
+	public Usuario getUsuarioLogado() {
+		return (Usuario) getAttribute(Constantes.USUARIO_LOGADO);
+	}
+
+	public void setUsuarioLogado(Usuario usuario) {
+		setAttribute(Constantes.USUARIO_LOGADO, usuario);
 	}
 }

@@ -7,12 +7,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "tipo_receita")
 public class TipoReceita implements Serializable {
-	
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -27,6 +28,10 @@ public class TipoReceita implements Serializable {
 
 	@Column(name = "valor_previsto", precision = 10, scale = 2, nullable = false, length = 60)
 	private BigDecimal valorPrevisto;
+	
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "usuario_id")
+	private Usuario proprietario;
 
 	public Short getId() {
 		return id;
@@ -58,6 +63,14 @@ public class TipoReceita implements Serializable {
 
 	public void setValorPrevisto(BigDecimal valorPrevisto) {
 		this.valorPrevisto = valorPrevisto;
+	}
+	
+	public Usuario getProprietario() {
+		return proprietario;
+	}
+
+	public void setProprietario(Usuario proprietario) {
+		this.proprietario = proprietario;
 	}
 
 	@Override

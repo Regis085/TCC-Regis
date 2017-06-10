@@ -1,15 +1,15 @@
 package com.financaspessoais.dao;
 
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import com.financaspessoais.model.Usuario;
-import com.financaspessoais.util.JpaUtil;
 
-public class UsuarioDAO extends GenericDAO<Usuario, Short>{
+public class UsuarioDAO extends AbstractGenericDAO<Usuario, Short>{
 	
-	private EntityManager entityManager = JpaUtil.getEntityManager();
+	public UsuarioDAO() {
+		super(Usuario.class);
+	}
 	
 	public Usuario buscarPorLoginESenha(String login, String senha) {
 
@@ -28,15 +28,20 @@ public class UsuarioDAO extends GenericDAO<Usuario, Short>{
 		}
 		return usuario;
 	}
-
-	public boolean excluir(Usuario usuario) {
+	
+	public Usuario buscarPorLogin(Usuario usuario) {
+		Usuario usuarioBD = null;
 		try {
-			entityManager.remove(usuario);
-			return true;
+			Query query = entityManager.createQuery("SELECT u FROM Usuario u WHERE u.login = :login");
+			query.setParameter("login", usuario.getLogin());
+			usuarioBD = (Usuario) query.getSingleResult();
+		}
+		catch (NoResultException e) {
+			System.out.println("Não localizado na base de dados");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			return false;
 		}
+		return usuarioBD;
 	}
 }

@@ -28,7 +28,7 @@ public class ContaMB implements Serializable {
 
 	public String cadastrarConta() {
 		String retorno;
-		boolean inseridoComSucesso = contaService.criarOuAtualizarConta(conta);
+		boolean inseridoComSucesso = contaService.criarOuAtualizar(conta);
 		if (inseridoComSucesso) {
 			retorno = "/pages/lista-conta?faces-redirect=true";
 		} else {
@@ -42,7 +42,7 @@ public class ContaMB implements Serializable {
 	public void excluir() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
-			contaService.excluirConta(this.contaSelecionada);
+			contaService.excluir(this.contaSelecionada);
 			this.getContasDoUsuario();
 			context.addMessage(null, new FacesMessage("Conta excluída com sucesso!"));
 		} catch (Exception e) {

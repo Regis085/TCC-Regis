@@ -31,7 +31,7 @@ public class LoginMB implements Serializable{
 
 		SessionContext.getInstance().encerrarSessao();
 
-		usuario = usuarioService.getUsuario(usuario.getLogin(), usuario.getSenha());
+		usuario = usuarioService.buscarPorLoginESenha(usuario.getLogin(), usuario.getSenha());
 		if (usuario == null) {
 			usuario = new Usuario();
 			FacesContext.getCurrentInstance().addMessage(null,

@@ -5,9 +5,13 @@ import java.util.List;
 import com.financaspessoais.model.Conta;
 
 public interface ContaService {
-	boolean criarOuAtualizarConta(Conta conta);
+	boolean criarOuAtualizar(Conta conta);
+
 	public List<Conta> listarContas();
+
 	public List<Conta> listarContasPorUsuario();
+
 	public Conta buscarConta(Integer id);
-	void excluirConta(Conta conta);
+
+	void excluir(Conta conta);
 }

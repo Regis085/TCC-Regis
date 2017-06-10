@@ -6,14 +6,14 @@ import com.financaspessoais.model.ContaBancaria;
 
 public interface ContaBancariaService {
 
-	boolean criarOuAtualizarContaBancaria(ContaBancaria contaBancaria);
+	boolean criarOuAtualizar(ContaBancaria contaBancaria);
 
 	List<ContaBancaria> listarContasBancarias();
 
 	List<ContaBancaria> listarContasBancariasPorUsuario();
 
-	void excluirConta(ContaBancaria contaBancaria);
-	
+	void excluir(ContaBancaria contaBancaria);
+
 	public ContaBancaria buscarContaBancaria(Integer id);
 
 }

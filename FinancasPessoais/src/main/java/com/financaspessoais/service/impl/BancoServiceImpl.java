@@ -15,8 +15,8 @@ public class BancoServiceImpl implements BancoService, Serializable {
 	private BancoDAO bancoDAO;
 
 	@Override
-	public boolean criarOuAtualizarBanco(Banco banco) {
-		Usuario u = (Usuario) SessionContext.getInstance().getAttribute("usuarioLogado");
+	public boolean criarOuAtualizar(Banco banco) {
+		Usuario u = SessionContext.getInstance().getUsuarioLogado();
 		banco.setProprietario(u);
 
 		boolean retorno;
@@ -32,19 +32,19 @@ public class BancoServiceImpl implements BancoService, Serializable {
 	}
 
 	@Override
-	public void excluirBanco(Banco banco) {
-		this.getBancoDAO().excluir(banco);
+	public void remover(Banco banco) {
+		this.getBancoDAO().remover(banco.getId());
 	}
 
 	@Override
 	public List<Banco> listarPorUsuario() {
-		Usuario u = (Usuario) SessionContext.getInstance().getAttribute("usuarioLogado");
+		Usuario u = SessionContext.getInstance().getUsuarioLogado();
 		List<Banco> listaBanco = this.getBancoDAO().listarPorProprietario(u.getId());
 		return listaBanco;
 	}
 
 	@Override
-	public Banco buscarBanco(Integer id) {
+	public Banco buscar(Integer id) {
 		return this.getBancoDAO().buscarPorId(id);
 	}
 	

@@ -2,17 +2,16 @@ package com.financaspessoais.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 
 import com.financaspessoais.model.Conta;
 import com.financaspessoais.model.TipoConta;
-import com.financaspessoais.util.JpaUtil;
 
-public class ContaDAO extends GenericDAO<Conta, Integer>{
+public class ContaDAO extends AbstractGenericDAO<Conta, Integer>{
 
-	private EntityManager entityManager = JpaUtil.getEntityManager();
+	public ContaDAO() {
+		super(Conta.class);
+	}
 	
 	public List<Conta> listarPorProprietario(Short idUsuario) {
 		
@@ -28,20 +27,6 @@ public class ContaDAO extends GenericDAO<Conta, Integer>{
 		}
 		catch (NoResultException e) {
 			return null;
-		}
-	}
-
-	public boolean excluir(Conta conta) {
-		EntityTransaction transacao = entityManager.getTransaction();
-		try {
-			transacao.begin();
-			entityManager.remove(conta);
-			transacao.commit();
-			return true;
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return false;
 		}
 	}
 }

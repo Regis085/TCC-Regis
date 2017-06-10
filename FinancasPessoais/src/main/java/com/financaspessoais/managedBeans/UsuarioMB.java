@@ -15,7 +15,7 @@ public class UsuarioMB {
 
 	public String cadastrarUsuario() {
 		String retorno;
-		boolean inseridoComSucesso = usuarioService.inserirUsuario(usuario);
+		boolean inseridoComSucesso = usuarioService.criar(usuario);
 		if (inseridoComSucesso) {
 			retorno = "/pages/index?faces-redirect=true";
 		} else {

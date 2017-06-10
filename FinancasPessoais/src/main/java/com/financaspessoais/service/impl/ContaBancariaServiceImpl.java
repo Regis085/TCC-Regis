@@ -12,15 +12,14 @@ import com.financaspessoais.service.ContaBancariaService;
 import com.financaspessoais.util.SessionContext;
 
 public class ContaBancariaServiceImpl implements ContaBancariaService, Serializable {
-
 	private static final long serialVersionUID = 1L;
 
 	private ContaBancariaDAO contaBancariaDAO;
 
 	@Override
-	public boolean criarOuAtualizarContaBancaria(ContaBancaria contaBancaria) {
+	public boolean criarOuAtualizar(ContaBancaria contaBancaria) {
 
-		Usuario u = (Usuario) SessionContext.getInstance().getAttribute("usuarioLogado");
+		Usuario u = SessionContext.getInstance().getUsuarioLogado();
 		contaBancaria.setProprietario(u);
 		
 		contaBancaria.setTipoConta(TipoConta.BANCARIA);
@@ -44,15 +43,14 @@ public class ContaBancariaServiceImpl implements ContaBancariaService, Serializa
 
 	@Override
 	public List<ContaBancaria> listarContasBancariasPorUsuario() {
-		Usuario u = (Usuario) SessionContext.getInstance().getAttribute("usuarioLogado");
+		Usuario u = SessionContext.getInstance().getUsuarioLogado();
 		List<ContaBancaria> listaConta = getContaBancariaDAO().listarPorProprietario(u.getId());
 		return listaConta;
 	}
 
 	@Override
-	public void excluirConta(ContaBancaria contaBancaria) {
-		getContaBancariaDAO().excluir(contaBancaria);
-
+	public void excluir(ContaBancaria contaBancaria) {
+		getContaBancariaDAO().remover(contaBancaria.getId());
 	}
 
 	private ContaBancariaDAO getContaBancariaDAO() {

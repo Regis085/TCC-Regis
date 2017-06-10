@@ -12,33 +12,33 @@ import javax.persistence.criteria.CriteriaQuery;
 
 import com.financaspessoais.util.JpaUtil;
 
-public class GenericDAO<T, I extends Serializable> {
+public abstract class AbstractGenericDAO<T, I extends Serializable> {
 
 	protected EntityManager entityManager = JpaUtil.getEntityManager();
 
 	private Class<T> persistedClass;
 
-	protected GenericDAO() {
+	protected AbstractGenericDAO() {
 	}
 
-	protected GenericDAO(Class<T> persistedClass) {
+	protected AbstractGenericDAO(Class<T> persistedClass) {
 		this();
 		this.persistedClass = persistedClass;
 	}
 	
 	public T criarOuAtualizar(T entity) {
 
-		EntityTransaction t = entityManager.getTransaction();
+		EntityTransaction transacao = entityManager.getTransaction();
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
-			t.begin();
+			transacao.begin();
 			entityManager.merge(entity);
 			entityManager.flush();
-			t.commit();
+			transacao.commit();
 			return entity;
 		}
 		catch (Exception e) {
-			t.rollback();
+			transacao.rollback();
 			FacesMessage mensagem = new FacesMessage(e.getMessage());
 			mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);
 			context.addMessage(null, mensagem);
@@ -49,18 +49,18 @@ public class GenericDAO<T, I extends Serializable> {
 
 	public T criar(T entity) {
 		
-		EntityTransaction t = entityManager.getTransaction();
+		EntityTransaction transacao = entityManager.getTransaction();
 		FacesContext context = FacesContext.getCurrentInstance();
 		
 		try {
-			t.begin();
+			transacao.begin();
 			entityManager.persist(entity);
 			entityManager.flush();
-			t.commit();
+			transacao.commit();
 			return entity;
 		} 
 		catch (Exception e) {
-			t.rollback();
+			transacao.rollback();
 			FacesMessage mensagem = new FacesMessage(e.getMessage());
 			mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);
 			context.addMessage(null, mensagem);
@@ -69,25 +69,27 @@ public class GenericDAO<T, I extends Serializable> {
 		}
 	}
 
-	public void remover(I id) {
+	public boolean remover(I id) {
 		
-		EntityTransaction t = entityManager.getTransaction();
+		EntityTransaction transacao = entityManager.getTransaction();
 		FacesContext context = FacesContext.getCurrentInstance();
 		
 		try {
 			T entity = buscarPorId(id);
-			t.begin();
+			transacao.begin();
 			T mergedEntity = entityManager.merge(entity);
 			entityManager.remove(mergedEntity);
 			entityManager.flush();
-			t.commit();
+			transacao.commit();
+			return true;
 		}
 		catch (Exception e) {
-			t.rollback();
+			transacao.rollback();
 			FacesMessage mensagem = new FacesMessage(e.getMessage());
 			mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);
 			context.addMessage(null, mensagem);
 			e.printStackTrace();
+			return false;
 		}
 	}
 

@@ -16,15 +16,14 @@ public class ContaServiceImpl implements ContaService, Serializable {
 	private ContaDAO contaDAO;
 
 	@Override
-	public boolean criarOuAtualizarConta(Conta conta) {
+	public boolean criarOuAtualizar(Conta conta) {
 
-		Usuario u = (Usuario) SessionContext.getInstance().getAttribute("usuarioLogado");
+		Usuario u = SessionContext.getInstance().getUsuarioLogado();
 		conta.setProprietario(u);
 		
 		conta.setTipoConta(TipoConta.OUTRO);
 
 		boolean retorno;
-//		FacesMessage mensagem = null;
 		Conta novaConta = null;
 
 		novaConta = getContaDAO().criarOuAtualizar(conta);
@@ -43,14 +42,14 @@ public class ContaServiceImpl implements ContaService, Serializable {
 
 	@Override
 	public List<Conta> listarContasPorUsuario() {
-		Usuario u = (Usuario) SessionContext.getInstance().getAttribute("usuarioLogado");
+		Usuario u = SessionContext.getInstance().getUsuarioLogado();
 		List<Conta> listaConta = getContaDAO().listarPorProprietario(u.getId());
 		return listaConta;
 	}
 
 	@Override
-	public void excluirConta(Conta conta) {
-		getContaDAO().excluir(conta);
+	public void excluir(Conta conta) {
+		getContaDAO().remover(conta.getId());
 	}
 
 	@Override

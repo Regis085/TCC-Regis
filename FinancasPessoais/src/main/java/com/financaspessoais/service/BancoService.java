@@ -6,11 +6,11 @@ import com.financaspessoais.model.Banco;
 
 public interface BancoService {
 
-	boolean criarOuAtualizarBanco(Banco banco);
+	boolean criarOuAtualizar(Banco banco);
 
-	void excluirBanco(Banco bancoSelecionado);
+	void remover(Banco banco);
 
 	List<Banco> listarPorUsuario();
-	
-	public Banco buscarBanco(Integer id);
+
+	public Banco buscar(Integer id);
 }

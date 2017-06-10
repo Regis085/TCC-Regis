@@ -34,6 +34,54 @@ public class Estabelecimento implements Serializable {
 	
 	@Column(name="telefone", nullable=true, length=20)
 	private String telefone;
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Usuario getProprietario() {
+		return proprietario;
+	}
+
+	public void setProprietario(Usuario proprietario) {
+		this.proprietario = proprietario;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getCnpj() {
+		return cnpj;
+	}
+
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
+	}
+
+	public String getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
 
 	@Override
 	public int hashCode() {
@@ -59,7 +107,4 @@ public class Estabelecimento implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
-
 }

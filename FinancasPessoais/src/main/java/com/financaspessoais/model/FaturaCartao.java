@@ -1,5 +1,6 @@
 package com.financaspessoais.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -21,7 +22,8 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "fatura_cartao")
-public class FaturaCartao {
+public class FaturaCartao implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue
@@ -69,4 +71,125 @@ public class FaturaCartao {
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "faturaCartao", fetch = FetchType.LAZY)
 	private List<ItemLancamentoCartao> itenslancamento;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Usuario getProprietario() {
+		return proprietario;
+	}
+
+	public void setProprietario(Usuario proprietario) {
+		this.proprietario = proprietario;
+	}
+
+	public Short getAno() {
+		return ano;
+	}
+
+	public void setAno(Short ano) {
+		this.ano = ano;
+	}
+
+	public Short getMes() {
+		return mes;
+	}
+
+	public void setMes(Short mes) {
+		this.mes = mes;
+	}
+
+	public Date getDataVencimento() {
+		return dataVencimento;
+	}
+
+	public void setDataVencimento(Date dataVencimento) {
+		this.dataVencimento = dataVencimento;
+	}
+
+	public Date getDataPagamento() {
+		return dataPagamento;
+	}
+
+	public void setDataPagamento(Date dataPagamento) {
+		this.dataPagamento = dataPagamento;
+	}
+
+	public StatusFaturaCartao getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusFaturaCartao status) {
+		this.status = status;
+	}
+
+	public BigDecimal getValorDevido() {
+		return valorDevido;
+	}
+
+	public void setValorDevido(BigDecimal valorDevido) {
+		this.valorDevido = valorDevido;
+	}
+
+	public BigDecimal getValorPago() {
+		return valorPago;
+	}
+
+	public void setValorPago(BigDecimal valorPago) {
+		this.valorPago = valorPago;
+	}
+
+	public BigDecimal getSaldoDevido() {
+		return saldoDevido;
+	}
+
+	public void setSaldoDevido(BigDecimal saldoDevido) {
+		this.saldoDevido = saldoDevido;
+	}
+
+	public CartaoDeCredito getCartao() {
+		return cartao;
+	}
+
+	public void setCartao(CartaoDeCredito cartao) {
+		this.cartao = cartao;
+	}
+
+	public List<ItemLancamentoCartao> getItenslancamento() {
+		return itenslancamento;
+	}
+
+	public void setItenslancamento(List<ItemLancamentoCartao> itenslancamento) {
+		this.itenslancamento = itenslancamento;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FaturaCartao other = (FaturaCartao) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
 }

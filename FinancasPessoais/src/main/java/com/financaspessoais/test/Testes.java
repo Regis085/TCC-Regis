@@ -73,7 +73,7 @@ public class Testes {
 		novaConta.setEnderecoAgencia("Cais do Apolo, Recife - PE");
 		novaConta.setTipoConta(TipoConta.BANCARIA);
 		
-		boolean isSucesso = cs.criarOuAtualizarConta(novaConta);
+		boolean isSucesso = cs.criarOuAtualizar(novaConta);
 		if (isSucesso) {
 			System.out.println("Conta inserida com Sucesso");
 			System.out.println("Id Conta inserida: " + novaConta.getId());

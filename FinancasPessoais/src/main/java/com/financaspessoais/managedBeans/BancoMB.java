@@ -27,7 +27,7 @@ public class BancoMB implements Serializable {
 
 	public String cadastrarBanco() {
 		String retorno;
-		boolean inseridoComSucesso = bancoService.criarOuAtualizarBanco(banco);
+		boolean inseridoComSucesso = bancoService.criarOuAtualizar(banco);
 		if (inseridoComSucesso) {
 			retorno = "/pages/lista-banco?faces-redirect=true";
 		} else {
@@ -41,7 +41,7 @@ public class BancoMB implements Serializable {
 	public void excluir() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
-			bancoService.excluirBanco(this.bancoSelecionado);
+			bancoService.remover(this.bancoSelecionado);
 			this.getBancosDoUsuario();
 			context.addMessage(null, new FacesMessage("Banco excluído com sucesso!"));
 		} catch (Exception e) {

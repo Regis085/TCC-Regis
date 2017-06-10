@@ -16,19 +16,23 @@ public class UsuarioServiceImpl implements UsuarioService, Serializable {
 	private static final long serialVersionUID = 1L;
 	private UsuarioDAO usuarioDAO;
 	private static final Short ID_PERFIL_PADRAO = new Short("2");
+	private FacesMessage mensagem;
 
 	@Override
-	public Usuario getUsuario(String login, String senha) {
-		Usuario u = getUsuarioDAO().buscarPorLoginESenha(login, senha);
-		SessionContext.getInstance().setAttribute("usuarioLogado", u);
-		return u;
+	public Usuario buscarPorLoginESenha(String login, String senha) {
+		Usuario usuarioBD = getUsuarioDAO().buscarPorLoginESenha(login, senha);
+		SessionContext.getInstance().setUsuarioLogado(usuarioBD);
+		return usuarioBD;
 	}
 
 	@Override
-	public boolean inserirUsuario(Usuario usuario) {
+	public boolean criar(Usuario usuario) {
 		boolean retorno;
-		FacesMessage mensagem = null;
 		Usuario novoUsuario = null;
+		mensagem = null;
+		
+		validarExistenciaUsuario(usuario);
+		validarCamposObrigatorios(usuario);
 
 		if (usuario.getPerfil() == null) {
 			Perfil p = new Perfil();
@@ -36,45 +40,53 @@ public class UsuarioServiceImpl implements UsuarioService, Serializable {
 			usuario.setPerfil(p);
 		}
 
-		if (usuario.getNome() == null || usuario.getNome().trim().isEmpty()) {
-			mensagem = new FacesMessage("Preencha Nome", "Preencha Nome");
-		}
-
-		if (usuario.getCpf() == null || usuario.getCpf().trim().isEmpty()) {
-			mensagem = new FacesMessage("Preencha CPF", "Preencha CPF");
-		}
-
-		if (usuario.getLogin() == null || usuario.getLogin().trim().isEmpty()) {
-			mensagem = new FacesMessage("Preencha Login", "Preencha Login");
-		}
-
-		if (usuario.getSenha() == null || usuario.getSenha().trim().isEmpty()) {
-			mensagem = new FacesMessage("Preencha Senha", "Preencha Senha");
-		}
-
 		if (mensagem != null) {
 			mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);
 			FacesContext.getCurrentInstance().addMessage(null, mensagem);
 			retorno = false;
-		} else {
+		} 
+		else {
 			novoUsuario = getUsuarioDAO().criar(usuario);
 		}
 
 		if (novoUsuario == null) {
 			retorno = false;
-		} else {
+		}
+		else {
 			retorno = true;
-			SessionContext.getInstance().setAttribute("usuarioLogado", novoUsuario);
+			SessionContext.getInstance().setUsuarioLogado(novoUsuario);
 		}
 
 		return retorno;
 	}
+	
+	private void validarExistenciaUsuario(Usuario usuario) {
+		Usuario usuarioBD = getUsuarioDAO().buscarPorLogin(usuario);
+		if (usuarioBD != null) {
+			mensagem = new FacesMessage("Já existe um usuário com este login.", "Escolha um outro login.");
+		}
+	}
+
+	private void validarCamposObrigatorios(Usuario usuario) {
+		
+		if (usuario.getLogin() == null || usuario.getLogin().trim().isEmpty())
+			mensagem = new FacesMessage("Campo obrigatório não preenchido", "Preencha Login");
+
+		if (usuario.getSenha() == null || usuario.getSenha().trim().isEmpty())
+			mensagem = new FacesMessage("Campo obrigatório não preenchido", "Preencha Senha");
+
+		if (usuario.getSobrenome() == null || usuario.getSobrenome().trim().isEmpty())
+			mensagem = new FacesMessage("Campo obrigatório não preenchido", "Preencha Sobrenome");
+
+		if (usuario.getCpf() == null || usuario.getCpf().trim().isEmpty())
+			mensagem = new FacesMessage("Campo obrigatório não preenchido", "Preencha CPF");
+	}
 
 	@Override
-	public boolean deletarUsuario(Usuario usuario) {
-		return getUsuarioDAO().excluir(usuario);
+	public boolean excluir(Usuario usuario) {
+		return getUsuarioDAO().remover(usuario.getId());
 	}
-	
+
 	private UsuarioDAO getUsuarioDAO() {
 		if (this.usuarioDAO == null)
 			this.usuarioDAO = new UsuarioDAO();
