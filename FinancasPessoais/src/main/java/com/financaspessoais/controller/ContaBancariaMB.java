@@ -1,4 +1,4 @@
-package com.financaspessoais.managedBeans;
+package com.financaspessoais.controller;
 
 import java.io.Serializable;
 import java.util.List;
@@ -30,13 +30,13 @@ public class ContaBancariaMB implements Serializable {
 		if (this.contaBancaria == null)
 			this.contaBancaria = new ContaBancaria();
 		if (this.listaBanco == null) {
-			listaBanco = bancoService.listarPorUsuario(); 
+			listaBanco = this.getBancoService().listarPorUsuario(); 
 		}
 	}
 
 	public String cadastrarConta() {
 		String retorno;
-		boolean inseridoComSucesso = contaBancariaService.criarOuAtualizar(contaBancaria);
+		boolean inseridoComSucesso = this.getContaBancariaService().criarOuAtualizar(contaBancaria);
 		if (inseridoComSucesso) {
 			retorno = "/pages/lista-conta?faces-redirect=true";
 		} else {
@@ -50,7 +50,7 @@ public class ContaBancariaMB implements Serializable {
 	public void excluir() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
-			contaBancariaService.excluir(this.contaBancariaSelecionada);
+			this.getContaBancariaService().excluir(this.contaBancariaSelecionada);
 			this.getContasDoUsuario();
 			context.addMessage(null, new FacesMessage("Conta Bancária excluída com sucesso!"));
 		} catch (Exception e) {
@@ -79,11 +79,11 @@ public class ContaBancariaMB implements Serializable {
 	}
 
 	public List<ContaBancaria> getContasBancarias() {
-		return contaBancariaService.listarContasBancarias();
+		return this.getContaBancariaService().listarContasBancarias();
 	}
 
 	public List<ContaBancaria> getContasDoUsuario() {
-		return contaBancariaService.listarContasBancariasPorUsuario();
+		return this.getContaBancariaService().listarContasBancariasPorUsuario();
 	}
 
 	public List<Banco> getListaBanco() {
@@ -92,5 +92,17 @@ public class ContaBancariaMB implements Serializable {
 
 	public void setListaBanco(List<Banco> listaBanco) {
 		this.listaBanco = listaBanco;
+	}
+	
+	private ContaBancariaService getContaBancariaService() {
+		if (this.contaBancariaService == null)
+			this.contaBancariaService = new ContaBancariaServiceImpl();
+		return contaBancariaService;
+	}
+	
+	private BancoService getBancoService() {
+		if (this.bancoService == null)
+			this.bancoService = new BancoServiceImpl();
+		return bancoService;
 	}
 }

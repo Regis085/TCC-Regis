@@ -19,13 +19,6 @@ public class UsuarioServiceImpl implements UsuarioService, Serializable {
 	private FacesMessage mensagem;
 
 	@Override
-	public Usuario buscarPorLoginESenha(String login, String senha) {
-		Usuario usuarioBD = getUsuarioDAO().buscarPorLoginESenha(login, senha);
-		SessionContext.getInstance().setUsuarioLogado(usuarioBD);
-		return usuarioBD;
-	}
-
-	@Override
 	public boolean criar(Usuario usuario) {
 		boolean retorno;
 		Usuario novoUsuario = null;
@@ -60,6 +53,13 @@ public class UsuarioServiceImpl implements UsuarioService, Serializable {
 		return retorno;
 	}
 	
+	@Override
+	public Usuario buscarPorLoginESenha(String login, String senha) {
+		Usuario usuarioBD = getUsuarioDAO().buscarPorLoginESenha(login, senha);
+		SessionContext.getInstance().setUsuarioLogado(usuarioBD);
+		return usuarioBD;
+	}
+	
 	private void validarExistenciaUsuario(Usuario usuario) {
 		Usuario usuarioBD = getUsuarioDAO().buscarPorLogin(usuario);
 		if (usuarioBD != null) {
@@ -85,6 +85,11 @@ public class UsuarioServiceImpl implements UsuarioService, Serializable {
 	@Override
 	public boolean excluir(Usuario usuario) {
 		return getUsuarioDAO().remover(usuario.getId());
+	}
+	
+	@Override
+	public Usuario buscar(Short id) {
+		return this.getUsuarioDAO().buscarPorId(id);
 	}
 
 	private UsuarioDAO getUsuarioDAO() {

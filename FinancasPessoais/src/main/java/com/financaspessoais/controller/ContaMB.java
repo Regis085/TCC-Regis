@@ -1,4 +1,4 @@
-package com.financaspessoais.managedBeans;
+package com.financaspessoais.controller;
 
 import java.io.Serializable;
 import java.util.List;
@@ -28,7 +28,7 @@ public class ContaMB implements Serializable {
 
 	public String cadastrarConta() {
 		String retorno;
-		boolean inseridoComSucesso = contaService.criarOuAtualizar(conta);
+		boolean inseridoComSucesso = getContaService().criarOuAtualizar(conta);
 		if (inseridoComSucesso) {
 			retorno = "/pages/lista-conta?faces-redirect=true";
 		} else {
@@ -42,7 +42,7 @@ public class ContaMB implements Serializable {
 	public void excluir() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
-			contaService.excluir(this.contaSelecionada);
+			getContaService().excluir(this.contaSelecionada);
 			this.getContasDoUsuario();
 			context.addMessage(null, new FacesMessage("Conta excluída com sucesso!"));
 		} catch (Exception e) {
@@ -75,10 +75,16 @@ public class ContaMB implements Serializable {
 	}
 
 	public List<Conta> getContas() {
-		return contaService.listarContas();
+		return getContaService().listarContas();
 	}
 
 	public List<Conta> getContasDoUsuario() {
-		return contaService.listarContasPorUsuario();
+		return getContaService().listarContasPorUsuario();
+	}
+	
+	private ContaService getContaService() {
+		if (this.contaService == null)
+			this.contaService = new ContaServiceImpl();
+		return contaService;
 	}
 }

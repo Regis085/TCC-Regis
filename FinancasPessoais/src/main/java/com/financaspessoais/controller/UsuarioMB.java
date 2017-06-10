@@ -1,4 +1,4 @@
-package com.financaspessoais.managedBeans;
+package com.financaspessoais.controller;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -14,15 +14,11 @@ public class UsuarioMB {
 	private Usuario usuario = new Usuario();
 
 	public String cadastrarUsuario() {
-		String retorno;
-		boolean inseridoComSucesso = usuarioService.criar(usuario);
+		String retorno = null;
+		boolean inseridoComSucesso = this.getUsuarioService().criar(usuario);
 		if (inseridoComSucesso) {
 			retorno = "/pages/index?faces-redirect=true";
-		} else {
-//			FacesContext.getCurrentInstance().addMessage(null,
-//					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário não cadastrado!", "Erro no Cadastro!"));
-			retorno = null;
-		}
+		} 
 		return retorno;
 	}
 
@@ -36,6 +32,12 @@ public class UsuarioMB {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+	
+	private UsuarioService getUsuarioService() {
+		if (this.usuarioService == null)
+			this.usuarioService = new UsuarioServiceImpl();
+		return usuarioService;
 	}
 
 }

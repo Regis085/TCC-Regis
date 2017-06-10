@@ -1,4 +1,4 @@
-package com.financaspessoais.managedBeans;
+package com.financaspessoais.controller;
 
 import java.io.Serializable;
 
@@ -16,7 +16,6 @@ import com.financaspessoais.util.Util;
 
 @ManagedBean
 @SessionScoped
-//@ApplicationScoped
 public class LoginMB implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -31,7 +30,7 @@ public class LoginMB implements Serializable{
 
 		SessionContext.getInstance().encerrarSessao();
 
-		usuario = usuarioService.buscarPorLoginESenha(usuario.getLogin(), usuario.getSenha());
+		usuario = this.getTipoReceitaService().buscarPorLoginESenha(usuario.getLogin(), usuario.getSenha());
 		if (usuario == null) {
 			usuario = new Usuario();
 			FacesContext.getCurrentInstance().addMessage(null,
@@ -54,5 +53,11 @@ public class LoginMB implements Serializable{
 		HttpSession session = Util.getSession();
 		session.invalidate();
 		return "/pages/login?faces-redirect=true";
+	}
+	
+	private UsuarioService getTipoReceitaService() {
+		if (this.usuarioService == null)
+			this.usuarioService = new UsuarioServiceImpl();
+		return usuarioService;
 	}
 }

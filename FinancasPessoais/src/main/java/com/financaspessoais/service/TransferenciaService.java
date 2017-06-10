@@ -11,5 +11,5 @@ public interface TransferenciaService {
 
 	List<Transferencia> listarPorUsuario();
 
-	public Transferencia buscar(Integer id);
+	public Transferencia buscar(Long id);
 }

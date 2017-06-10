@@ -1,4 +1,4 @@
-package com.financaspessoais.managedBeans;
+package com.financaspessoais.controller;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,7 +16,7 @@ import com.financaspessoais.service.impl.BancoServiceImpl;
 @ViewScoped
 public class BancoMB implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private BancoService bancoService = new BancoServiceImpl();
+	private BancoService bancoService;
 	private Banco banco;
 	private Banco bancoSelecionado;
 
@@ -27,7 +27,7 @@ public class BancoMB implements Serializable {
 
 	public String cadastrarBanco() {
 		String retorno;
-		boolean inseridoComSucesso = bancoService.criarOuAtualizar(banco);
+		boolean inseridoComSucesso = getBancoService().criarOuAtualizar(banco);
 		if (inseridoComSucesso) {
 			retorno = "/pages/lista-banco?faces-redirect=true";
 		} else {
@@ -41,7 +41,7 @@ public class BancoMB implements Serializable {
 	public void excluir() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
-			bancoService.remover(this.bancoSelecionado);
+			getBancoService().remover(this.bancoSelecionado);
 			this.getBancosDoUsuario();
 			context.addMessage(null, new FacesMessage("Banco excluído com sucesso!"));
 		} catch (Exception e) {
@@ -70,6 +70,12 @@ public class BancoMB implements Serializable {
 	}
 	
 	public List<Banco> getBancosDoUsuario() {
-		return bancoService.listarPorUsuario();
+		return getBancoService().listarPorUsuario();
+	}
+	
+	private BancoService getBancoService() {
+		if (this.bancoService == null)
+			this.bancoService = new BancoServiceImpl();
+		return bancoService;
 	}
 }

@@ -1,4 +1,4 @@
-package com.financaspessoais.managedBeans;
+package com.financaspessoais.controller;
 
 import java.io.Serializable;
 
@@ -23,7 +23,7 @@ public class TelaInicioMB implements Serializable {
 
 	public TelaInicioMB() {
 		System.out.println("Entrou em TelaInicioMB");
-		Usuario u = (Usuario) SessionContext.getInstance().getAttribute("usuarioLogado");
+		Usuario u = SessionContext.getInstance().getUsuarioLogado();
 		if (u != null) {
 			System.out.println("Nome do Usuário: " + u.getNome());
 			
@@ -44,12 +44,6 @@ public class TelaInicioMB implements Serializable {
 		return "/pages/login?faces-redirect=true";
 	}
 
-	// public String getNomeUsuario() {
-	// Usuario u = (Usuario)
-	// SessionContext.getInstance().getAttribute("usuarioLogado");
-	// return u.getNome();
-	// }
-
 	public String getNome() {
 		return nome;
 	}
@@ -69,5 +63,4 @@ public class TelaInicioMB implements Serializable {
 	public String getCpf() {
 		return cpf;
 	}
-
 }

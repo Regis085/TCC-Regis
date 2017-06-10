@@ -17,9 +17,6 @@ import com.financaspessoais.model.Usuario;
 
 @WebFilter("*.xhtml")
 public class AutorizacaoFilter implements Filter {
-	// @Inject
-	// private Usuario usuario;
-
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
 			throws IOException, ServletException {

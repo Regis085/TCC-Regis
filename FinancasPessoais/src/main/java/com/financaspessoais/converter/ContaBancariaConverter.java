@@ -13,13 +13,13 @@ import com.financaspessoais.service.impl.ContaBancariaServiceImpl;
 @FacesConverter(forClass = ContaBancaria.class)
 public class ContaBancariaConverter implements Converter {
 
-	private ContaBancariaService contaBancariaService = new ContaBancariaServiceImpl();
+	private ContaBancariaService contaBancariaService;
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		Conta retorno = null;
 		if (value != null)
-			retorno = contaBancariaService.buscarContaBancaria(new Integer(value));
+			retorno = this.getContaBancariaService().buscarContaBancaria(new Integer(value));
 		return retorno;
 	}
 
@@ -30,5 +30,11 @@ public class ContaBancariaConverter implements Converter {
 			return contaBancaria.getId() == null ? null : contaBancaria.getId().toString();
 		}
 		return null;
+	}
+	
+	private ContaBancariaService getContaBancariaService() {
+		if (this.contaBancariaService == null)
+			this.contaBancariaService = new ContaBancariaServiceImpl();
+		return contaBancariaService;
 	}
 }

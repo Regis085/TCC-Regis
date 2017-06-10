@@ -9,7 +9,7 @@ import com.financaspessoais.model.Usuario;
 import com.financaspessoais.service.CartaoDeCreditoService;
 import com.financaspessoais.util.SessionContext;
 
-public class CartaoDeCreditoImpl implements CartaoDeCreditoService, Serializable {
+public class CartaoDeCreditoServiceImpl implements CartaoDeCreditoService, Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private CartaoDeCreditoDAO cartaoDeCreditoDAO;
