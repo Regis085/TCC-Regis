@@ -49,7 +49,7 @@ public class CartaoDeCredito implements Serializable {
 	@Column(name = "melhor_dia_compra", nullable = false, length=2)
 	private Short melhorDiaCompra;
 	
-	@Column(name = "quatro_ultimos_digitos", nullable = true, length=2)
+	@Column(name = "quatro_ultimos_digitos", nullable = true, length=4)
 	private String quatroUltimosDigitos;
 	
 	@Column(name = "limite_credito", precision = 10, scale = 2, nullable = true)

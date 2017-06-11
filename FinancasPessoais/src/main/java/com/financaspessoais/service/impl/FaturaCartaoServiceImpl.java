@@ -9,7 +9,7 @@ import com.financaspessoais.model.Usuario;
 import com.financaspessoais.service.FaturaCartaoService;
 import com.financaspessoais.util.SessionContext;
 
-public class FaturaCartaoServiceImpl implements FaturaCartaoService, Serializable {
+public class FaturaCartaoServiceImpl extends AbstractGenericService implements FaturaCartaoService, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private FaturaCartaoDAO faturaCartaoDAO;
@@ -33,7 +33,12 @@ public class FaturaCartaoServiceImpl implements FaturaCartaoService, Serializabl
 
 	@Override
 	public void remover(FaturaCartao faturaCartao) {
-		this.getFaturaCartaoDAO().remover(faturaCartao.getId());
+		try {
+			this.getFaturaCartaoDAO().remover(faturaCartao.getId());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

@@ -9,5 +9,5 @@ public interface UsuarioService {
 	
 	Usuario buscar(Short id);
 
-	public boolean excluir(Usuario usuario);
+	public void remover(Usuario usuario);
 }

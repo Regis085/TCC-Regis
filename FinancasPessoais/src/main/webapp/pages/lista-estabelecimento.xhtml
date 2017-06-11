@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<ui:composition template="/templates/modelo-base.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menu-principal.xhtml"></ui:include>
+	</ui:define>
+	<ui:define name="conteudo">
+		<h:form>
+			<p:panel>
+				<p:dataTable value="#{estabelecimentoMB.estabelecimentosDoUsuario}" var="estabelecimento"
+					border="1" cellspacing="0" cellpadding="2" paginator="true" rows="5" paginatorPosition="bottom">
+					<p:column headerText="Nome">
+						<h:outputText value="#{estabelecimento.nome}" />
+					</p:column>
+					<p:column headerText="Telefone">
+						<h:outputText value="#{estabelecimento.telefone}" />
+					</p:column>
+					<p:column headerText="CNPJ">
+						<h:outputText value="#{estabelecimento.cnpj}" />
+					</p:column>
+					<p:column headerText="Endereço">
+						<h:outputText value="#{estabelecimento.endereco}" />
+					</p:column>
+					<p:column>
+						<p:button icon="ui-icon-pencil" title="Editar" outcome="/pages/cadastro-estabelecimento">
+							<f:param name="id" value="#{estabelecimento.id}" />
+						</p:button>
+						<p:commandButton icon="ui-icon-trash" title="Excluir" process="@this" update="@form"
+							action="#{estabelecimentoMB.excluir}">
+							<f:setPropertyActionListener value="#{estabelecimento}"
+								target="#{estabelecimentoMB.estabelecimentoSelecionado}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+				<h:messages id="msgErro" style="color: red" />
+				<p:commandButton value="Novo Estabelecimento"
+					action="cadastro-estabelecimento?faces-redirect=true" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

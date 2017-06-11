@@ -10,7 +10,7 @@ import com.financaspessoais.model.Usuario;
 import com.financaspessoais.service.ContaService;
 import com.financaspessoais.util.SessionContext;
 
-public class ContaServiceImpl implements ContaService, Serializable {
+public class ContaServiceImpl extends AbstractGenericService implements ContaService, Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private ContaDAO contaDAO;
@@ -49,7 +49,12 @@ public class ContaServiceImpl implements ContaService, Serializable {
 
 	@Override
 	public void excluir(Conta conta) {
-		getContaDAO().remover(conta.getId());
+		try {
+			getContaDAO().remover(conta.getId());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

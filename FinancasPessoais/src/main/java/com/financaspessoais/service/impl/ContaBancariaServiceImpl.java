@@ -11,7 +11,7 @@ import com.financaspessoais.model.Usuario;
 import com.financaspessoais.service.ContaBancariaService;
 import com.financaspessoais.util.SessionContext;
 
-public class ContaBancariaServiceImpl implements ContaBancariaService, Serializable {
+public class ContaBancariaServiceImpl extends AbstractGenericService implements ContaBancariaService, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private ContaBancariaDAO contaBancariaDAO;
@@ -50,7 +50,12 @@ public class ContaBancariaServiceImpl implements ContaBancariaService, Serializa
 
 	@Override
 	public void excluir(ContaBancaria contaBancaria) {
-		getContaBancariaDAO().remover(contaBancaria.getId());
+		try {
+			getContaBancariaDAO().remover(contaBancaria.getId());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private ContaBancariaDAO getContaBancariaDAO() {

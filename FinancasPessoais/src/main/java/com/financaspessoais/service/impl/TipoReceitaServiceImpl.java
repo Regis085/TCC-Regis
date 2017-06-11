@@ -3,68 +3,55 @@ package com.financaspessoais.service.impl;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-
 import com.financaspessoais.dao.TipoReceitaDAO;
 import com.financaspessoais.model.TipoReceita;
 import com.financaspessoais.model.Usuario;
 import com.financaspessoais.service.TipoReceitaService;
+import com.financaspessoais.util.Constantes;
+import com.financaspessoais.util.FacesContextUtil;
 import com.financaspessoais.util.SessionContext;
 
-public class TipoReceitaServiceImpl implements TipoReceitaService, Serializable {
+public class TipoReceitaServiceImpl extends AbstractGenericService implements TipoReceitaService, Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private TipoReceitaDAO tipoReceitaDAO;
-	private FacesMessage mensagem;
 
 	@Override
 	public boolean criarOuAtualizar(TipoReceita tipoReceita) {
-		mensagem = null;
+		limparListaMensagemErro();
 		
 		Usuario u = SessionContext.getInstance().getUsuarioLogado();
 		tipoReceita.setProprietario(u);
 		
-		validarDuplicata(tipoReceita);
 		validarCamposObrigatorios(tipoReceita);
+		validarDuplicidade(tipoReceita);
 
 		boolean retorno;
-		TipoReceita tipoReceitaBD = null;
 		
-//		if (mensagem != null) {
-//			mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);
-//			FacesContext.getCurrentInstance().addMessage(null, mensagem);
-//			retorno = false;
-//		} 
-//		else {
-//			novoUsuario = getUsuarioDAO().criar(usuario);
-//		}
+		if (this.getListaMensagemErro().isEmpty())
+			this.getTipoReceitaDAO().criarOuAtualizar(tipoReceita);
 		
-
-		tipoReceitaBD = this.getTipoReceitaDAO().criarOuAtualizar(tipoReceita);
-		if (tipoReceitaBD != null)
-			retorno = true;
-		else
+		if (this.getListaMensagemErro().size() > 0) {
+			FacesContextUtil.adicionarMensagensDeErro(this.getListaMensagemErro());
 			retorno = false;
+		}
+		else {
+			retorno = true;
+		}
 
 		return retorno;
 	}
 	
-	private void validarDuplicata(TipoReceita tipoReceita) {
-//		Usuario usuarioBD = getUsuarioDAO().buscarPorLogin(usuario);
-//		if (usuarioBD != null) {
-//			mensagem = new FacesMessage("Já existe um usuário com este login.", "Escolha um outro login.");
-//		}
-	}
-
-	private void validarCamposObrigatorios(TipoReceita tipoReceita) {
-		if (tipoReceita.getNome() == null || tipoReceita.getNome().trim().isEmpty())
-			mensagem = new FacesMessage("Campo obrigatório não preenchido", "Preencha Nome");
-	}
-
 	@Override
 	public void remover(TipoReceita tipoReceita) {
-		this.getTipoReceitaDAO().remover(tipoReceita.getId());
+		this.limparListaMensagemErro();
+		try {
+			this.getTipoReceitaDAO().remover(tipoReceita.getId());
+		}
+		catch (Exception e) {
+			FacesContextUtil.adicionarMensagemDeErro(Constantes.MSG_ERRO_GENERICA);
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -83,5 +70,24 @@ public class TipoReceitaServiceImpl implements TipoReceitaService, Serializable 
 		if (this.tipoReceitaDAO == null)
 			this.tipoReceitaDAO = new TipoReceitaDAO();
 		return tipoReceitaDAO;
+	}
+	
+	private void validarDuplicidade(TipoReceita tipoReceita) {
+		boolean isValido = true;
+		try {
+			isValido = this.getTipoReceitaDAO().validarDuplicidade(tipoReceita);
+		} 
+		catch (Exception e) {
+			this.adicionarMensagemErro(Constantes.MSG_ERRO_GENERICA);
+			e.printStackTrace();
+		}
+		
+		if (isValido == false)
+			this.adicionarMensagemErro(Constantes.MSG_DUPLICIDADE_TIPO_RECEITA);
+	}
+
+	private void validarCamposObrigatorios(TipoReceita tipoReceita) {
+		if (tipoReceita.getNome() == null || tipoReceita.getNome().trim().isEmpty())
+			this.adicionarMensagemErro("Campo obrigatório não preenchido", "Preencha Nome");
 	}
 }

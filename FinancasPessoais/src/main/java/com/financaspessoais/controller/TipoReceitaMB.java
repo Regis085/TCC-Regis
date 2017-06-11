@@ -29,14 +29,10 @@ public class TipoReceitaMB implements Serializable {
 	public String cadastrarTipoReceita() {
 		String retorno;
 		boolean inseridoComSucesso = getTipoReceitaService().criarOuAtualizar(tipoReceita);
-		if (inseridoComSucesso) {
+		if (inseridoComSucesso)
 			retorno = "/pages/lista-tipo-receita?faces-redirect=true";
-		}
-		else {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Tipo de Receita não cadastrada!", "Erro no Cadastro!"));
+		else
 			retorno = null;
-		}
 		return retorno;
 	}
 	

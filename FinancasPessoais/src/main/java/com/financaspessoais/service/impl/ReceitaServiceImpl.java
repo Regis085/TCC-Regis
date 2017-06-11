@@ -9,7 +9,7 @@ import com.financaspessoais.model.Usuario;
 import com.financaspessoais.service.ReceitaService;
 import com.financaspessoais.util.SessionContext;
 
-public class ReceitaServiceImpl implements ReceitaService, Serializable {
+public class ReceitaServiceImpl extends AbstractGenericService implements ReceitaService, Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private ReceitaDAO receitaDAO;
@@ -33,7 +33,12 @@ public class ReceitaServiceImpl implements ReceitaService, Serializable {
 
 	@Override
 	public void remover(Receita receita) {
-		this.getReceitaDAO().remover(receita.getId());
+		try {
+			this.getReceitaDAO().remover(receita.getId());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

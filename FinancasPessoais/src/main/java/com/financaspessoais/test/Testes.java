@@ -14,7 +14,9 @@ import com.financaspessoais.model.TipoConta;
 import com.financaspessoais.model.TipoDespesa;
 import com.financaspessoais.model.Usuario;
 import com.financaspessoais.service.ContaService;
+import com.financaspessoais.service.TipoDespesaService;
 import com.financaspessoais.service.impl.ContaServiceImpl;
+import com.financaspessoais.service.impl.TipoDespesaServiceImpl;
 import com.financaspessoais.util.JpaUtil;
 
 public class Testes {
@@ -35,11 +37,11 @@ public class Testes {
 	}
 
 	public static void removerTipoDespesa() {
-		TipoDespesaDAO dao = new TipoDespesaDAO();
-		TipoDespesa t = dao.buscarPorId(new Short("1"));
+		TipoDespesaService service = new TipoDespesaServiceImpl();
+		TipoDespesa t = service.buscar(new Short("1"));
 		System.out.println("Tipo Despesa: " + t.toString());
-		dao.remover(new Short("1"));
-		t = dao.buscarPorId(new Short("1"));
+		service.remover(t);
+		t = service.buscar(new Short("1"));
 		System.out.println("Tipo Despesa: " + t.toString());
 	}
 	

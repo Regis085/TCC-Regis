@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<ui:composition template="/templates/modelo-base.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui">
+	
+	<f:metadata>
+		<f:viewAction action="#{cartaoDeCreditoMB.prepararCadastro}" />
+		<o:viewParam name="id" value="#{cartaoDeCreditoMB.cartaoDeCredito}" />
+	</f:metadata>
+	
+	<ui:define name="menu">
+		<ui:include src="/includes/menu-principal.xhtml"></ui:include>
+	</ui:define>
+	<ui:define name="conteudo">
+		<h:form>
+			<p:panel>
+				<p:panelGrid columns="2">
+					
+					<p:outputLabel value="Nome" for="nome_cartaoDeCredito"/>
+					<p:inputText id="nome_cartaoDeCredito" size="30" value="#{cartaoDeCreditoMB.cartaoDeCredito.nome}"/>
+					
+					<p:outputLabel value="Bandeira" for="bandeira"/>
+					<p:inputText id="bandeira" size="30" value="#{cartaoDeCreditoMB.cartaoDeCredito.bandeira}" />
+					
+					<p:outputLabel value="Dia de Vencimento" for="dia_vencimento"/>
+					<p:inputText id="dia_vencimento" size="2" value="#{cartaoDeCreditoMB.cartaoDeCredito.diaVencimento}" />
+					
+					<p:outputLabel value="Melhor dia para Compra" for="melhor_dia_compra"/>
+					<p:inputText id="melhor_dia_compra" size="30" value="#{cartaoDeCreditoMB.cartaoDeCredito.melhorDiaCompra}"/>
+					
+					<p:outputLabel value="Telefone Cartão" for="telefone_cartao"/>
+					<p:inputText id="telefone_cartao" size="30" value="#{cartaoDeCreditoMB.cartaoDeCredito.telefoneCartao}"/>
+					
+					<p:outputLabel value="Quatro Últimos Dígitos" for="quatro_ult_digitos"/>
+					<p:inputText id="quatro_ult_digitos" size="4" value="#{cartaoDeCreditoMB.cartaoDeCredito.quatroUltimosDigitos}"/>
+					
+					<h:outputLabel value="Limite de Crédito" for="limite_credito"/>
+					<p:inputText id="limite_credito" size="12"
+						value="#{cartaoDeCreditoMB.cartaoDeCredito.limiteDeCredito}" label="Valor">
+						<f:convertNumber locale="pt_BR" maxFractionDigits="2" minFractionDigits="2" />
+					</p:inputText>
+					
+					<p:outputLabel value="Data de Início" for="data_inicio" />
+					<p:calendar id="data_inicio" size="12" pattern="dd/MM/yyyy"
+						value="#{cartaoDeCreditoMB.cartaoDeCredito.dataInicio}">
+					</p:calendar>
+					
+					<p:outputLabel value="Website do Cartão" for="website"/>
+					<p:inputText id="website" size="30" value="#{cartaoDeCreditoMB.cartaoDeCredito.siteDoCartao}"/>
+					
+					<p:outputLabel value="Login do Website" for="login"/>
+					<p:inputText id="login" size="30" value="#{cartaoDeCreditoMB.cartaoDeCredito.loginSiteDoCartao}"/>
+					
+					<p:outputLabel value="Senha do Website" for="senha"/>
+					<p:inputText id="senha" size="30" value="#{cartaoDeCreditoMB.cartaoDeCredito.senhaSiteDoCartao}"/>
+					
+					<p:commandButton value="Salvar" action="#{cartaoDeCreditoMB.cadastrarCartaoDeCredito}" />
+					<p:commandButton value="Voltar" action="lista-cartao-credito?faces-redirect=true" />
+					
+				</p:panelGrid>
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

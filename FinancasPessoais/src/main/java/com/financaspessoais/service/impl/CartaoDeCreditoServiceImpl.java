@@ -7,33 +7,52 @@ import com.financaspessoais.dao.CartaoDeCreditoDAO;
 import com.financaspessoais.model.CartaoDeCredito;
 import com.financaspessoais.model.Usuario;
 import com.financaspessoais.service.CartaoDeCreditoService;
+import com.financaspessoais.util.Constantes;
+import com.financaspessoais.util.FacesContextUtil;
 import com.financaspessoais.util.SessionContext;
 
-public class CartaoDeCreditoServiceImpl implements CartaoDeCreditoService, Serializable {
+public class CartaoDeCreditoServiceImpl extends AbstractGenericService implements CartaoDeCreditoService, Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private CartaoDeCreditoDAO cartaoDeCreditoDAO;
 
 	@Override
-	public boolean criarOuAtualizar(CartaoDeCredito cartao) {
+	public boolean criarOuAtualizar(CartaoDeCredito cartaoDeCredito) {
+		limparListaMensagemErro();
+		
 		Usuario u = SessionContext.getInstance().getUsuarioLogado();
-		cartao.setProprietario(u);
-
+		cartaoDeCredito.setProprietario(u);
+		
+		validarCamposObrigatorios(cartaoDeCredito);
+		validarDuplicidade(cartaoDeCredito);
+		
 		boolean retorno;
-		CartaoDeCredito cartaoBD = null;
 
-		cartaoBD = this.getCartaoDeCreditoDAO().criarOuAtualizar(cartao);
-		if (cartaoBD != null)
-			retorno = true;
-		else
+		if (this.getListaMensagemErro().isEmpty())
+			this.getCartaoDeCreditoDAO().criarOuAtualizar(cartaoDeCredito);
+		
+		if (this.getListaMensagemErro().size() > 0) {
+			FacesContextUtil.adicionarMensagensDeErro(this.getListaMensagemErro());
 			retorno = false;
+		}
+		else {
+			retorno = true;
+		}
 
 		return retorno;
 	}
 
 	@Override
-	public void remover(CartaoDeCredito cartao) {
-		this.getCartaoDeCreditoDAO().remover(cartao.getId());
+	public void remover(CartaoDeCredito cartaoDeCredito) {
+		this.limparListaMensagemErro();
+		try {
+			this.getCartaoDeCreditoDAO().remover(cartaoDeCredito.getId());
+			FacesContextUtil.adicionarMensagemDeInfo(Constantes.MSG_EXCLUSAO_BEM_SUCEDIDA);
+		}
+		catch (Exception e) {
+			FacesContextUtil.adicionarMensagemDeErro(Constantes.MSG_ERRO_GENERICA);
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -52,5 +71,24 @@ public class CartaoDeCreditoServiceImpl implements CartaoDeCreditoService, Seria
 		if (this.cartaoDeCreditoDAO == null)
 			this.cartaoDeCreditoDAO = new CartaoDeCreditoDAO();
 		return cartaoDeCreditoDAO;
+	}
+	
+	private void validarDuplicidade(CartaoDeCredito cartaoDeCredito) {
+		boolean isValido = true;
+		try {
+			isValido = this.getCartaoDeCreditoDAO().validarDuplicidade(cartaoDeCredito);
+		} 
+		catch (Exception e) {
+			this.adicionarMensagemErro(Constantes.MSG_ERRO_GENERICA);
+			e.printStackTrace();
+		}
+		
+		if (isValido == false)
+			this.adicionarMensagemErro(Constantes.MSG_DUPLICIDADE_CARTAO_DE_CREDITO);
+	}
+	
+	private void validarCamposObrigatorios(CartaoDeCredito cartaoDeCredito) {
+		if (cartaoDeCredito.getNome() == null || cartaoDeCredito.getNome().trim().isEmpty())
+			this.adicionarMensagemErro("Campo obrigatório não preenchido", "Preencha Nome");
 	}
 }

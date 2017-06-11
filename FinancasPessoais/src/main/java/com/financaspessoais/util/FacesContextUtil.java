@@ -16,6 +16,24 @@ public class FacesContextUtil {
 		return fm;
 	}
 	
+	public static FacesMessage criarMensagemErro(String msg) {
+		FacesMessage fm = null;
+		if (msg != null && msg.trim().isEmpty() == false) {
+			fm = new FacesMessage(msg, "");
+			fm.setSeverity(FacesMessage.SEVERITY_ERROR);
+		}
+		return fm;
+	}
+	
+	public static FacesMessage criarMensagemInfo(String msg) {
+		FacesMessage fm = null;
+		if (msg != null && msg.trim().isEmpty() == false) {
+			fm = new FacesMessage(msg, "");
+			fm.setSeverity(FacesMessage.SEVERITY_INFO);
+		}
+		return fm;
+	}
+	
 	public static void adicionarMensagemDeErro(String msg1, String msg2) {
 		FacesMessage mensagem;
 		mensagem = new FacesMessage(msg1, msg2);
@@ -25,8 +43,15 @@ public class FacesContextUtil {
 
 	public static void adicionarMensagemDeErro(String msg) {
 		FacesMessage mensagem;
-		mensagem = new FacesMessage(msg);
+		mensagem = new FacesMessage(msg, "");
 		mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);
+		FacesContext.getCurrentInstance().addMessage(null, mensagem);
+	}
+	
+	public static void adicionarMensagemDeInfo(String msg) {
+		FacesMessage mensagem;
+		mensagem = new FacesMessage(msg, "");
+		mensagem.setSeverity(FacesMessage.SEVERITY_INFO);
 		FacesContext.getCurrentInstance().addMessage(null, mensagem);
 	}
 

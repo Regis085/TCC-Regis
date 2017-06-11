@@ -9,7 +9,7 @@ import com.financaspessoais.model.Usuario;
 import com.financaspessoais.service.LancamentoCartaoService;
 import com.financaspessoais.util.SessionContext;
 
-public class LancamentoCartaoServiceImpl implements LancamentoCartaoService, Serializable {
+public class LancamentoCartaoServiceImpl extends AbstractGenericService implements LancamentoCartaoService, Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private LancamentoCartaoDAO lancamentoCartaoDAO;
@@ -33,7 +33,12 @@ public class LancamentoCartaoServiceImpl implements LancamentoCartaoService, Ser
 
 	@Override
 	public void remover(LancamentoCartao lancamentoCartao) {
-		this.getLancamentoCartaoDAO().remover(lancamentoCartao.getId());
+		try {
+			this.getLancamentoCartaoDAO().remover(lancamentoCartao.getId());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

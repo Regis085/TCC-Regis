@@ -9,7 +9,7 @@ import com.financaspessoais.model.Usuario;
 import com.financaspessoais.service.DespesaService;
 import com.financaspessoais.util.SessionContext;
 
-public class DespesaServiceImpl implements DespesaService, Serializable {
+public class DespesaServiceImpl extends AbstractGenericService implements DespesaService, Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private DespesaDAO despesaDAO;
@@ -33,7 +33,12 @@ public class DespesaServiceImpl implements DespesaService, Serializable {
 
 	@Override
 	public void remover(Despesa despesa) {
-		this.getDespesaDAO().remover(despesa.getId());
+		try {
+			this.getDespesaDAO().remover(despesa.getId());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

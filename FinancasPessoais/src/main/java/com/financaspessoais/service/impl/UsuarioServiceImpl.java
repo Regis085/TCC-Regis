@@ -1,10 +1,6 @@
 package com.financaspessoais.service.impl;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.faces.application.FacesMessage;
 
 import com.financaspessoais.dao.UsuarioDAO;
 import com.financaspessoais.model.Perfil;
@@ -13,12 +9,11 @@ import com.financaspessoais.service.UsuarioService;
 import com.financaspessoais.util.FacesContextUtil;
 import com.financaspessoais.util.SessionContext;
 
-public class UsuarioServiceImpl implements UsuarioService, Serializable {
+public class UsuarioServiceImpl extends AbstractGenericService implements UsuarioService, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private UsuarioDAO usuarioDAO;
 	private static final Short ID_PERFIL_PADRAO = new Short("2");
-	private List<FacesMessage> listaMensagemErro;
 	
 	@Override
 	public boolean criar(Usuario usuario) {
@@ -62,8 +57,13 @@ public class UsuarioServiceImpl implements UsuarioService, Serializable {
 	}
 
 	@Override
-	public boolean excluir(Usuario usuario) {
-		return getUsuarioDAO().remover(usuario.getId());
+	public void remover(Usuario usuario) {
+		try {
+			getUsuarioDAO().remover(usuario.getId());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
@@ -97,21 +97,5 @@ public class UsuarioServiceImpl implements UsuarioService, Serializable {
 		if (this.usuarioDAO == null)
 			this.usuarioDAO = new UsuarioDAO();
 		return this.usuarioDAO;
-	}
-	
-	private void adicionarMensagemErro(String msg1, String msg2) {
-		FacesMessage mensagem = FacesContextUtil.criarMensagemErro(msg1, msg2);
-		this.getListaMensagemErro().add(mensagem);
-	}
-	
-	public List<FacesMessage> getListaMensagemErro() {
-		if (this.listaMensagemErro == null) {
-			this.listaMensagemErro = new ArrayList<FacesMessage>();
-		}
-		return this.listaMensagemErro;
-	}
-
-	public void limparListaMensagemErro() {
-		this.listaMensagemErro = new ArrayList<FacesMessage>();
 	}
 }

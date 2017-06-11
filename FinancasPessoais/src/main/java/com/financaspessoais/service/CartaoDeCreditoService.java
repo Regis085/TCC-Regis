@@ -5,9 +5,9 @@ import java.util.List;
 import com.financaspessoais.model.CartaoDeCredito;
 
 public interface CartaoDeCreditoService {
-	boolean criarOuAtualizar(CartaoDeCredito cartao);
+	boolean criarOuAtualizar(CartaoDeCredito cartaoDeCredito);
 
-	void remover(CartaoDeCredito cartao);
+	void remover(CartaoDeCredito cartaoDeCredito);
 
 	List<CartaoDeCredito> listarPorUsuario();
 

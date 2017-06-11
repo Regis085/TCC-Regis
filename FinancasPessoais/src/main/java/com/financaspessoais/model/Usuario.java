@@ -11,42 +11,48 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "usuario")
+@Table(name = "usuario", 
+	indexes = {
+		@Index(name = "unique_index_rg", columnList = "rg", unique = true),
+		@Index(name = "unique_index_cpf", columnList = "cpf", unique = true),
+		@Index(name = "index_prefil", columnList = "perfil_id", unique = false)}
+)
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", nullable = false, unique = true)
+	@Column(name = "id")
 	private Short id;
 
-	@Column(name = "login", length = 20, nullable = false, unique = true)
+	@Column(name = "login", length = 20, nullable = false)
 	private String login;
 
-	@Column(name = "nome", length = 60, nullable = false)
+	@Column(name = "nome", length = 60)
 	private String nome;
 
-	@Column(name = "sobrenome", length = 60, nullable = true)
+	@Column(name = "sobrenome", length = 60, nullable = false)
 	private String sobrenome;
 
-	@Column(name = "dataNascimento", nullable = true)
+	@Column(name = "dataNascimento")
 	private Date dataNascimento;
 
-	@Column(name = "cpf", length = 14, nullable = true, unique = true)
+	@Column(name = "cpf", length = 14, nullable = false)
 	private String cpf;
 
-	@Column(name = "rg", length = 7, nullable = true, unique = true)
+	@Column(name = "rg", length = 7, nullable = false)
 	private String rg;
 
-	@Column(name = "cidade", length = 60, nullable = true)
+	@Column(name = "cidade", length = 60)
 	private String cidade;
 
-	@Column(name = "estado", length = 40, nullable = true)
+	@Column(name = "estado", length = 40)
 	private String estado;
 
 	@Column(name = "senha", length = 6, nullable = false)
@@ -181,6 +187,6 @@ public class Usuario implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", login=" + login + "]";
+		return "Usuario [id=" + this.id + ", login=" + this.login + "]";
 	}
 }

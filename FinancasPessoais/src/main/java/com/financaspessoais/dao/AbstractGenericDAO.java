@@ -3,13 +3,13 @@ package com.financaspessoais.dao;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
+import com.financaspessoais.util.Constantes;
+import com.financaspessoais.util.FacesContextUtil;
 import com.financaspessoais.util.JpaUtil;
 
 public abstract class AbstractGenericDAO<T, I extends Serializable> {
@@ -29,7 +29,6 @@ public abstract class AbstractGenericDAO<T, I extends Serializable> {
 	public T criarOuAtualizar(T entity) {
 
 		EntityTransaction transacao = entityManager.getTransaction();
-		FacesContext context = FacesContext.getCurrentInstance();
 		try {
 			transacao.begin();
 			entityManager.merge(entity);
@@ -39,9 +38,7 @@ public abstract class AbstractGenericDAO<T, I extends Serializable> {
 		}
 		catch (Exception e) {
 			transacao.rollback();
-			FacesMessage mensagem = new FacesMessage(e.getMessage());
-			mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);
-			context.addMessage(null, mensagem);
+			FacesContextUtil.adicionarMensagemDeErro(Constantes.MSG_ERRO_GENERICA);
 			e.printStackTrace();
 			return null;
 		}
@@ -50,7 +47,6 @@ public abstract class AbstractGenericDAO<T, I extends Serializable> {
 	public T criar(T entity) {
 		
 		EntityTransaction transacao = entityManager.getTransaction();
-		FacesContext context = FacesContext.getCurrentInstance();
 		
 		try {
 			transacao.begin();
@@ -61,18 +57,15 @@ public abstract class AbstractGenericDAO<T, I extends Serializable> {
 		} 
 		catch (Exception e) {
 			transacao.rollback();
-			FacesMessage mensagem = new FacesMessage(e.getMessage());
-			mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);
-			context.addMessage(null, mensagem);
+			FacesContextUtil.adicionarMensagemDeErro(Constantes.MSG_ERRO_GENERICA);
 			e.printStackTrace();
 			return null;
 		}
 	}
 
-	public boolean remover(I id) {
+	public boolean remover(I id) throws Exception{
 		
 		EntityTransaction transacao = entityManager.getTransaction();
-		FacesContext context = FacesContext.getCurrentInstance();
 		
 		try {
 			T entity = buscarPorId(id);
@@ -85,9 +78,7 @@ public abstract class AbstractGenericDAO<T, I extends Serializable> {
 		}
 		catch (Exception e) {
 			transacao.rollback();
-			FacesMessage mensagem = new FacesMessage(e.getMessage());
-			mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);
-			context.addMessage(null, mensagem);
+			FacesContextUtil.adicionarMensagemDeErro(Constantes.MSG_ERRO_GENERICA);
 			e.printStackTrace();
 			return false;
 		}

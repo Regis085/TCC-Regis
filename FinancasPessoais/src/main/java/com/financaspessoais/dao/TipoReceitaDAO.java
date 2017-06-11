@@ -3,9 +3,11 @@ package com.financaspessoais.dao;
 import java.util.List;
 
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 
 import com.financaspessoais.model.TipoReceita;
 
+@SuppressWarnings("unchecked")
 public class TipoReceitaDAO extends AbstractGenericDAO<TipoReceita, Short>{
 
 	public TipoReceitaDAO() {
@@ -14,7 +16,6 @@ public class TipoReceitaDAO extends AbstractGenericDAO<TipoReceita, Short>{
 
 	public List<TipoReceita> listarPorProprietario(Short idUsuario) {
 		try {
-			@SuppressWarnings("unchecked")
 			List<TipoReceita> listaTipoReceita = (List<TipoReceita>) entityManager
 					.createQuery("SELECT t from TipoReceita t " + " INNER JOIN t.proprietario u " + " WHERE u.id = :idUsuario")
 					.setParameter("idUsuario", idUsuario).getResultList();
@@ -23,5 +24,35 @@ public class TipoReceitaDAO extends AbstractGenericDAO<TipoReceita, Short>{
 		catch (NoResultException e) {
 			return null;
 		}
+	}
+
+	public boolean validarDuplicidade(TipoReceita tipoReceita) throws Exception {
+
+		Short id = tipoReceita.getId();
+		String nome = tipoReceita.getNome();
+		Short idUsuario = tipoReceita.getProprietario().getId();
+		boolean isAtualizando = (id != null);
+
+		StringBuilder consulta = new StringBuilder();
+		consulta.append("SELECT t FROM TipoReceita t");
+		consulta.append(" INNER JOIN t.proprietario u");
+		consulta.append(" WHERE u.id = :idUsuario");
+		consulta.append("   AND t.nome = :nome");
+
+		if (isAtualizando)
+			consulta.append(" AND t.id != :id");
+
+		Query query = entityManager.createQuery(consulta.toString());
+		query.setParameter("idUsuario", idUsuario);
+		query.setParameter("nome", nome);
+
+		if (isAtualizando)
+			query.setParameter("id", id);
+
+		List<TipoReceita> listaTipoReceita = (List<TipoReceita>) query.getResultList();
+		
+		Boolean isValido = listaTipoReceita.isEmpty();
+
+		return isValido;
 	}
 }

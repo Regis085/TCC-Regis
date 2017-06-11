@@ -27,8 +27,12 @@ public abstract class Lancamento implements Serializable {
 	private Long id;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "id_proprietario")
+	@JoinColumn(name = "usuario_id")
 	private Usuario proprietario;
+
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "conta_id")
+	private Conta conta;
 
 	@Column(name = "descricao", length = 255, nullable = true)
 	private String descricao;
@@ -43,10 +47,6 @@ public abstract class Lancamento implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "data_pagamento", nullable = true)
 	private Date dataPagamento;
-
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "conta_id")
-	private Conta conta;
 
 	public Long getId() {
 		return id;

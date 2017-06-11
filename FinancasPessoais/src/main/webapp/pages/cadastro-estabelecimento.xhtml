@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<ui:composition template="/templates/modelo-base.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui">
+	
+	<f:metadata>
+		<f:viewAction action="#{estabelecimentoMB.prepararCadastro}" />
+		<o:viewParam name="id" value="#{estabelecimentoMB.estabelecimento}" />
+	</f:metadata>
+	
+	<ui:define name="menu">
+		<ui:include src="/includes/menu-principal.xhtml"></ui:include>
+	</ui:define>
+	<ui:define name="conteudo">
+		<h:form>
+			<p:panel>
+				<p:panelGrid columns="2">
+					
+					<p:outputLabel value="Nome" for="nome_estabelecimento"/>
+					<p:inputText id="nome_estabelecimento" size="30" value="#{estabelecimentoMB.estabelecimento.nome}"/>
+					
+					<p:outputLabel value="CNPJ" for="cnpj_estabelecimento"/>
+					<p:inputText id="cnpj_estabelecimento" size="30" value="#{estabelecimentoMB.estabelecimento.cnpj}" />
+					
+					<p:outputLabel value="Telefone" for="telefone_estabelecimento"/>
+					<p:inputText id="telefone_estabelecimento" size="30" value="#{estabelecimentoMB.estabelecimento.telefone}"/>
+					
+					<p:outputLabel value="Endereço" for="endereco_estabelecimento"/>
+					<p:inputTextarea id="endereco_estabelecimento" size="30" value="#{estabelecimentoMB.estabelecimento.endereco}" rows="10" cols="50"/>
+					
+					<p:commandButton value="Salvar" action="#{estabelecimentoMB.cadastrarEstabelecimento}" />
+					<p:commandButton value="Voltar" action="lista-estabelecimento?faces-redirect=true" />
+					
+				</p:panelGrid>
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

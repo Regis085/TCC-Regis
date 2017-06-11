@@ -29,14 +29,10 @@ public class TipoDespesaMB implements Serializable {
 	public String cadastrarTipoDespesa() {
 		String retorno;
 		boolean inseridoComSucesso = getTipoDespesaService().criarOuAtualizar(tipoDespesa);
-		if (inseridoComSucesso) {
+		if (inseridoComSucesso)
 			retorno = "/pages/lista-tipo-despesa?faces-redirect=true";
-		}
-		else {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Tipo de Despesa não cadastrada!", "Erro no Cadastro!"));
+		else
 			retorno = null;
-		}
 		return retorno;
 	}
 	

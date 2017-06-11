@@ -7,33 +7,51 @@ import com.financaspessoais.dao.TipoDespesaDAO;
 import com.financaspessoais.model.TipoDespesa;
 import com.financaspessoais.model.Usuario;
 import com.financaspessoais.service.TipoDespesaService;
+import com.financaspessoais.util.Constantes;
+import com.financaspessoais.util.FacesContextUtil;
 import com.financaspessoais.util.SessionContext;
 
-public class TipoDespesaServiceImpl implements TipoDespesaService, Serializable {
+public class TipoDespesaServiceImpl extends AbstractGenericService implements TipoDespesaService, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private TipoDespesaDAO tipoDespesaDAO;
 	
 	@Override
 	public boolean criarOuAtualizar(TipoDespesa tipoDespesa) {
+		limparListaMensagemErro();
+		
 		Usuario u = SessionContext.getInstance().getUsuarioLogado();
 		tipoDespesa.setProprietario(u);
+		
+		validarCamposObrigatorios(tipoDespesa);
+		validarDuplicidade(tipoDespesa);
 
 		boolean retorno;
-		TipoDespesa tipoDespesaBD = null;
-
-		tipoDespesaBD = getTipoDespesaDAO().criarOuAtualizar(tipoDespesa);
-		if (tipoDespesaBD != null)
-			retorno = true;
-		else
+				
+		if (this.getListaMensagemErro().isEmpty())
+			getTipoDespesaDAO().criarOuAtualizar(tipoDespesa);
+		
+		if (this.getListaMensagemErro().size() > 0) {
+			FacesContextUtil.adicionarMensagensDeErro(this.getListaMensagemErro());
 			retorno = false;
+		}
+		else {
+			retorno = true;
+		}
 
 		return retorno;
 	}
-
+	
 	@Override
 	public void remover(TipoDespesa tipoDespesa) {
-		this.getTipoDespesaDAO().remover(tipoDespesa.getId());
+		this.limparListaMensagemErro();
+		try {
+			this.getTipoDespesaDAO().remover(tipoDespesa.getId());
+		}
+		catch (Exception e) {
+			FacesContextUtil.adicionarMensagemDeErro(Constantes.MSG_ERRO_GENERICA);
+			e.printStackTrace();
+		}
 
 	}
 
@@ -53,5 +71,24 @@ public class TipoDespesaServiceImpl implements TipoDespesaService, Serializable 
 		if (this.tipoDespesaDAO == null)
 			this.tipoDespesaDAO = new TipoDespesaDAO();
 		return tipoDespesaDAO;
+	}
+	
+	private void validarDuplicidade(TipoDespesa tipoDespesa) {
+		boolean isValido = true;
+		try {
+			isValido = this.getTipoDespesaDAO().validarDuplicidade(tipoDespesa);
+		} 
+		catch (Exception e) {
+			this.adicionarMensagemErro(Constantes.MSG_ERRO_GENERICA);
+			e.printStackTrace();
+		}
+		
+		if (isValido == false)
+			this.adicionarMensagemErro(Constantes.MSG_DUPLICIDADE_TIPO_DESPESA);
+	}
+	
+	private void validarCamposObrigatorios(TipoDespesa tipoDespesa) {
+		if (tipoDespesa.getNome() == null || tipoDespesa.getNome().trim().isEmpty())
+			this.adicionarMensagemErro("Campo obrigatório não preenchido", "Preencha Nome");
 	}
 }

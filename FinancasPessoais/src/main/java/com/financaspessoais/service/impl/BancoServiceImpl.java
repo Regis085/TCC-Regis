@@ -9,7 +9,7 @@ import com.financaspessoais.model.Usuario;
 import com.financaspessoais.service.BancoService;
 import com.financaspessoais.util.SessionContext;
 
-public class BancoServiceImpl implements BancoService, Serializable {
+public class BancoServiceImpl extends AbstractGenericService implements BancoService, Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private BancoDAO bancoDAO;
@@ -33,7 +33,12 @@ public class BancoServiceImpl implements BancoService, Serializable {
 
 	@Override
 	public void remover(Banco banco) {
-		this.getBancoDAO().remover(banco.getId());
+		try {
+			this.getBancoDAO().remover(banco.getId());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

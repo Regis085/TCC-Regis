@@ -9,7 +9,7 @@ import com.financaspessoais.model.Usuario;
 import com.financaspessoais.service.TransferenciaService;
 import com.financaspessoais.util.SessionContext;
 
-public class TransferenciaServiceImpl implements TransferenciaService, Serializable {
+public class TransferenciaServiceImpl extends AbstractGenericService implements TransferenciaService, Serializable {
 	private static final long serialVersionUID = 1L;
 	private TransferenciaDAO transferenciaDAO;
 	
@@ -32,7 +32,12 @@ public class TransferenciaServiceImpl implements TransferenciaService, Serializa
 
 	@Override
 	public void remover(Transferencia transferencia) {
-		this.getTransferenciaDAO().remover(transferencia.getId());
+		try {
+			this.getTransferenciaDAO().remover(transferencia.getId());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

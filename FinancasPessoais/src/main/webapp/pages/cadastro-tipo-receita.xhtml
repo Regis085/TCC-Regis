@@ -24,9 +24,9 @@
 					<p:inputText id="nome_tipoReceita" size="30" value="#{tipoReceitaMB.tipoReceita.nome}"/>
 					
 					<h:outputLabel value="Valor Previsto" for="valorPrevisto_tipoReceita"/>
-					<h:inputText id="valorPrevisto_tipoReceita" size="12" value="#{tipoReceitaMB.tipoReceita.valorPrevisto}" label="Valor">
+					<p:inputText id="valorPrevisto_tipoReceita" size="12" value="#{tipoReceitaMB.tipoReceita.valorPrevisto}" label="Valor">
 						<f:convertNumber locale="pt_BR" maxFractionDigits="2" minFractionDigits="2" />
-					</h:inputText>
+					</p:inputText>
 					
 					<p:outputLabel value="Descrição" for="descricao_tipoReceita"/>
 					<p:inputTextarea id="descricao_tipoReceita" size="30" value="#{tipoReceitaMB.tipoReceita.descricao}" rows="10" cols="50"/>

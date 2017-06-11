@@ -24,9 +24,9 @@
 					<p:inputText id="nome_tipoDespesa" size="30" value="#{tipoDespesaMB.tipoDespesa.nome}"/>
 					
 					<h:outputLabel value="Valor Previsto" for="valorPrevisto_tipoDespesa"/>
-					<h:inputText id="valorPrevisto_tipoDespesa" size="12" value="#{tipoDespesaMB.tipoDespesa.valorPrevisto}" label="Valor">
+					<p:inputText id="valorPrevisto_tipoDespesa" size="12" value="#{tipoDespesaMB.tipoDespesa.valorPrevisto}" label="Valor">
 						<f:convertNumber locale="pt_BR" maxFractionDigits="2" minFractionDigits="2" />
-					</h:inputText>
+					</p:inputText>
 					
 					<p:outputLabel value="Descrição" for="descricao_tipoDespesa"/>
 					<p:inputTextarea id="descricao_tipoDespesa" size="30" value="#{tipoDespesaMB.tipoDespesa.descricao}" rows="10" cols="50"/>
