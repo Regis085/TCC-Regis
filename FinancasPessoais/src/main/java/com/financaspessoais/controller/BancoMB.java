@@ -3,10 +3,8 @@ package com.financaspessoais.controller;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import com.financaspessoais.model.Banco;
 import com.financaspessoais.service.BancoService;
@@ -16,6 +14,7 @@ import com.financaspessoais.service.impl.BancoServiceImpl;
 @ViewScoped
 public class BancoMB implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
 	private BancoService bancoService;
 	private Banco banco;
 	private Banco bancoSelecionado;
@@ -26,29 +25,16 @@ public class BancoMB implements Serializable {
 	}
 
 	public String cadastrarBanco() {
-		String retorno;
-		boolean inseridoComSucesso = getBancoService().criarOuAtualizar(banco);
-		if (inseridoComSucesso) {
+		String retorno = null;
+		boolean inseridoComSucesso = this.getBancoService().criarOuAtualizar(banco);
+		if (inseridoComSucesso)
 			retorno = "/pages/lista-banco?faces-redirect=true";
-		} else {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Banco não cadastrado!", "Erro no Cadastro!"));
-			retorno = null;
-		}
 		return retorno;
 	}
 
 	public void excluir() {
-		FacesContext context = FacesContext.getCurrentInstance();
-		try {
-			getBancoService().remover(this.bancoSelecionado);
-			this.getBancosDoUsuario();
-			context.addMessage(null, new FacesMessage("Banco excluído com sucesso!"));
-		} catch (Exception e) {
-			FacesMessage mensagem = new FacesMessage(e.getMessage());
-			mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);
-			context.addMessage(null, mensagem);
-		}
+		this.getBancoService().remover(this.bancoSelecionado);
+		this.getBancosDoUsuario();
 	}
 
 	// Getters e Setters

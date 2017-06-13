@@ -4,34 +4,43 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.financaspessoais.model.pk.ItemLancamentoCartaoPK;
 
 @Entity
 @Table(name = "item_lancamento_cartao")
 public class ItemLancamentoCartao implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue
-	private Long id;
-
+	@EmbeddedId
+	private ItemLancamentoCartaoPK id;
+	
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "usuario_id")
 	private Usuario proprietario;
 
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "id_lancamento_cartao")
+	@ManyToOne(optional = false, fetch=FetchType.LAZY)
+	@JoinColumns({
+		  @JoinColumn(name = "codigo_cartao_de_credito", referencedColumnName = "codigo_cartao_de_credito", insertable = false, updatable = false),
+		  @JoinColumn(name = "codigo_lancamento_cartao", referencedColumnName = "codigo_lancamento_cartao", insertable = false, updatable = false)
+		})
 	private LancamentoCartao lancamentoCartao;
 
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "id_fatura_cartao")
+	@ManyToOne(optional = false, fetch=FetchType.LAZY)
+	@JoinColumns({
+		  @JoinColumn(name = "codigo_cartao_de_credito", referencedColumnName = "codigo_cartao_de_credito", insertable = false, updatable = false),
+		  @JoinColumn(name = "ano_fatura_cartao", referencedColumnName = "ano_fatura_cartao", insertable = false, updatable = false),
+		  @JoinColumn(name = "mes_fatura_cartao", referencedColumnName = "mes_fatura_cartao", insertable = false, updatable = false)
+		})
 	private FaturaCartao faturaCartao;
 
 	@Enumerated(EnumType.STRING)
@@ -49,14 +58,17 @@ public class ItemLancamentoCartao implements Serializable {
 	@Column(name = "observacao", length = 100, nullable = true)
 	private String observacao;
 
+	@Column(name = "is_credito", length = 1, nullable = false)
+	private String isCredito;
+	
 	@Column(name = "is_avulso", length = 1, nullable = false)
 	private String isAvulso;
 
-	public Long getId() {
+	public ItemLancamentoCartaoPK getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(ItemLancamentoCartaoPK id) {
 		this.id = id;
 	}
 
@@ -114,6 +126,14 @@ public class ItemLancamentoCartao implements Serializable {
 
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
+	}
+	
+	public String getIsCredito() {
+		return isCredito;
+	}
+
+	public void setIsCredito(String isCredito) {
+		this.isCredito = isCredito;
 	}
 
 	public String getIsAvulso() {

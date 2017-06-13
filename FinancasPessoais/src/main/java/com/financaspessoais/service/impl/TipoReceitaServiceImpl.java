@@ -88,6 +88,6 @@ public class TipoReceitaServiceImpl extends AbstractGenericService implements Ti
 
 	private void validarCamposObrigatorios(TipoReceita tipoReceita) {
 		if (tipoReceita.getNome() == null || tipoReceita.getNome().trim().isEmpty())
-			this.adicionarMensagemErro("Campo obrigatório não preenchido", "Preencha Nome");
+			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_NOME);
 	}
 }

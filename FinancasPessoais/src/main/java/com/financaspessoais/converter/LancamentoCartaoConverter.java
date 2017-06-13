@@ -5,35 +5,35 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import com.financaspessoais.model.Receita;
-import com.financaspessoais.service.ReceitaService;
-import com.financaspessoais.service.impl.ReceitaServiceImpl;
+import com.financaspessoais.model.LancamentoCartao;
+import com.financaspessoais.service.LancamentoCartaoService;
+import com.financaspessoais.service.impl.LancamentoCartaoServiceImpl;
 
-@FacesConverter(forClass = Receita.class)
+@FacesConverter(forClass = LancamentoCartao.class)
 public class LancamentoCartaoConverter implements Converter {
 
-	private ReceitaService receitaService;
+	private LancamentoCartaoService lancamentoCartaoService;
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		Receita retorno = null;
+		LancamentoCartao retorno = null;
 		if (value != null)
-			retorno = this.getReceitaService().buscar(new Long(value));
+			retorno = this.getLancamentoCartaoService().buscar(new Long(value));
 		return retorno;
 	}
 
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if (value != null) {
-			Receita receita = ((Receita) value);
-			return receita.getId() == null ? null : receita.getId().toString();
+			LancamentoCartao lancamentoCartao = ((LancamentoCartao) value);
+			return lancamentoCartao.getId() == null ? null : lancamentoCartao.getId().toString();
 		}
-		return null;
+		return null;	
 	}
 
-	private ReceitaService getReceitaService() {
-		if (this.receitaService == null)
-			this.receitaService = new ReceitaServiceImpl();
-		return receitaService;
+	private LancamentoCartaoService getLancamentoCartaoService() {
+		if (this.lancamentoCartaoService == null)
+			this.lancamentoCartaoService = new LancamentoCartaoServiceImpl();
+		return lancamentoCartaoService;
 	}
 }

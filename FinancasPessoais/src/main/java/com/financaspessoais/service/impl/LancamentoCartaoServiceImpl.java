@@ -33,12 +33,12 @@ public class LancamentoCartaoServiceImpl extends AbstractGenericService implemen
 
 	@Override
 	public void remover(LancamentoCartao lancamentoCartao) {
-		try {
-			this.getLancamentoCartaoDAO().remover(lancamentoCartao.getId());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			this.getLancamentoCartaoDAO().remover(lancamentoCartao.getCodigoLancamentoCartao());
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 
 	@Override

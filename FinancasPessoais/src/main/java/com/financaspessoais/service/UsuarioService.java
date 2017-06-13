@@ -6,8 +6,8 @@ public interface UsuarioService {
 	boolean criar(Usuario usuario);
 
 	Usuario buscarPorLoginESenha(String login, String senha);
-	
-	Usuario buscar(Short id);
 
-	public void remover(Usuario usuario);
+	Usuario buscar(Short id);
+	
+	void remover(Usuario usuario);
 }

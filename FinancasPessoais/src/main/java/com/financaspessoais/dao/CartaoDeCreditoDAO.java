@@ -29,7 +29,7 @@ public class CartaoDeCreditoDAO extends AbstractGenericDAO<CartaoDeCredito, Shor
 	}
 
 	public boolean validarDuplicidade(CartaoDeCredito cartaoDeCredito) {
-		Short id = cartaoDeCredito.getId();
+		Short id = cartaoDeCredito.getCodigoCartaoDeCredito();
 		String nome = cartaoDeCredito.getNome();
 		Short idUsuario = cartaoDeCredito.getProprietario().getId();
 		boolean isAtualizando = (id != null);

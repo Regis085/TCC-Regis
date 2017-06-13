@@ -7,9 +7,9 @@ import com.financaspessoais.model.ItemLancamentoCartao;
 public interface ItemLancamentoCartaoService {
 	boolean criarOuAtualizar(ItemLancamentoCartao item);
 
-	void remover(ItemLancamentoCartao item);
+	ItemLancamentoCartao buscar(Short codigoCartaoDeCredito, Long codigoLancamentoCartao);
 
 	List<ItemLancamentoCartao> listarPorUsuario();
 
-	public ItemLancamentoCartao buscar(Long id);
+	void remover(ItemLancamentoCartao item);
 }

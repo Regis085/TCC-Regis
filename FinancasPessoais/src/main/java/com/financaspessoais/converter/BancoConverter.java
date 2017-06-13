@@ -18,7 +18,7 @@ public class BancoConverter implements Converter {
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		Banco retorno = null;
 		if (value != null)
-			retorno = this.getBancoService().buscar(new Integer(value));
+			retorno = this.getBancoService().buscar(new Short(value));
 		return retorno;
 	}
 

@@ -3,10 +3,8 @@ package com.financaspessoais.controller;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import com.financaspessoais.model.Banco;
 import com.financaspessoais.model.Conta;
@@ -20,44 +18,32 @@ import com.financaspessoais.service.impl.ContaBancariaServiceImpl;
 @ViewScoped
 public class ContaBancariaMB implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private ContaBancariaService contaBancariaService = new ContaBancariaServiceImpl();
+	private ContaBancariaService contaBancariaService;
 	private ContaBancaria contaBancariaSelecionada;
 	private ContaBancaria contaBancaria;
-	private BancoService bancoService = new BancoServiceImpl();
+	private BancoService bancoService;
 	private List<Banco> listaBanco;
 
 	public void prepararCadastro() {
 		if (this.contaBancaria == null)
 			this.contaBancaria = new ContaBancaria();
-		if (this.listaBanco == null) {
+		if (this.listaBanco == null)
 			listaBanco = this.getBancoService().listarPorUsuario(); 
-		}
 	}
 
 	public String cadastrarConta() {
 		String retorno;
 		boolean inseridoComSucesso = this.getContaBancariaService().criarOuAtualizar(contaBancaria);
-		if (inseridoComSucesso) {
+		if (inseridoComSucesso)
 			retorno = "/pages/lista-conta?faces-redirect=true";
-		} else {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conta Bancária não cadastrada!", "Erro no Cadastro!"));
+		else
 			retorno = null;
-		}
 		return retorno;
 	}
 
 	public void excluir() {
-		FacesContext context = FacesContext.getCurrentInstance();
-		try {
-			this.getContaBancariaService().excluir(this.contaBancariaSelecionada);
-			this.getContasDoUsuario();
-			context.addMessage(null, new FacesMessage("Conta Bancária excluída com sucesso!"));
-		} catch (Exception e) {
-			FacesMessage mensagem = new FacesMessage(e.getMessage());
-			mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);
-			context.addMessage(null, mensagem);
-		}
+		this.getContaBancariaService().remover(this.contaBancariaSelecionada);
+		this.getContasDoUsuario();
 	}
 
 	// Getters e Setters
@@ -83,7 +69,7 @@ public class ContaBancariaMB implements Serializable {
 	}
 
 	public List<ContaBancaria> getContasDoUsuario() {
-		return this.getContaBancariaService().listarContasBancariasPorUsuario();
+		return this.getContaBancariaService().listarPorUsuario();
 	}
 
 	public List<Banco> getListaBanco() {

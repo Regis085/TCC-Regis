@@ -18,7 +18,7 @@ public class CartaoDeCreditoServiceImpl extends AbstractGenericService implement
 
 	@Override
 	public boolean criarOuAtualizar(CartaoDeCredito cartaoDeCredito) {
-		limparListaMensagemErro();
+		this.limparListaMensagemErro();
 		
 		Usuario u = SessionContext.getInstance().getUsuarioLogado();
 		cartaoDeCredito.setProprietario(u);
@@ -26,10 +26,10 @@ public class CartaoDeCreditoServiceImpl extends AbstractGenericService implement
 		validarCamposObrigatorios(cartaoDeCredito);
 		validarDuplicidade(cartaoDeCredito);
 		
-		boolean retorno;
-
 		if (this.getListaMensagemErro().isEmpty())
 			this.getCartaoDeCreditoDAO().criarOuAtualizar(cartaoDeCredito);
+
+		boolean retorno;
 		
 		if (this.getListaMensagemErro().size() > 0) {
 			FacesContextUtil.adicionarMensagensDeErro(this.getListaMensagemErro());
@@ -46,7 +46,7 @@ public class CartaoDeCreditoServiceImpl extends AbstractGenericService implement
 	public void remover(CartaoDeCredito cartaoDeCredito) {
 		this.limparListaMensagemErro();
 		try {
-			this.getCartaoDeCreditoDAO().remover(cartaoDeCredito.getId());
+			this.getCartaoDeCreditoDAO().remover(cartaoDeCredito.getCodigoCartaoDeCredito());
 			FacesContextUtil.adicionarMensagemDeInfo(Constantes.MSG_EXCLUSAO_BEM_SUCEDIDA);
 		}
 		catch (Exception e) {
@@ -89,6 +89,6 @@ public class CartaoDeCreditoServiceImpl extends AbstractGenericService implement
 	
 	private void validarCamposObrigatorios(CartaoDeCredito cartaoDeCredito) {
 		if (cartaoDeCredito.getNome() == null || cartaoDeCredito.getNome().trim().isEmpty())
-			this.adicionarMensagemErro("Campo obrigatório não preenchido", "Preencha Nome");
+			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_NOME);
 	}
 }

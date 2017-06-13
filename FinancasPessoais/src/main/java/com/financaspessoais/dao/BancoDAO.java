@@ -1,12 +1,15 @@
 package com.financaspessoais.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.NoResultException;
+import javax.persistence.Query;
 
 import com.financaspessoais.model.Banco;
 
-public class BancoDAO extends AbstractGenericDAO<Banco, Integer>{
+@SuppressWarnings("unchecked")
+public class BancoDAO extends AbstractGenericDAO<Banco, Short> implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	public BancoDAO() {
 		super(Banco.class);
@@ -14,14 +17,47 @@ public class BancoDAO extends AbstractGenericDAO<Banco, Integer>{
 	
 	public List<Banco> listarPorProprietario(Short idUsuario) {
 		try {
-			@SuppressWarnings("unchecked")
-			List<Banco> listaBanco = (List<Banco>) entityManager
-					.createQuery("SELECT b from Banco b " + " INNER JOIN b.proprietario u " + " WHERE u.id = :idUsuario")
-					.setParameter("idUsuario", idUsuario).getResultList();
+			StringBuilder consulta = new StringBuilder();
+			consulta.append("SELECT b FROM Banco b");
+			consulta.append(" INNER JOIN b.proprietario u");
+			consulta.append(" WHERE u.id = :idUsuario");
+			Query query = entityManager.createQuery(consulta.toString());
+			query.setParameter("idUsuario", idUsuario);
+			List<Banco> listaBanco = (List<Banco>) query.getResultList();
 			return listaBanco;
 		}
-		catch (NoResultException e) {
+		catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
+	}
+
+	public boolean validarDuplicidade(Banco banco) throws Exception {
+		Short id = banco.getId();
+		String nome = banco.getNome();
+		Short idUsuario = banco.getProprietario().getId();
+		boolean isAtualizando = (id != null);
+		
+		StringBuilder consulta = new StringBuilder();
+		consulta.append("SELECT b FROM Banco b");
+		consulta.append(" INNER JOIN b.proprietario u");
+		consulta.append(" WHERE u.id = :idUsuario");
+		consulta.append("   AND UPPER(b.nome) LIKE :nome");
+
+		if (isAtualizando)
+			consulta.append(" AND b.id != :id");
+
+		Query query = entityManager.createQuery(consulta.toString());
+		query.setParameter("idUsuario", idUsuario);
+		query.setParameter("nome", nome.toUpperCase());
+
+		if (isAtualizando)
+			query.setParameter("id", id);
+
+		List<Banco> listaBanco = (List<Banco>) query.getResultList();
+		
+		Boolean isValido = listaBanco.isEmpty();
+
+		return isValido;
 	}
 }

@@ -7,9 +7,9 @@ import com.financaspessoais.model.FaturaCartao;
 public interface FaturaCartaoService {
 	boolean criarOuAtualizar(FaturaCartao faturaCartao);
 
-	void remover(FaturaCartao faturaCartao);
+	FaturaCartao buscar(Short codigoCartaoDeCredito, Short ano, Short mes);
 
 	List<FaturaCartao> listarPorUsuario();
 
-	public FaturaCartao buscar(Long id);
+	void remover(FaturaCartao faturaCartao);
 }

@@ -14,6 +14,7 @@ import com.financaspessoais.service.impl.EstabelecimentoServiceImpl;
 @ViewScoped
 public class EstabelecimentoMB implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
 	private EstabelecimentoService estabelecimentoService;
 	private Estabelecimento estabelecimento;
 	private Estabelecimento estabelecimentoSelecionado;
@@ -24,18 +25,15 @@ public class EstabelecimentoMB implements Serializable {
 	}
 
 	public String cadastrarEstabelecimento() {
-		String retorno;
-		boolean inseridoComSucesso = getEstabelecimentoService().criarOuAtualizar(estabelecimento);
-		if (inseridoComSucesso) {
+		String retorno = null;
+		boolean inseridoComSucesso = this.getEstabelecimentoService().criarOuAtualizar(estabelecimento);
+		if (inseridoComSucesso)
 			retorno = "/pages/lista-estabelecimento?faces-redirect=true";
-		} else {			
-			retorno = null;
-		}
 		return retorno;
 	}
 
 	public void excluir() {
-		getEstabelecimentoService().remover(this.estabelecimentoSelecionado);
+		this.getEstabelecimentoService().remover(this.estabelecimentoSelecionado);
 		this.getEstabelecimentosDoUsuario();
 	}
 

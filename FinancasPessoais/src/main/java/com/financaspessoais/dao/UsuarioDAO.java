@@ -1,11 +1,14 @@
 package com.financaspessoais.dao;
 
+import java.io.Serializable;
+
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import com.financaspessoais.model.Usuario;
 
-public class UsuarioDAO extends AbstractGenericDAO<Usuario, Short>{
+public class UsuarioDAO extends AbstractGenericDAO<Usuario, Short> implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	public UsuarioDAO() {
 		super(Usuario.class);

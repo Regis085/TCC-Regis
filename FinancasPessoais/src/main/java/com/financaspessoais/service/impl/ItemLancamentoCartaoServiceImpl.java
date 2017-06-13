@@ -5,8 +5,11 @@ import java.util.List;
 
 import com.financaspessoais.dao.ItemLancamentoCartaoDAO;
 import com.financaspessoais.model.ItemLancamentoCartao;
+import com.financaspessoais.model.SimNao;
 import com.financaspessoais.model.Usuario;
+import com.financaspessoais.model.pk.ItemLancamentoCartaoPK;
 import com.financaspessoais.service.ItemLancamentoCartaoService;
+import com.financaspessoais.util.Constantes;
 import com.financaspessoais.util.SessionContext;
 
 public class ItemLancamentoCartaoServiceImpl extends AbstractGenericService implements ItemLancamentoCartaoService, Serializable {
@@ -16,8 +19,20 @@ public class ItemLancamentoCartaoServiceImpl extends AbstractGenericService impl
 
 	@Override
 	public boolean criarOuAtualizar(ItemLancamentoCartao item) {
+		this.limparListaMensagemErro();
+		
 		Usuario u = SessionContext.getInstance().getUsuarioLogado();
 		item.setProprietario(u);
+		
+		boolean isAtualizando = this.isAtualizando(item);
+		
+		validarCamposObrigatorios(item, isAtualizando);
+		
+		if (isAtualizando == false) {
+			configurarId(item);
+		}
+		else {
+		}
 
 		boolean retorno;
 		ItemLancamentoCartao itemBD = null;
@@ -29,6 +44,71 @@ public class ItemLancamentoCartaoServiceImpl extends AbstractGenericService impl
 			retorno = false;
 
 		return retorno;
+	}
+
+	private void configurarId(ItemLancamentoCartao item) {
+		ItemLancamentoCartaoPK id = new ItemLancamentoCartaoPK();
+		id.setCodigoCartaoDeCredito(item.getLancamentoCartao().getId().getCodigoCartaoDeCredito());
+		id.setCodigoLancamentoCartao(item.getLancamentoCartao().getId().getCodigoLancamentoCartao());
+		Long codigo = itemLancamentoCartaoDAO.getNextId(id.getCodigoCartaoDeCredito(), id.getCodigoLancamentoCartao());
+		id.setCodigoItemLancamentoCartao(codigo);
+		item.setId(id);
+	}
+
+	private boolean isAtualizando(ItemLancamentoCartao item) {
+		if (item.getId() != null && item.getId().getCodigoCartaoDeCredito() != null
+				&& item.getId().getCodigoLancamentoCartao() != null
+				&& item.getId().getCodigoItemLancamentoCartao() != null) {
+			return true;
+		}
+		return false;
+	}
+
+	private void validarCamposObrigatorios(ItemLancamentoCartao itemLancamentoCartao, boolean isAtualizando) {
+		
+		if (itemLancamentoCartao.getLancamentoCartao() == null || itemLancamentoCartao.getLancamentoCartao() == null) {
+			
+		}
+		
+		
+		if (itemLancamentoCartao.getIsAvulso() == null || itemLancamentoCartao.getIsAvulso().equals(SimNao.S) == false
+				|| itemLancamentoCartao.getIsAvulso().equals(SimNao.N) == false) {
+			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_AVULSO);
+		}
+		
+		if (itemLancamentoCartao.getNumeroParcela() == null) {
+			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_NUMERO_PARCELA);
+		}
+		
+		if (itemLancamentoCartao.getValor() == null) {
+			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_VALOR);
+		}
+		
+		if (itemLancamentoCartao.getValor() == null) {
+			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_VALOR);
+		}
+		
+		if (itemLancamentoCartao.getValor() == null) {
+			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_VALOR);
+		}
+		
+		if (itemLancamentoCartao.getValor() == null) {
+			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_VALOR);
+		}
+		
+		if (itemLancamentoCartao.getValor() == null) {
+			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_VALOR);
+		}
+		
+		if (itemLancamentoCartao.getValor() == null) {
+			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_VALOR);
+		}
+		
+		if (itemLancamentoCartao.getValor() == null) {
+			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_VALOR);
+		}
+		// if (itemLancamentoCartao.getNome() == null || itemLancamentoCartao.getNome().trim().isEmpty())
+		// 		this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_NOME);
 	}
 
 	@Override
@@ -50,7 +130,10 @@ public class ItemLancamentoCartaoServiceImpl extends AbstractGenericService impl
 	}
 
 	@Override
-	public ItemLancamentoCartao buscar(Long id) {
+	public ItemLancamentoCartao buscar(Short codigoCartaoDeCredito, Long codigoLancamentoCartao) {
+		ItemLancamentoCartaoPK id = new ItemLancamentoCartaoPK();
+		id.setCodigoCartaoDeCredito(codigoCartaoDeCredito);
+		id.setCodigoLancamentoCartao(codigoLancamentoCartao);
 		return this.getItemLancamentoCartaoDAO().buscarPorId(id);
 	}
 	

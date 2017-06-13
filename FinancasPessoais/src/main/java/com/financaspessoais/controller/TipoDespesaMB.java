@@ -3,10 +3,8 @@ package com.financaspessoais.controller;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import com.financaspessoais.model.TipoDespesa;
 import com.financaspessoais.service.TipoDespesaService;
@@ -27,27 +25,16 @@ public class TipoDespesaMB implements Serializable {
 	}
 	
 	public String cadastrarTipoDespesa() {
-		String retorno;
-		boolean inseridoComSucesso = getTipoDespesaService().criarOuAtualizar(tipoDespesa);
+		String retorno = null;
+		boolean inseridoComSucesso = this.getTipoDespesaService().criarOuAtualizar(tipoDespesa);
 		if (inseridoComSucesso)
 			retorno = "/pages/lista-tipo-despesa?faces-redirect=true";
-		else
-			retorno = null;
 		return retorno;
 	}
 	
 	public void excluir() {
-		FacesContext context = FacesContext.getCurrentInstance();
-		try {
-			getTipoDespesaService().remover(this.tipoDespesaSelecionada);
-			this.getTiposDespesaDoUsuario();
-			context.addMessage(null, new FacesMessage("Tipo de Despesa excluído com sucesso!"));
-		} 
-		catch (Exception e) {
-			FacesMessage mensagem = new FacesMessage(e.getMessage());
-			mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);
-			context.addMessage(null, mensagem);
-		}
+		this.getTipoDespesaService().remover(this.tipoDespesaSelecionada);
+		this.getTiposDespesaDoUsuario();
 	}
 
 	// Getters e Setters

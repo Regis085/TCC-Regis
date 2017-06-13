@@ -7,9 +7,10 @@ import com.financaspessoais.model.Transferencia;
 public interface TransferenciaService {
 	boolean criarOuAtualizar(Transferencia transferencia);
 
-	void remover(Transferencia transferencia);
+	Transferencia buscar(Long id);
 
 	List<Transferencia> listarPorUsuario();
+	
+	void remover(Transferencia transferencia);
 
-	public Transferencia buscar(Long id);
 }

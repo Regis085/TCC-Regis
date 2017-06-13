@@ -17,18 +17,33 @@ public class FaturaCartaoConverter implements Converter {
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		FaturaCartao retorno = null;
-		if (value != null)
-			retorno = this.getFaturaCartaoService().buscar(new Long(value));
+		if (value != null) {
+			String[] chaves = value.split("#");
+			Short codigoCartaoDeCredito = new Short(chaves[0]);
+			Short ano = new Short(chaves[1]);
+			Short mes = new Short(chaves[2]);
+			retorno = this.getFaturaCartaoService().buscar(codigoCartaoDeCredito, ano, mes);
+		}
 		return retorno;
 	}
 
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
+		String retorno = null;
 		if (value != null) {
 			FaturaCartao faturaCartao = ((FaturaCartao) value);
-			return faturaCartao.getId() == null ? null : faturaCartao.getId().toString();
+
+			if (faturaCartao.getCartao() != null) {
+				String nome = faturaCartao.getCartao().getNome();
+				String ultimosQuatroDigitos = faturaCartao.getCartao().getQuatroUltimosDigitos() != null
+						? " (" + faturaCartao.getCartao().getQuatroUltimosDigitos() + ")" : "";
+				String ano = faturaCartao.getAno().toString();
+				String mes = faturaCartao.getMes().toString();
+
+				retorno = nome + ultimosQuatroDigitos + " " + ano + "-" + mes;
+			}
 		}
-		return null;
+		return retorno;
 	}
 
 	private FaturaCartaoService getFaturaCartaoService() {

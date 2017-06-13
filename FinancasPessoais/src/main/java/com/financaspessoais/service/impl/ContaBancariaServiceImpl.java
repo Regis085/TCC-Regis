@@ -4,11 +4,12 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.financaspessoais.dao.ContaBancariaDAO;
-import com.financaspessoais.model.Conta;
 import com.financaspessoais.model.ContaBancaria;
 import com.financaspessoais.model.TipoConta;
 import com.financaspessoais.model.Usuario;
 import com.financaspessoais.service.ContaBancariaService;
+import com.financaspessoais.util.Constantes;
+import com.financaspessoais.util.FacesContextUtil;
 import com.financaspessoais.util.SessionContext;
 
 public class ContaBancariaServiceImpl extends AbstractGenericService implements ContaBancariaService, Serializable {
@@ -18,20 +19,27 @@ public class ContaBancariaServiceImpl extends AbstractGenericService implements 
 
 	@Override
 	public boolean criarOuAtualizar(ContaBancaria contaBancaria) {
+		this.limparListaMensagemErro();
 
 		Usuario u = SessionContext.getInstance().getUsuarioLogado();
 		contaBancaria.setProprietario(u);
-		
 		contaBancaria.setTipoConta(TipoConta.BANCARIA);
+		
+		validarCamposObrigatorios(contaBancaria);
+		validarDuplicidade(contaBancaria);
+
+		if (this.getListaMensagemErro().isEmpty())
+			this.getContaBancariaDAO().criarOuAtualizar(contaBancaria);
 
 		boolean retorno;
-		Conta novaContaBancaria = null;
-
-		novaContaBancaria = getContaBancariaDAO().criarOuAtualizar(contaBancaria);
-		if (novaContaBancaria != null)
-			retorno = true;
-		else
+		
+		if (this.getListaMensagemErro().size() > 0) {
+			FacesContextUtil.adicionarMensagensDeErro(this.getListaMensagemErro());
 			retorno = false;
+		}
+		else {
+			retorno = true;
+		}
 
 		return retorno;
 	}
@@ -42,20 +50,28 @@ public class ContaBancariaServiceImpl extends AbstractGenericService implements 
 	}
 
 	@Override
-	public List<ContaBancaria> listarContasBancariasPorUsuario() {
+	public List<ContaBancaria> listarPorUsuario() {
 		Usuario u = SessionContext.getInstance().getUsuarioLogado();
 		List<ContaBancaria> listaConta = getContaBancariaDAO().listarPorProprietario(u.getId());
 		return listaConta;
 	}
 
 	@Override
-	public void excluir(ContaBancaria contaBancaria) {
+	public void remover(ContaBancaria contaBancaria) {
+		this.limparListaMensagemErro();
 		try {
-			getContaBancariaDAO().remover(contaBancaria.getId());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			this.getContaBancariaDAO().remover(contaBancaria.getId());
+			FacesContextUtil.adicionarMensagemDeInfo(Constantes.MSG_EXCLUSAO_BEM_SUCEDIDA);
+		} 
+		catch (Exception e) {
+			FacesContextUtil.adicionarMensagemDeErro(Constantes.MSG_ERRO_GENERICA);
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public ContaBancaria buscar(Integer id) {
+		return getContaBancariaDAO().buscarPorId(id);
 	}
 
 	private ContaBancariaDAO getContaBancariaDAO() {
@@ -63,9 +79,23 @@ public class ContaBancariaServiceImpl extends AbstractGenericService implements 
 			this.contaBancariaDAO = new ContaBancariaDAO();
 		return this.contaBancariaDAO;
 	}
-
-	@Override
-	public ContaBancaria buscarContaBancaria(Integer id) {
-		return getContaBancariaDAO().buscarPorId(id);
+	
+	private void validarDuplicidade(ContaBancaria contaBancaria) {
+		boolean isValido = true;
+		try {
+			isValido = this.getContaBancariaDAO().validarDuplicidade(contaBancaria);
+		} 
+		catch (Exception e) {
+			this.adicionarMensagemErro(Constantes.MSG_ERRO_GENERICA);
+			e.printStackTrace();
+		}
+		
+		if (isValido == false)
+			this.adicionarMensagemErro(Constantes.MSG_DUPLICIDADE_CARTAO_DE_CREDITO);
+	}
+	
+	private void validarCamposObrigatorios(ContaBancaria contaBancaria) {
+		if (contaBancaria.getNome() == null || contaBancaria.getNome().trim().isEmpty())
+			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_NOME);
 	}
 }

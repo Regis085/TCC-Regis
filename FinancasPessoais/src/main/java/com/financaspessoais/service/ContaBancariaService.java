@@ -10,10 +10,10 @@ public interface ContaBancariaService {
 
 	List<ContaBancaria> listarContasBancarias();
 
-	List<ContaBancaria> listarContasBancariasPorUsuario();
+	List<ContaBancaria> listarPorUsuario();
 
-	void excluir(ContaBancaria contaBancaria);
+	void remover(ContaBancaria contaBancaria);
 
-	public ContaBancaria buscarContaBancaria(Integer id);
+	public ContaBancaria buscar(Integer id);
 
 }

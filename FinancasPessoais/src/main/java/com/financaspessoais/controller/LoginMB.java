@@ -2,10 +2,8 @@ package com.financaspessoais.controller;
 
 import java.io.Serializable;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
 import com.financaspessoais.model.Usuario;
@@ -17,8 +15,8 @@ import com.financaspessoais.util.Util;
 @ManagedBean
 @SessionScoped
 public class LoginMB implements Serializable{
-
 	private static final long serialVersionUID = 1L;
+	
 	private UsuarioService usuarioService = new UsuarioServiceImpl();
 	private Usuario usuario = new Usuario();
 
@@ -29,14 +27,12 @@ public class LoginMB implements Serializable{
 	public String enviar() {
 
 		SessionContext.getInstance().encerrarSessao();
-
 		usuario = this.getTipoReceitaService().buscarPorLoginESenha(usuario.getLogin(), usuario.getSenha());
 		if (usuario == null) {
 			usuario = new Usuario();
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Verifique seu login e senha.", "Tente novamente."));
 			return null;
-		} else {
+		} 
+		else {
 			return "/pages/index?faces-redirect=true";
 		}
 	}

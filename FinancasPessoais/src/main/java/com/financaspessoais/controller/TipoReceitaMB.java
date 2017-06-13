@@ -3,10 +3,8 @@ package com.financaspessoais.controller;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import com.financaspessoais.model.TipoReceita;
 import com.financaspessoais.service.TipoReceitaService;
@@ -27,27 +25,16 @@ public class TipoReceitaMB implements Serializable {
 	}
 	
 	public String cadastrarTipoReceita() {
-		String retorno;
-		boolean inseridoComSucesso = getTipoReceitaService().criarOuAtualizar(tipoReceita);
+		String retorno = null;
+		boolean inseridoComSucesso = this.getTipoReceitaService().criarOuAtualizar(tipoReceita);
 		if (inseridoComSucesso)
 			retorno = "/pages/lista-tipo-receita?faces-redirect=true";
-		else
-			retorno = null;
 		return retorno;
 	}
 	
 	public void excluir() {
-		FacesContext context = FacesContext.getCurrentInstance();
-		try {
-			getTipoReceitaService().remover(this.tipoReceitaSelecionada);
-			this.getTiposReceitaDoUsuario();
-			context.addMessage(null, new FacesMessage("Tipo de Receita excluído com sucesso!"));
-		} 
-		catch (Exception e) {
-			FacesMessage mensagem = new FacesMessage(e.getMessage());
-			mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);
-			context.addMessage(null, mensagem);
-		}
+		this.getTipoReceitaService().remover(this.tipoReceitaSelecionada);
+		this.getTiposReceitaDoUsuario();
 	}
 
 	// Getters e Setters

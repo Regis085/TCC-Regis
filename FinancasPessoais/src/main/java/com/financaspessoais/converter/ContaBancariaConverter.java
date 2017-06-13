@@ -19,7 +19,7 @@ public class ContaBancariaConverter implements Converter {
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		Conta retorno = null;
 		if (value != null)
-			retorno = this.getContaBancariaService().buscarContaBancaria(new Integer(value));
+			retorno = this.getContaBancariaService().buscar(new Integer(value));
 		return retorno;
 	}
 

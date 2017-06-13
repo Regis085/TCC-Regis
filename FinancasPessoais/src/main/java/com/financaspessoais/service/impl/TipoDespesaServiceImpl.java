@@ -29,7 +29,7 @@ public class TipoDespesaServiceImpl extends AbstractGenericService implements Ti
 		boolean retorno;
 				
 		if (this.getListaMensagemErro().isEmpty())
-			getTipoDespesaDAO().criarOuAtualizar(tipoDespesa);
+			this.getTipoDespesaDAO().criarOuAtualizar(tipoDespesa);
 		
 		if (this.getListaMensagemErro().size() > 0) {
 			FacesContextUtil.adicionarMensagensDeErro(this.getListaMensagemErro());
@@ -89,6 +89,6 @@ public class TipoDespesaServiceImpl extends AbstractGenericService implements Ti
 	
 	private void validarCamposObrigatorios(TipoDespesa tipoDespesa) {
 		if (tipoDespesa.getNome() == null || tipoDespesa.getNome().trim().isEmpty())
-			this.adicionarMensagemErro("Campo obrigatório não preenchido", "Preencha Nome");
+			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_NOME);
 	}
 }

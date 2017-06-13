@@ -1,12 +1,14 @@
 package com.financaspessoais.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.NoResultException;
 
 import com.financaspessoais.model.Receita;
 
-public class ReceitaDAO extends AbstractGenericDAO<Receita, Long>{
+public class ReceitaDAO extends AbstractGenericDAO<Receita, Long> implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	public ReceitaDAO() {
 		super(Receita.class);

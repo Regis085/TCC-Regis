@@ -16,9 +16,13 @@ public class ItemLancamentoCartaoConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
+		
+		component.getAttributes().get("");
 		ItemLancamentoCartao retorno = null;
 		if (value != null)
-			retorno = this.getItemLancamentoCartaoService().buscar(new Long(value));
+//			retorno = this.getItemLancamentoCartaoService().buscar(new Long(value));
+			// TODO Ajustar
+			retorno = new ItemLancamentoCartao();
 		return retorno;
 	}
 
@@ -26,7 +30,7 @@ public class ItemLancamentoCartaoConverter implements Converter {
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if (value != null) {
 			ItemLancamentoCartao itemLancamentoCartao = ((ItemLancamentoCartao) value);
-			return itemLancamentoCartao.getId() == null ? null : itemLancamentoCartao.getId().toString();
+//			return itemLancamentoCartao.getCodigoItem() == null ? null : itemLancamentoCartao.getCodigoItem().toString();
 		}
 		return null;
 	}

@@ -62,7 +62,7 @@ public class Testes {
 		u.setId(new Short("1"));
 		
 		Banco b = new Banco();
-		b.setId(1);
+		b.setId(new Short("1"));
 		
 		ContaService cs = new ContaServiceImpl();
 		ContaBancaria novaConta = new ContaBancaria();

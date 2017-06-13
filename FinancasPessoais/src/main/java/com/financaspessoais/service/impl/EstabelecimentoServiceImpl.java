@@ -89,6 +89,6 @@ public class EstabelecimentoServiceImpl extends AbstractGenericService implement
 	
 	private void validarCamposObrigatorios(Estabelecimento estabelecimento) {
 		if (estabelecimento.getNome() == null || estabelecimento.getNome().trim().isEmpty())
-			this.adicionarMensagemErro("Campo obrigatório não preenchido", "Preencha Nome");
+			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_NOME);
 	}
 }

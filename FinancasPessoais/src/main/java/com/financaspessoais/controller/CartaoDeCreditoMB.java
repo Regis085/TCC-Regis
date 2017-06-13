@@ -25,7 +25,7 @@ public class CartaoDeCreditoMB implements Serializable {
 
 	public String cadastrarCartaoDeCredito() {
 		String retorno;
-		boolean inseridoComSucesso = getCartaoDeCreditoService().criarOuAtualizar(cartaoDeCredito);
+		boolean inseridoComSucesso = this.getCartaoDeCreditoService().criarOuAtualizar(cartaoDeCredito);
 		if (inseridoComSucesso) {
 			retorno = "/pages/lista-cartao-credito?faces-redirect=true";
 		} else {			
@@ -35,7 +35,7 @@ public class CartaoDeCreditoMB implements Serializable {
 	}
 
 	public void excluir() {
-		getCartaoDeCreditoService().remover(this.cartaoDeCreditoSelecionado);
+		this.getCartaoDeCreditoService().remover(this.cartaoDeCreditoSelecionado);
 		this.getCartaoDeCreditosDoUsuario();
 	}
 

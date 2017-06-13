@@ -9,9 +9,9 @@ public interface ContaService {
 
 	public List<Conta> listarContas();
 
-	public List<Conta> listarContasPorUsuario();
+	public List<Conta> listarPorUsuario();
 
-	public Conta buscarConta(Integer id);
+	public Conta buscar(Integer id);
 
-	void excluir(Conta conta);
+	void remover(Conta conta);
 }

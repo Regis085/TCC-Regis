@@ -1,5 +1,6 @@
 package com.financaspessoais.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.NoResultException;
@@ -8,7 +9,8 @@ import javax.persistence.Query;
 import com.financaspessoais.model.TipoDespesa;
 
 @SuppressWarnings("unchecked")
-public class TipoDespesaDAO extends AbstractGenericDAO<TipoDespesa, Short> {
+public class TipoDespesaDAO extends AbstractGenericDAO<TipoDespesa, Short> implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	public TipoDespesaDAO() {
 		super(TipoDespesa.class);

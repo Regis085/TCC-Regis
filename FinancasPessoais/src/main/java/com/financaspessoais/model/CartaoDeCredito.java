@@ -26,8 +26,8 @@ public class CartaoDeCredito implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", nullable = false, unique = true)
-	private Short id;
+	@Column(name = "codigo_cartao_de_credito", nullable = false, unique = true)
+	private Short codigoCartaoDeCredito;
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "usuario_id")
@@ -73,12 +73,12 @@ public class CartaoDeCredito implements Serializable {
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="cartao", fetch=FetchType.LAZY)
 	private List<LancamentoCartao> lancamentos;
 
-	public Short getId() {
-		return id;
+	public Short getCodigoCartaoDeCredito() {
+		return codigoCartaoDeCredito;
 	}
 
-	public void setId(Short id) {
-		this.id = id;
+	public void setCodigoCartaoDeCredito(Short id) {
+		this.codigoCartaoDeCredito = id;
 	}
 
 	public Usuario getProprietario() {
@@ -197,7 +197,7 @@ public class CartaoDeCredito implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((codigoCartaoDeCredito == null) ? 0 : codigoCartaoDeCredito.hashCode());
 		return result;
 	}
 
@@ -210,10 +210,10 @@ public class CartaoDeCredito implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		CartaoDeCredito other = (CartaoDeCredito) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (codigoCartaoDeCredito == null) {
+			if (other.codigoCartaoDeCredito != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!codigoCartaoDeCredito.equals(other.codigoCartaoDeCredito))
 			return false;
 		return true;
 	}

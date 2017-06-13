@@ -12,5 +12,5 @@ public interface BancoService {
 
 	List<Banco> listarPorUsuario();
 
-	public Banco buscar(Integer id);
+	public Banco buscar(Short id);
 }

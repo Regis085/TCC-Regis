@@ -7,16 +7,17 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.financaspessoais.model.pk.LancamentoCartaoPK;
 
 /**
  * @author JRegis
@@ -33,11 +34,10 @@ import javax.persistence.TemporalType;
 @Table(name = "lancamento_cartao")
 public class LancamentoCartao implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue
-	private Long id;
 	
+	@EmbeddedId
+	private LancamentoCartaoPK id;
+
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "usuario_id")
 	private Usuario proprietario;
@@ -61,8 +61,8 @@ public class LancamentoCartao implements Serializable {
 	@Column(length = 100, nullable = true)
 	private String observacao;
 
-	@ManyToOne(optional=false)
-	@JoinColumn(name="id_cartao_de_credito")
+	@ManyToOne
+	@JoinColumn(name="codigo_cartao_de_credito", insertable = false, updatable = false)
 	private CartaoDeCredito cartao;
 	
 	@ManyToOne(optional=true)
@@ -72,11 +72,11 @@ public class LancamentoCartao implements Serializable {
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="lancamentoCartao", fetch=FetchType.LAZY)
 	private List<ItemLancamentoCartao> itensLancamentoCartao;
 
-	public Long getId() {
+	public LancamentoCartaoPK getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(LancamentoCartaoPK id) {
 		this.id = id;
 	}
 

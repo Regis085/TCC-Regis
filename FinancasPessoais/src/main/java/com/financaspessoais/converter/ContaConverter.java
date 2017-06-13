@@ -18,7 +18,7 @@ public class ContaConverter implements Converter{
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		Conta retorno = null;
 		if (value != null)
-			retorno = this.getContaService().buscarConta(new Integer(value));
+			retorno = this.getContaService().buscar(new Integer(value));
 		return retorno;
 	}
 

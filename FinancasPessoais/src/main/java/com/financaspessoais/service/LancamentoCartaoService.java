@@ -6,10 +6,10 @@ import com.financaspessoais.model.LancamentoCartao;
 
 public interface LancamentoCartaoService {
 	boolean criarOuAtualizar(LancamentoCartao lancamentoCartao);
-
-	void remover(LancamentoCartao lancamentoCartao);
+	
+	LancamentoCartao buscar(Long id);
 
 	List<LancamentoCartao> listarPorUsuario();
-
-	public LancamentoCartao buscar(Long id);
+	
+	void remover(LancamentoCartao lancamentoCartao);
 }

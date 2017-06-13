@@ -1,12 +1,14 @@
 package com.financaspessoais.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.NoResultException;
 
 import com.financaspessoais.model.Transferencia;
 
-public class TransferenciaDAO extends AbstractGenericDAO<Transferencia, Long> {
+public class TransferenciaDAO extends AbstractGenericDAO<Transferencia, Long> implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	public TransferenciaDAO() {
 		super(Transferencia.class);

@@ -7,9 +7,9 @@ import com.financaspessoais.model.Receita;
 public interface ReceitaService {
 	boolean criarOuAtualizar(Receita receita);
 
-	void remover(Receita receita);
-
+	Receita buscar(Long id);
+	
 	List<Receita> listarPorUsuario();
-
-	public Receita buscar(Long id);
+	
+	void remover(Receita receita);
 }

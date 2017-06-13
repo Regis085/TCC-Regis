@@ -8,6 +8,8 @@ import com.financaspessoais.model.Conta;
 import com.financaspessoais.model.TipoConta;
 import com.financaspessoais.model.Usuario;
 import com.financaspessoais.service.ContaService;
+import com.financaspessoais.util.Constantes;
+import com.financaspessoais.util.FacesContextUtil;
 import com.financaspessoais.util.SessionContext;
 
 public class ContaServiceImpl extends AbstractGenericService implements ContaService, Serializable {
@@ -17,20 +19,27 @@ public class ContaServiceImpl extends AbstractGenericService implements ContaSer
 
 	@Override
 	public boolean criarOuAtualizar(Conta conta) {
+		this.limparListaMensagemErro();
 
 		Usuario u = SessionContext.getInstance().getUsuarioLogado();
 		conta.setProprietario(u);
-		
 		conta.setTipoConta(TipoConta.OUTRO);
+		
+		validarCamposObrigatorios(conta);
+		validarDuplicidade(conta);
+		
+		if (this.getListaMensagemErro().isEmpty())
+			this.getContaDAO().criarOuAtualizar(conta);
 
 		boolean retorno;
-		Conta novaConta = null;
-
-		novaConta = getContaDAO().criarOuAtualizar(conta);
-		if (novaConta != null)
-			retorno = true;
-		else
+		
+		if (this.getListaMensagemErro().size() > 0) {
+			FacesContextUtil.adicionarMensagensDeErro(this.getListaMensagemErro());
 			retorno = false;
+		}
+		else {
+			retorno = true;
+		}
 
 		return retorno;
 	}
@@ -41,24 +50,26 @@ public class ContaServiceImpl extends AbstractGenericService implements ContaSer
 	}
 
 	@Override
-	public List<Conta> listarContasPorUsuario() {
+	public List<Conta> listarPorUsuario() {
 		Usuario u = SessionContext.getInstance().getUsuarioLogado();
 		List<Conta> listaConta = getContaDAO().listarPorProprietario(u.getId());
 		return listaConta;
 	}
 
 	@Override
-	public void excluir(Conta conta) {
+	public void remover(Conta conta) {
 		try {
-			getContaDAO().remover(conta.getId());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			this.getContaDAO().remover(conta.getId());
+			FacesContextUtil.adicionarMensagemDeInfo(Constantes.MSG_EXCLUSAO_BEM_SUCEDIDA);
+		}
+		catch (Exception e) {
+			FacesContextUtil.adicionarMensagemDeErro(Constantes.MSG_ERRO_GENERICA);
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public Conta buscarConta(Integer id) {
+	public Conta buscar(Integer id) {
 		return getContaDAO().buscarPorId(id);
 	}
 	
@@ -66,5 +77,24 @@ public class ContaServiceImpl extends AbstractGenericService implements ContaSer
 		if (this.contaDAO == null)
 			this.contaDAO = new ContaDAO();
 		return this.contaDAO;
+	}
+	
+	private void validarDuplicidade(Conta conta) {
+		boolean isValido = true;
+		try {
+			isValido = this.getContaDAO().validarDuplicidade(conta);
+		} 
+		catch (Exception e) {
+			this.adicionarMensagemErro(Constantes.MSG_ERRO_GENERICA);
+			e.printStackTrace();
+		}
+		
+		if (isValido == false)
+			this.adicionarMensagemErro(Constantes.MSG_DUPLICIDADE_CARTAO_DE_CREDITO);
+	}
+	
+	private void validarCamposObrigatorios(Conta conta) {
+		if (conta.getNome() == null || conta.getNome().trim().isEmpty())
+			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_NOME);
 	}
 }

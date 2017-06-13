@@ -63,7 +63,7 @@ public abstract class AbstractGenericDAO<T, I extends Serializable> {
 		}
 	}
 
-	public boolean remover(I id) throws Exception{
+	public void remover(I id) throws Exception {
 		
 		EntityTransaction transacao = entityManager.getTransaction();
 		
@@ -74,13 +74,10 @@ public abstract class AbstractGenericDAO<T, I extends Serializable> {
 			entityManager.remove(mergedEntity);
 			entityManager.flush();
 			transacao.commit();
-			return true;
 		}
 		catch (Exception e) {
 			transacao.rollback();
-			FacesContextUtil.adicionarMensagemDeErro(Constantes.MSG_ERRO_GENERICA);
-			e.printStackTrace();
-			return false;
+			throw e;
 		}
 	}
 

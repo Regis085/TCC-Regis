@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<ui:composition template="/templates/modelo-base.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui">
+	
+	<f:metadata>
+		<f:viewAction action="#{faturaCartaoMB.prepararCadastro}" />
+		<o:viewParam name="id" value="#{faturaCartaoMB.faturaCartao}" />
+	</f:metadata>
+	
+	<ui:define name="menu">
+		<ui:include src="/includes/menu-principal.xhtml"></ui:include>
+	</ui:define>
+	<ui:define name="conteudo">
+		<h:form>
+			<p:panel>
+				<p:panelGrid columns="2">
+				
+					<p:outputLabel value="Cartão de Crédito" for="carta_de_credito"/>
+					<p:selectOneMenu id="carta_de_credito" value="#{faturaCartaoMB.faturaCartao.cartao}">
+						<f:selectItems value="#{faturaCartaoMB.listaCartaoDeCredito}" var="cartao" itemValue="#{cartao}" itemLabel="#{cartao.nome}"/>
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Ano da Fatura" for="ano_fatura_cartao"/>
+					<p:inputText id="ano_fatura_cartao" size="4" value="#{faturaCartaoMB.faturaCartao.ano}" />
+					
+					<p:outputLabel value="Mês da Fatura" for="mes_fatura_cartao"/>
+					<p:inputText id="mes_fatura_cartao" size="2" value="#{faturaCartaoMB.faturaCartao.mes}" />
+					
+					<p:outputLabel value="Data de Pagamento" for="data_pagamento" />
+					<p:calendar id="data_pagamento" size="12" pattern="dd/MM/yyyy"
+						value="#{faturaCartaoMB.faturaCartao.dataPagamento}">
+					</p:calendar>
+					
+					<p:outputLabel value="Data de Vencimento" for="data_vencimento" />
+					<p:calendar id="data_vencimento" size="12" pattern="dd/MM/yyyy"
+						value="#{faturaCartaoMB.faturaCartao.dataVencimento}">
+					</p:calendar>
+					
+					<h:outputLabel value="Saldo Devido" for="saldo_devido"/>
+					<p:inputText id="saldo_devido" size="12"
+						value="#{faturaCartaoMB.faturaCartao.saldoDevido}">
+						<f:convertNumber locale="pt_BR" maxFractionDigits="2" minFractionDigits="2" />
+					</p:inputText>
+					
+					<h:outputLabel value="Valor Devido" for="valor_devido"/>
+					<p:inputText id="valor_devido" size="12"
+						value="#{faturaCartaoMB.faturaCartao.valorDevido}">
+						<f:convertNumber locale="pt_BR" maxFractionDigits="2" minFractionDigits="2" />
+					</p:inputText>
+					
+					<h:outputLabel value="Valor Pago" for="valor_pago"/>
+					<p:inputText id="valor_pago" size="12"
+						value="#{faturaCartaoMB.faturaCartao.valorPago}">
+						<f:convertNumber locale="pt_BR" maxFractionDigits="2" minFractionDigits="2" />
+					</p:inputText>
+						
+					<p:outputLabel value="Status" for="status_fatura"/>
+					<p:selectOneMenu id="status_fatura" label="Status" value="#{faturaCartaoMB.faturaCartao.statusFaturaCartao}">
+						<f:selectItems value="#{faturaCartaoMB.listaStatusFaturaCartao}" var="status" itemValue="#{status}" itemLabel="#{status.descricao}"/>
+					</p:selectOneMenu>
+					
+					<p:commandButton value="Salvar" action="#{faturaCartaoMB.cadastrarFaturaCartao}" />
+					<p:commandButton value="Voltar" action="lista-fatura-cartao?faces-redirect=true" />
+					
+				</p:panelGrid>
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

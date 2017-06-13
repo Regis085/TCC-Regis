@@ -20,7 +20,7 @@ public class Banco implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false, unique = true)
-	private Integer id;
+	private Short id;
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "usuario_id")
@@ -38,11 +38,11 @@ public class Banco implements Serializable{
 	@Column(name="endereco", nullable = true, length=255)
 	private String endereco;
 
-	public Integer getId() {
+	public Short getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Short id) {
 		this.id = id;
 	}
 

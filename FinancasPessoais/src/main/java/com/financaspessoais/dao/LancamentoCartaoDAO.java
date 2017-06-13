@@ -1,12 +1,14 @@
 package com.financaspessoais.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.NoResultException;
 
 import com.financaspessoais.model.LancamentoCartao;
 
-public class LancamentoCartaoDAO extends AbstractGenericDAO<LancamentoCartao, Long> {
+public class LancamentoCartaoDAO extends AbstractGenericDAO<LancamentoCartao, Long> implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	public LancamentoCartaoDAO() {
 		super(LancamentoCartao.class);

@@ -7,12 +7,11 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -20,24 +19,37 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.financaspessoais.model.pk.FaturaCartaoPK;
+
 @Entity
 @Table(name = "fatura_cartao")
 public class FaturaCartao implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue
-	private Long id; // Preenchido automaticamente
+	
+	public String getChaveComposta() {
+		String retorno = null;
+		if (this != null && this.getId() != null) {
+			retorno = this.getId().getCodigoCartaoDeCredito().toString() + "#" + this.getId().getAno().toString() +  "#" + this.getId().getMes().toString();
+		}		
+		return retorno;
+	}
+	
+	@EmbeddedId
+	private FaturaCartaoPK id;
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "usuario_id")
 	private Usuario proprietario;
 
-	@Column(name = "ano", nullable = false)
+	@Column(name = "ano_fatura_cartao", insertable = false, updatable = false)
 	private Short ano; // Preenchido automaticamente
 
-	@Column(name = "mes", nullable = false)
+	@Column(name = "mes_fatura_cartao", insertable = false, updatable = false)
 	private Short mes; // Preenchido automaticamente
+	
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "codigo_cartao_de_credito", insertable = false, updatable = false)
+	private CartaoDeCredito cartao;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "data_vencimento", nullable = false)
@@ -50,7 +62,7 @@ public class FaturaCartao implements Serializable {
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
-	private StatusFaturaCartao status; // Preenchido automaticamente.
+	private StatusFaturaCartao statusFaturaCartao; // Preenchido automaticamente.
 										// DataPagamento > 0 Pago ou
 										// Parcialmente Pago, etc.
 
@@ -65,18 +77,14 @@ public class FaturaCartao implements Serializable {
 	private BigDecimal saldoDevido; // Campo Somente leitura valor devido -
 									// valor pago.
 
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "id_cartao_de_credito")
-	private CartaoDeCredito cartao;
-
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "faturaCartao", fetch = FetchType.LAZY)
 	private List<ItemLancamentoCartao> itenslancamento;
 
-	public Long getId() {
+	public FaturaCartaoPK getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(FaturaCartaoPK id) {
 		this.id = id;
 	}
 
@@ -120,12 +128,12 @@ public class FaturaCartao implements Serializable {
 		this.dataPagamento = dataPagamento;
 	}
 
-	public StatusFaturaCartao getStatus() {
-		return status;
+	public StatusFaturaCartao getStatusFaturaCartao() {
+		return statusFaturaCartao;
 	}
 
-	public void setStatus(StatusFaturaCartao status) {
-		this.status = status;
+	public void setStatusFaturaCartao(StatusFaturaCartao status) {
+		this.statusFaturaCartao = status;
 	}
 
 	public BigDecimal getValorDevido() {
@@ -168,28 +176,4 @@ public class FaturaCartao implements Serializable {
 		this.itenslancamento = itenslancamento;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		FaturaCartao other = (FaturaCartao) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
 }

@@ -26,7 +26,7 @@ public class CartaoDeCreditoConverter implements Converter {
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if (value != null) {
 			CartaoDeCredito CartaoDeCredito = ((CartaoDeCredito) value);
-			return CartaoDeCredito.getId() == null ? null : CartaoDeCredito.getId().toString();
+			return CartaoDeCredito.getCodigoCartaoDeCredito() == null ? null : CartaoDeCredito.getCodigoCartaoDeCredito().toString();
 		}
 		return null;
 	}

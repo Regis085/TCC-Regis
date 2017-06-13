@@ -3,10 +3,8 @@ package com.financaspessoais.controller;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import com.financaspessoais.model.Conta;
 import com.financaspessoais.model.TipoConta;
@@ -17,6 +15,7 @@ import com.financaspessoais.service.impl.ContaServiceImpl;
 @ViewScoped
 public class ContaMB implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
 	private ContaService contaService = new ContaServiceImpl();
 	private Conta conta;
 	private Conta contaSelecionada;
@@ -27,29 +26,16 @@ public class ContaMB implements Serializable {
 	}
 
 	public String cadastrarConta() {
-		String retorno;
-		boolean inseridoComSucesso = getContaService().criarOuAtualizar(conta);
-		if (inseridoComSucesso) {
+		String retorno = null;
+		boolean inseridoComSucesso = this.getContaService().criarOuAtualizar(conta);
+		if (inseridoComSucesso)
 			retorno = "/pages/lista-conta?faces-redirect=true";
-		} else {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conta não cadastrada!", "Erro no Cadastro!"));
-			retorno = null;
-		}
 		return retorno;
 	}
 
 	public void excluir() {
-		FacesContext context = FacesContext.getCurrentInstance();
-		try {
-			getContaService().excluir(this.contaSelecionada);
-			this.getContasDoUsuario();
-			context.addMessage(null, new FacesMessage("Conta excluída com sucesso!"));
-		} catch (Exception e) {
-			FacesMessage mensagem = new FacesMessage(e.getMessage());
-			mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);
-			context.addMessage(null, mensagem);
-		}
+		this.getContaService().remover(this.contaSelecionada);
+		this.getContasDoUsuario();
 	}
 
 	// Getters e Setters
@@ -79,7 +65,7 @@ public class ContaMB implements Serializable {
 	}
 
 	public List<Conta> getContasDoUsuario() {
-		return getContaService().listarContasPorUsuario();
+		return getContaService().listarPorUsuario();
 	}
 	
 	private ContaService getContaService() {

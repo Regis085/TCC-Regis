@@ -7,6 +7,8 @@ import com.financaspessoais.dao.BancoDAO;
 import com.financaspessoais.model.Banco;
 import com.financaspessoais.model.Usuario;
 import com.financaspessoais.service.BancoService;
+import com.financaspessoais.util.Constantes;
+import com.financaspessoais.util.FacesContextUtil;
 import com.financaspessoais.util.SessionContext;
 
 public class BancoServiceImpl extends AbstractGenericService implements BancoService, Serializable {
@@ -16,27 +18,38 @@ public class BancoServiceImpl extends AbstractGenericService implements BancoSer
 
 	@Override
 	public boolean criarOuAtualizar(Banco banco) {
+		limparListaMensagemErro();
+		
 		Usuario u = SessionContext.getInstance().getUsuarioLogado();
 		banco.setProprietario(u);
+		
+		validarCamposObrigatorios(banco);
+		validarDuplicidade(banco);
 
 		boolean retorno;
-		Banco novaBanco = null;
-
-		novaBanco = getBancoDAO().criarOuAtualizar(banco);
-		if (novaBanco != null)
-			retorno = true;
-		else
+		
+		if (this.getListaMensagemErro().isEmpty())
+			this.getBancoDAO().criarOuAtualizar(banco);
+		
+		if (this.getListaMensagemErro().size() > 0) {
+			FacesContextUtil.adicionarMensagensDeErro(this.getListaMensagemErro());
 			retorno = false;
-
+		}
+		else {
+			retorno = true;
+		}
+		
 		return retorno;
 	}
 
 	@Override
 	public void remover(Banco banco) {
+		this.limparListaMensagemErro();
 		try {
 			this.getBancoDAO().remover(banco.getId());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (Exception e) {
+			FacesContextUtil.adicionarMensagemDeErro(Constantes.MSG_ERRO_GENERICA);
 			e.printStackTrace();
 		}
 	}
@@ -49,7 +62,7 @@ public class BancoServiceImpl extends AbstractGenericService implements BancoSer
 	}
 
 	@Override
-	public Banco buscar(Integer id) {
+	public Banco buscar(Short id) {
 		return this.getBancoDAO().buscarPorId(id);
 	}
 	
@@ -57,5 +70,24 @@ public class BancoServiceImpl extends AbstractGenericService implements BancoSer
 		if (this.bancoDAO == null)
 			this.bancoDAO = new BancoDAO();
 		return bancoDAO;
+	}
+	
+	private void validarDuplicidade(Banco banco) {
+		boolean isValido = true;
+		try {
+			isValido = this.getBancoDAO().validarDuplicidade(banco);
+		} 
+		catch (Exception e) {
+			this.adicionarMensagemErro(Constantes.MSG_ERRO_GENERICA);
+			e.printStackTrace();
+		}
+		
+		if (isValido == false)
+			this.adicionarMensagemErro(Constantes.MSG_DUPLICIDADE_BANCO);
+	}
+	
+	private void validarCamposObrigatorios(Banco banco) {
+		if (banco.getNome() == null || banco.getNome().trim().isEmpty())
+			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_NOME);
 	}
 }
