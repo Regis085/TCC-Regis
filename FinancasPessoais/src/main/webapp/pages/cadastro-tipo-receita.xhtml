@@ -16,25 +16,42 @@
 		<ui:include src="/includes/menu-principal.xhtml"></ui:include>
 	</ui:define>
 	<ui:define name="conteudo">
-		<h:form>
-			<p:panel>
+		<h:form id = "frm">
+			<p:panel id = "pnl">
 				<p:panelGrid columns="2">
-					
 					<p:outputLabel value="Nome" for="nome_tipoReceita"/>
 					<p:inputText id="nome_tipoReceita" size="30" value="#{tipoReceitaMB.tipoReceita.nome}"/>
 					
-					<h:outputLabel value="Valor Previsto" for="valorPrevisto_tipoReceita"/>
-					<p:inputText id="valorPrevisto_tipoReceita" size="12" value="#{tipoReceitaMB.tipoReceita.valorPrevisto}" label="Valor">
-						<f:convertNumber locale="pt_BR" maxFractionDigits="2" minFractionDigits="2" />
-					</p:inputText>
-					
 					<p:outputLabel value="Descrição" for="descricao_tipoReceita"/>
-					<p:inputTextarea id="descricao_tipoReceita" size="30" value="#{tipoReceitaMB.tipoReceita.descricao}" rows="10" cols="50"/>
+					<p:inputTextarea id="descricao_tipoReceita" maxlength="255" value="#{tipoReceitaMB.tipoReceita.descricao}" rows="10" cols="50"/>
 					
-					<p:commandButton value="Salvar" action="#{tipoReceitaMB.cadastrarTipoReceita}" />
-					<p:commandButton value="Voltar" action="lista-tipo-receita?faces-redirect=true" />
-					
+					<p:outputLabel for="recorrente" value="Recorrente?" />
+			        <p:selectOneRadio id="recorrente" value="#{tipoReceitaMB.tipoReceita.recorrente}">
+			            <f:selectItem itemLabel="Sim" itemValue="S" itemDisabled="false" />
+			            <f:selectItem itemLabel="Não" itemValue="N" />
+			            <p:ajax event="change" update="se_recorrente" process="@this" listener="#{tipoReceitaMB.limparCamposPrevisao}"/>
+			        </p:selectOneRadio>
 				</p:panelGrid>
+
+				<p:outputPanel id="se_recorrente">
+				
+					<p:panelGrid columns="2" rendered="#{tipoReceitaMB.tipoReceita.recorrente == 'S'}">
+						
+						<p:outputLabel value="Dia Recebimento Previsto" for="dia_previsto"/>
+						<p:inputText id="dia_previsto" size="2" maxlength="2" Value="#{tipoReceitaMB.tipoReceita.diaRecebimentoPrevisto}"/>
+					
+						<p:outputLabel value="Valor Previsto" for="valorPrevisto_tipoReceita"/>
+						<p:inputText id="valorPrevisto_tipoReceita" size="12" value="#{tipoReceitaMB.tipoReceita.valorPrevisto}" label="Valor">
+							<f:convertNumber locale="pt_BR" maxFractionDigits="2" minFractionDigits="2" />
+						</p:inputText>
+					</p:panelGrid>
+				</p:outputPanel>
+					
+				<p:panelGrid columns="2">
+					<p:commandButton value="Salvar" action="#{tipoReceitaMB.cadastrarTipoReceita}" />
+					<p:commandButton value="Voltar" action="lista-tipo-receita?faces-redirect=true" immediate="true"/>
+				</p:panelGrid>
+				
 				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 			</p:panel>
 		</h:form>

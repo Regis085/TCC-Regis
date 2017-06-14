@@ -17,6 +17,7 @@ public class CartaoDeCreditoMB implements Serializable {
 	private CartaoDeCreditoService cartaoDeCreditoService;
 	private CartaoDeCredito cartaoDeCredito;
 	private CartaoDeCredito cartaoDeCreditoSelecionado;
+	private List<CartaoDeCredito> cartaoDeCreditosDoUsuario;
 
 	public void prepararCadastro() {
 		if (this.cartaoDeCredito == null)
@@ -36,6 +37,7 @@ public class CartaoDeCreditoMB implements Serializable {
 
 	public void excluir() {
 		this.getCartaoDeCreditoService().remover(this.cartaoDeCreditoSelecionado);
+		this.cartaoDeCreditosDoUsuario = null;
 		this.getCartaoDeCreditosDoUsuario();
 	}
 
@@ -58,7 +60,9 @@ public class CartaoDeCreditoMB implements Serializable {
 	}
 	
 	public List<CartaoDeCredito> getCartaoDeCreditosDoUsuario() {
-		return getCartaoDeCreditoService().listarPorUsuario();
+		if (cartaoDeCreditosDoUsuario == null)
+			cartaoDeCreditosDoUsuario = getCartaoDeCreditoService().listarPorUsuario();
+		return cartaoDeCreditosDoUsuario;
 	}
 	
 	private CartaoDeCreditoService getCartaoDeCreditoService() {

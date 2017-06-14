@@ -18,6 +18,7 @@ public class BancoMB implements Serializable {
 	private BancoService bancoService;
 	private Banco banco;
 	private Banco bancoSelecionado;
+	private List<Banco> bancosDoUsuario;
 
 	public void prepararCadastro() {
 		if (this.banco == null)
@@ -34,7 +35,9 @@ public class BancoMB implements Serializable {
 
 	public void excluir() {
 		this.getBancoService().remover(this.bancoSelecionado);
+		this.bancosDoUsuario = null;
 		this.getBancosDoUsuario();
+		
 	}
 
 	// Getters e Setters
@@ -56,7 +59,10 @@ public class BancoMB implements Serializable {
 	}
 	
 	public List<Banco> getBancosDoUsuario() {
-		return getBancoService().listarPorUsuario();
+		if (bancosDoUsuario == null) {
+			bancosDoUsuario = getBancoService().listarPorUsuario();
+		}
+		return bancosDoUsuario;
 	}
 	
 	private BancoService getBancoService() {

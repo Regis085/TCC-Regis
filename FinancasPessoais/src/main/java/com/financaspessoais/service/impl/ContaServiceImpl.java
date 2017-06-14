@@ -50,6 +50,13 @@ public class ContaServiceImpl extends AbstractGenericService implements ContaSer
 	}
 
 	@Override
+	public List<Conta> listarNaoBancariasPorUsuario() {
+		Usuario u = SessionContext.getInstance().getUsuarioLogado();
+		List<Conta> listaConta = getContaDAO().listarNaoBancariasPorProprietario(u.getId());
+		return listaConta;
+	}
+	
+	@Override
 	public List<Conta> listarPorUsuario() {
 		Usuario u = SessionContext.getInstance().getUsuarioLogado();
 		List<Conta> listaConta = getContaDAO().listarPorProprietario(u.getId());

@@ -11,19 +11,22 @@
 	</ui:define>
 	<ui:define name="conteudo">
 		<h:form>
+			<h:panelGroup styleClass="centralizar">
+				<h3>Cartões de Crédito</h3>
+			</h:panelGroup>
 			<p:panel>
 				<p:dataTable value="#{cartaoDeCreditoMB.cartaoDeCreditosDoUsuario}" var="cartaoDeCredito"
 					border="1" cellspacing="0" cellpadding="2" paginator="true" rows="5" paginatorPosition="bottom">
-					<p:column headerText="Nome">
+					<p:column headerText="Nome" sortBy="#{cartaoDeCredito.nome}" filterBy="#{cartaoDeCredito.nome}">
 						<h:outputText value="#{cartaoDeCredito.nome}" />
 					</p:column>
-					<p:column headerText="Bandeira">
+					<p:column headerText="Bandeira" sortBy="#{cartaoDeCredito.bandeira}" filterBy="#{cartaoDeCredito.bandeira}">
 						<h:outputText value="#{cartaoDeCredito.bandeira}" />
 					</p:column>
-					<p:column headerText="Data Início">
+					<p:column headerText="Data Início" sortBy="#{cartaoDeCredito.dataInicio}" filterBy="#{cartaoDeCredito.dataInicio}">
 						<h:outputText value="#{cartaoDeCredito.dataInicio}" />
 					</p:column>
-					<p:column headerText="Dia Venc.">
+					<p:column headerText="Dia Venc." sortBy="#{cartaoDeCredito.diaVencimento}" filterBy="#{cartaoDeCredito.diaVencimento}">
 						<h:outputText value="#{cartaoDeCredito.diaVencimento}" />
 					</p:column>
 					<p:column headerText="Melhor Dia">
@@ -42,7 +45,7 @@
 					</p:column>
 					<p:column>
 						<p:button icon="ui-icon-pencil" title="Editar" outcome="/pages/cadastro-cartao-credito">
-							<f:param name="id" value="#{cartaoDeCredito.id}" />
+							<f:param name="id" value="#{cartaoDeCredito.codigoCartaoDeCredito}" />
 						</p:button>
 						<p:commandButton icon="ui-icon-trash" title="Excluir" process="@this" update="@form"
 							action="#{cartaoDeCreditoMB.excluir}">
@@ -52,8 +55,11 @@
 					</p:column>
 				</p:dataTable>
 				<h:messages id="msgErro" style="color: red" />
-				<p:commandButton value="Novo Cartão de Crédito"
-					action="cadastro-cartao-credito?faces-redirect=true" />
+				<br />
+				<h:panelGroup style="display:block; text-align:center">
+					<p:commandButton value="Novo" action="cadastro-cartao-credito?faces-redirect=true" />
+				</h:panelGroup>
+				
 			</p:panel>
 		</h:form>
 	</ui:define>

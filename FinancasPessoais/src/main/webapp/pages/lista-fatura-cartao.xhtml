@@ -11,21 +11,39 @@
 	</ui:define>
 	<ui:define name="conteudo">
 		<h:form>
+			<h:panelGroup styleClass="centralizar">
+				<h3>Faturas de Cartão de Crédito</h3>
+			</h:panelGroup>
 			<p:panel>
 				<p:dataTable value="#{faturaCartaoMB.listaFaturaCartaoDoUsuario}" var="faturaCartao"
-					border="1" cellspacing="0" cellpadding="2" paginator="true" rows="12" paginatorPosition="bottom">
-					<p:column headerText="Nome">
-						<h:outputText value="#{faturaCartao}" />
+					border="1" cellspacing="0" cellpadding="2" paginator="true" rows="10" paginatorPosition="bottom">
+					<p:column headerText="Cartão de Crédito" sortBy="#{faturaCartao.nome}" filterBy="#{faturaCartao.cartao.bandeira}">
+						<h:outputText value="#{faturaCartao.cartao.bandeira}" />
 					</p:column>
-					<p:column headerText="Status">
+					<p:column headerText="Período" sortBy="#{faturaCartao.periodo}" filterBy="#{faturaCartao.periodo}">
+						<h:outputText value="#{faturaCartao.periodo}" />
+					</p:column>
+					<p:column headerText="Valor Devido" sortBy="#{faturaCartao.valorDevido}">
+						<h:outputText value="#{faturaCartao.valorDevido}" >
+							<f:convertNumber type="currency" locale="pt_BR" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Valor Pago" sortBy="#{faturaCartao.valorPago}">
+						<h:outputText value="#{faturaCartao.valorPago}" >
+							<f:convertNumber type="currency" locale="pt_BR" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Saldo Devido" sortBy="#{faturaCartao.valorDevido - faturaCartao.valorPago}">
+						<h:outputText value="#{faturaCartao.valorDevido - faturaCartao.valorPago}">
+							<f:convertNumber type="currency" locale="pt_BR" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Status" sortBy="#{faturaCartao.statusFaturaCartao.descricao}" filterBy="#{faturaCartao.statusFaturaCartao.descricao}">
 						<h:outputText value="#{faturaCartao.statusFaturaCartao.descricao}" />
 					</p:column>
 					<p:column>
 						<p:button icon="ui-icon-pencil" title="Editar" outcome="/pages/cadastro-fatura-cartao">
 							<f:param name="id" value="#{faturaCartao.chaveComposta}" />
-<!-- 							<f:param name="id" value="#{faturaCartao.id}" /> -->
-<!-- 							<f:param name="mesFaturaCartao" value="#{faturaCartao.id.mes}" /> -->
-<!-- 							<f:param name="anoFaturaCartao" value="#{faturaCartao.id.ano}" /> -->
 						</p:button>
 						<p:commandButton icon="ui-icon-trash" title="Excluir" process="@this" update="@form"
 							action="#{faturaCartaoMB.excluir}">
@@ -35,8 +53,11 @@
 					</p:column>
 				</p:dataTable>
 				<h:messages id="msgErro" style="color: red" />
-				<p:commandButton value="Nova Fatura de Cartão"
+				<br />
+				<h:panelGroup style="display:block; text-align:center">
+					<p:commandButton value="Novo"
 					action="cadastro-fatura-cartao?faces-redirect=true" />
+				</h:panelGroup>
 			</p:panel>
 		</h:form>
 	</ui:define>

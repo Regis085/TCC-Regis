@@ -23,18 +23,36 @@
 					<p:outputLabel value="Nome" for="nome_tipoDespesa"/>
 					<p:inputText id="nome_tipoDespesa" size="30" value="#{tipoDespesaMB.tipoDespesa.nome}"/>
 					
-					<h:outputLabel value="Valor Previsto" for="valorPrevisto_tipoDespesa"/>
-					<p:inputText id="valorPrevisto_tipoDespesa" size="12" value="#{tipoDespesaMB.tipoDespesa.valorPrevisto}" label="Valor">
-						<f:convertNumber locale="pt_BR" maxFractionDigits="2" minFractionDigits="2" />
-					</p:inputText>
-					
 					<p:outputLabel value="Descrição" for="descricao_tipoDespesa"/>
 					<p:inputTextarea id="descricao_tipoDespesa" size="30" value="#{tipoDespesaMB.tipoDespesa.descricao}" rows="10" cols="50"/>
 					
+					<p:outputLabel for="recorrente" value="Recorrente?" />
+			        <p:selectOneRadio id="recorrente" value="#{tipoDespesaMB.tipoDespesa.recorrente}">
+			            <f:selectItem itemLabel="Sim" itemValue="S" itemDisabled="false" />
+			            <f:selectItem itemLabel="Não" itemValue="N" />
+			            <p:ajax event="change" update="se_recorrente" process="@this" listener="#{tipoDespesaMB.limparCamposPrevisao}"/>
+			        </p:selectOneRadio>
+				</p:panelGrid>
+				
+				<p:outputPanel id="se_recorrente">
+				
+					<p:panelGrid columns="2" rendered="#{tipoDespesaMB.tipoDespesa.recorrente == 'S'}">
+						
+						<p:outputLabel value="Dia Pagamento Previsto" for="dia_previsto"/>
+						<p:inputText id="dia_previsto" size="2" maxlength="2" value="#{tipoDespesaMB.tipoDespesa.diaPagamentoPrevisto}"/>
+					
+						<p:outputLabel value="Valor Previsto" for="valorPrevisto_tipoDespesa"/>
+						<p:inputText id="valorPrevisto_tipoDespesa" size="12" value="#{tipoDespesaMB.tipoDespesa.valorPrevisto}" label="Valor">
+							<f:convertNumber locale="pt_BR" maxFractionDigits="2" minFractionDigits="2" />
+						</p:inputText>
+					</p:panelGrid>
+				</p:outputPanel>
+				
+				<p:panelGrid columns="2">
 					<p:commandButton value="Salvar" action="#{tipoDespesaMB.cadastrarTipoDespesa}" />
 					<p:commandButton value="Voltar" action="lista-tipo-despesa?faces-redirect=true" />
-					
 				</p:panelGrid>
+				
 				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 			</p:panel>
 		</h:form>

@@ -17,7 +17,7 @@ public class ContaDAO extends AbstractGenericDAO<Conta, Integer> implements Seri
 		super(Conta.class);
 	}
 	
-	public List<Conta> listarPorProprietario(Short idUsuario) {
+	public List<Conta> listarNaoBancariasPorProprietario(Short idUsuario) {
 		
 		TipoConta tipoContaOutro = TipoConta.OUTRO;
 		
@@ -26,6 +26,19 @@ public class ContaDAO extends AbstractGenericDAO<Conta, Integer> implements Seri
 					.createQuery("SELECT c from Conta c " + " INNER JOIN c.proprietario u " + " WHERE u.id = :idUsuario AND c.tipoConta = :tipoConta")
 					.setParameter("idUsuario", idUsuario)
 					.setParameter("tipoConta", tipoContaOutro).getResultList();
+			return listaConta;
+		}
+		catch (NoResultException e) {
+			return null;
+		}
+	}
+	
+	public List<Conta> listarPorProprietario(Short idUsuario) {
+		
+		try {
+			List<Conta> listaConta = (List<Conta>) entityManager
+					.createQuery("SELECT c from Conta c " + " INNER JOIN c.proprietario u " + " WHERE u.id = :idUsuario")
+					.setParameter("idUsuario", idUsuario).getResultList();
 			return listaConta;
 		}
 		catch (NoResultException e) {

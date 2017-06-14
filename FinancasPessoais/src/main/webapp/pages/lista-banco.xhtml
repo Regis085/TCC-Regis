@@ -11,10 +11,13 @@
 	</ui:define>
 	<ui:define name="conteudo">
 		<h:form>
+			<h:panelGroup styleClass="centralizar">
+				<h3>Bancos</h3>
+			</h:panelGroup>
 			<p:panel>
 				<p:dataTable value="#{bancoMB.bancosDoUsuario}" var="banco"
-					border="1" cellspacing="0" cellpadding="2" paginator="true" rows="5" paginatorPosition="bottom">
-					<p:column headerText="Nome">
+					border="1" cellspacing="0" cellpadding="2" paginator="true" rows="10" paginatorPosition="bottom">
+					<p:column headerText="Nome" sortBy="#{banco.nome}" filterBy="#{banco.nome}">
 						<h:outputText value="#{banco.nome}" />
 					</p:column>
 					<p:column headerText="Telefone">
@@ -38,8 +41,12 @@
 					</p:column>
 				</p:dataTable>
 				<h:messages id="msgErro" style="color: red" />
-				<p:commandButton value="Novo Banco"
+				<br />
+				<h:panelGroup style="display:block; text-align:center">
+					<p:commandButton value="Novo"
 					action="cadastro-banco?faces-redirect=true" />
+				</h:panelGroup>
+				
 			</p:panel>
 		</h:form>
 	</ui:define>

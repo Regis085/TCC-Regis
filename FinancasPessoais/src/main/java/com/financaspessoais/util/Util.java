@@ -1,11 +1,26 @@
 package com.financaspessoais.util;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public class Util {
 
+	public static Date getDataAtualZeroHoras() {
+		Date dateAtualComHoras = new Date(System.currentTimeMillis());
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(dateAtualComHoras);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		Date dataAtualSemHoras = cal.getTime();
+		return dataAtualSemHoras;
+	}
+	
 	public static HttpSession getSession() {
 		return (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
 	}

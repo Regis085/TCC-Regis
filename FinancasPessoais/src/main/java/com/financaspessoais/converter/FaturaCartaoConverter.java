@@ -32,16 +32,8 @@ public class FaturaCartaoConverter implements Converter {
 		String retorno = null;
 		if (value != null) {
 			FaturaCartao faturaCartao = ((FaturaCartao) value);
-
-			if (faturaCartao.getCartao() != null) {
-				String nome = faturaCartao.getCartao().getNome();
-				String ultimosQuatroDigitos = faturaCartao.getCartao().getQuatroUltimosDigitos() != null
-						? " (" + faturaCartao.getCartao().getQuatroUltimosDigitos() + ")" : "";
-				String ano = faturaCartao.getAno().toString();
-				String mes = faturaCartao.getMes().toString();
-
-				retorno = nome + ultimosQuatroDigitos + " " + ano + "-" + mes;
-			}
+			
+			retorno = faturaCartao.getNome();
 		}
 		return retorno;
 	}

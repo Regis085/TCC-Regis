@@ -6,10 +6,10 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -17,43 +17,81 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "lancamento")
-public abstract class Lancamento implements Serializable {
+public class Lancamento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue
-	private Long id;
-
+	private Long codigoLancamento;
+	
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "usuario_id")
 	private Usuario proprietario;
+	
+	@Enumerated(EnumType.ORDINAL)
+	@Column(nullable = false)
+	private TipoLancamento tipoLancamento; // 1 - Receita, 2 - Despesa
+	
+	@Enumerated(EnumType.ORDINAL)
+	@Column(nullable = false)
+	private StatusLancamento statusLancamento; // 1 - Pendente, 2 - Realizado
+	
+	@ManyToOne
+	@JoinColumn(name = "tipo_despesa_id")
+	private TipoDespesa tipoDespesa;
+	
+	@ManyToOne(optional=true)
+	@JoinColumn(name="id_estabelecimento")
+	private Estabelecimento estabelecimento; // Não obrigatório
 
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "conta_id")
-	private Conta conta;
-
-	@Column(name = "descricao", length = 255, nullable = true)
-	private String descricao;
-
+	@ManyToOne
+	@JoinColumn(name = "tipo_receita_id")
+	private TipoReceita tipoReceita;
+	
 	@Column(name = "valor", precision = 10, scale = 2, nullable = false)
 	private BigDecimal valor;
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "data_vencimento", nullable = true)
-	private Date dataVencimento;
+	@ManyToOne
+	@JoinColumn(name = "conta_id")
+	private Conta conta;
+
+	@Column(name = "descricao", length = 255)
+	private String descricao;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "data_pagamento", nullable = true)
-	private Date dataPagamento;
+	@Column(name = "data_prevista")
+	private Date dataPrevista;
 
-	public Long getId() {
-		return id;
+	@Temporal(TemporalType.DATE)
+	@Column(name = "data_realizacao")
+	private Date dataRealizacao;
+	
+	public String getNome1() {
+		String retorno = null;
+		if (conta != null) {
+			
+		}
+		else {
+			
+		}
+		return retorno;
+	}
+	
+	public String getNome2() {
+		String retorno = null;
+		if (conta != null) {
+			
+		}
+		return retorno;
+	}
+	
+	public Long getCodigoLancamento() {
+		return codigoLancamento;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setCodigoLancamento(Long id) {
+		this.codigoLancamento = id;
 	}
 
 	public Usuario getProprietario() {
@@ -80,12 +118,12 @@ public abstract class Lancamento implements Serializable {
 		this.valor = valor;
 	}
 
-	public Date getDataVencimento() {
-		return dataVencimento;
+	public Date getDataPrevista() {
+		return dataPrevista;
 	}
 
-	public void setDataVencimento(Date dataVencimento) {
-		this.dataVencimento = dataVencimento;
+	public void setDataPrevista(Date dataVencimento) {
+		this.dataPrevista = dataVencimento;
 	}
 
 	public Conta getConta() {
@@ -96,19 +134,59 @@ public abstract class Lancamento implements Serializable {
 		this.conta = conta;
 	}
 
-	public Date getDataPagamento() {
-		return dataPagamento;
+	public Date getDataRealizacao() {
+		return dataRealizacao;
 	}
 
-	public void setDataPagamento(Date dataPagamento) {
-		this.dataPagamento = dataPagamento;
+	public void setDataRealizacao(Date dataRealizacao) {
+		this.dataRealizacao = dataRealizacao;
+	}
+	
+	public TipoLancamento getTipoLancamento() {
+		return tipoLancamento;
+	}
+
+	public void setTipoLancamento(TipoLancamento tipoLancamento) {
+		this.tipoLancamento = tipoLancamento;
+	}
+	
+	public StatusLancamento getStatusLancamento() {
+		return statusLancamento;
+	}
+	
+	public void setStatusLancamento(StatusLancamento statusLancamento) {
+		this.statusLancamento = statusLancamento;
+	}
+	
+	public TipoDespesa getTipoDespesa() {
+		return tipoDespesa;
+	}
+
+	public void setTipoDespesa(TipoDespesa tipoDespesa) {
+		this.tipoDespesa = tipoDespesa;
+	}
+
+	public TipoReceita getTipoReceita() {
+		return tipoReceita;
+	}
+
+	public void setTipoReceita(TipoReceita tipoReceita) {
+		this.tipoReceita = tipoReceita;
+	}
+	
+	public Estabelecimento getEstabelecimento() {
+		return estabelecimento;
+	}
+
+	public void setEstabelecimento(Estabelecimento estabelecimento) {
+		this.estabelecimento = estabelecimento;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((codigoLancamento == null) ? 0 : codigoLancamento.hashCode());
 		return result;
 	}
 
@@ -121,10 +199,10 @@ public abstract class Lancamento implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Lancamento other = (Lancamento) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (codigoLancamento == null) {
+			if (other.codigoLancamento != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!codigoLancamento.equals(other.codigoLancamento))
 			return false;
 		return true;
 	}

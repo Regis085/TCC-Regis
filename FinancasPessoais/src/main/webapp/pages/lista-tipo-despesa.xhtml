@@ -11,17 +11,31 @@
 	</ui:define>
 	<ui:define name="conteudo">
 		<h:form>
+			<h:panelGroup styleClass="centralizar">
+				<h3>Tipos de Despesa</h3>
+			</h:panelGroup>
 			<p:panel>
 				<p:dataTable value="#{tipoDespesaMB.tiposDespesaDoUsuario}" var="tipoDespesa"
-					border="1" cellspacing="0" cellpadding="2" paginator="true" rows="5" paginatorPosition="bottom">
-					<p:column headerText="Nome">
+					border="1" cellspacing="0" cellpadding="2" paginator="true" rows="10" paginatorPosition="bottom">
+					
+					<p:column headerText="Nome" sortBy="#{tipoDespesa.nome}">
 						<h:outputText value="#{tipoDespesa.nome}" />
 					</p:column>
-					<p:column headerText="Valor Previsto">
+					
+					<p:column headerText="Dia Pgto Previsto" sortBy="#{tipoDespesa.diaPagamentoPrevisto}">
+						<h:outputText value="#{tipoDespesa.diaPagamentoPrevisto}" />
+					</p:column>
+					
+					<p:column headerText="Valor Previsto" sortBy="#{tipoDespesa.valorPrevisto}">
 						<h:outputText value="#{tipoDespesa.valorPrevisto}">
 							<f:convertNumber type="currency" locale="pt_BR" />
 						</h:outputText>
 					</p:column>
+					
+					<p:column headerText="Recorrente" sortBy="#{tipoDespesa.recorrente}">
+						<h:outputText value="#{tipoDespesa.recorrente}" />
+					</p:column>
+					
 					<p:column headerText="Descrição">
 						<h:outputText value="#{tipoDespesa.descricao}" />
 					</p:column>
@@ -37,8 +51,10 @@
 					</p:column>
 				</p:dataTable>
 				<h:messages id="msgErro" style="color: red" />
-				<p:commandButton value="Novo Tipo de Despesa"
-					action="cadastro-tipo-despesa?faces-redirect=true" />
+				<br />
+				<h:panelGroup style="display:block; text-align:center">
+					<p:commandButton value="Novo" action="cadastro-tipo-despesa?faces-redirect=true" />
+				</h:panelGroup>
 			</p:panel>
 		</h:form>
 	</ui:define>

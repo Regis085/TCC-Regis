@@ -20,19 +20,25 @@ public class TipoReceita implements Serializable {
 	@GeneratedValue
 	private Short id;
 	
-	@Column(name = "nome", nullable = false, length = 60)
-	private String nome;
-	
-	@Column(name = "descricao", nullable = true, length = 255)
-	private String descricao;
-
-	@Column(name = "valor_previsto", precision = 10, scale = 2, nullable = false, length = 60)
-	private BigDecimal valorPrevisto;
-	
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "usuario_id")
 	private Usuario proprietario;
+	
+	@Column(name = "nome", nullable = false, length = 60)
+	private String nome;
+	
+	@Column(name = "descricao", length = 255)
+	private String descricao;
+	
+	@Column(name = "recorrente", nullable = false, length = 1)
+	private String recorrente; // se for recorrente, renderizar valor previsto e dia Recebimento Previsto
 
+	@Column(name = "valor_previsto", precision = 10, scale = 2, length = 60)
+	private BigDecimal valorPrevisto;
+	
+	@Column(name = "dia_recebimento_previsto", length=2)
+	private Short diaRecebimentoPrevisto;
+	
 	public Short getId() {
 		return id;
 	}
@@ -55,6 +61,22 @@ public class TipoReceita implements Serializable {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+	
+	public String getRecorrente() {
+		return recorrente;
+	}
+
+	public void setRecorrente(String recorrente) {
+		this.recorrente = recorrente;
+	}
+
+	public Short getDiaRecebimentoPrevisto() {
+		return diaRecebimentoPrevisto;
+	}
+
+	public void setDiaRecebimentoPrevisto(Short diaRecebimentoPrevisto) {
+		this.diaRecebimentoPrevisto = diaRecebimentoPrevisto;
 	}
 
 	public BigDecimal getValorPrevisto() {

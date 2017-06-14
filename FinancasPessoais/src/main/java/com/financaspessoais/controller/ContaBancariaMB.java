@@ -23,6 +23,7 @@ public class ContaBancariaMB implements Serializable {
 	private ContaBancaria contaBancaria;
 	private BancoService bancoService;
 	private List<Banco> listaBanco;
+	private List<ContaBancaria> contasBancariasDoUsuario;
 
 	public void prepararCadastro() {
 		if (this.contaBancaria == null)
@@ -35,7 +36,7 @@ public class ContaBancariaMB implements Serializable {
 		String retorno;
 		boolean inseridoComSucesso = this.getContaBancariaService().criarOuAtualizar(contaBancaria);
 		if (inseridoComSucesso)
-			retorno = "/pages/lista-conta?faces-redirect=true";
+			retorno = "/pages/lista-conta-bancaria?faces-redirect=true";
 		else
 			retorno = null;
 		return retorno;
@@ -43,11 +44,18 @@ public class ContaBancariaMB implements Serializable {
 
 	public void excluir() {
 		this.getContaBancariaService().remover(this.contaBancariaSelecionada);
-		this.getContasDoUsuario();
+		this.contasBancariasDoUsuario = null;
+		this.getContasBancariasDoUsuario();
 	}
 
 	// Getters e Setters
 
+	public List<ContaBancaria> getContasBancariasDoUsuario() {
+		if (contasBancariasDoUsuario == null)
+			contasBancariasDoUsuario = getContaBancariaService().listarPorUsuario();
+		return contasBancariasDoUsuario;
+	}
+	
 	public Conta getContaBancariaSelecionada() {
 		return contaBancariaSelecionada;
 	}
@@ -66,10 +74,6 @@ public class ContaBancariaMB implements Serializable {
 
 	public List<ContaBancaria> getContasBancarias() {
 		return this.getContaBancariaService().listarContasBancarias();
-	}
-
-	public List<ContaBancaria> getContasDoUsuario() {
-		return this.getContaBancariaService().listarPorUsuario();
 	}
 
 	public List<Banco> getListaBanco() {

@@ -34,12 +34,34 @@ public class FaturaCartao implements Serializable {
 		return retorno;
 	}
 	
+	public String getPeriodo() {
+		String retorno = null;
+		
+		if (this.ano != null && this.ano > 0 && this.mes != null && this.mes > 0) {
+			String ano = this.getAno().toString();
+			String mes = this.getMes().toString().length() == 1 ? "0" + this.getMes().toString() : this.getMes().toString();
+			retorno = ano + "." + mes;
+		}
+		return retorno;
+	}
+	
 	@EmbeddedId
 	private FaturaCartaoPK id;
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "usuario_id")
 	private Usuario proprietario;
+	
+	public String getNome() {
+		String retorno = null;
+		if (this.getCartao() != null && this.ano != null && this.mes != null) {
+			String nome = this.getCartao().getNome();
+			String ultimosQuatroDigitos = this.getCartao().getQuatroUltimosDigitos() != null
+					? " (" + this.getCartao().getQuatroUltimosDigitos() + ")" : "";
+			retorno = nome + ultimosQuatroDigitos + " " + this.getPeriodo();
+		}
+		return retorno;
+	}
 
 	@Column(name = "ano_fatura_cartao", insertable = false, updatable = false)
 	private Short ano; // Preenchido automaticamente
@@ -52,12 +74,12 @@ public class FaturaCartao implements Serializable {
 	private CartaoDeCredito cartao;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "data_vencimento", nullable = false)
+	@Column(name = "data_vencimento")
 	private Date dataVencimento; // Preenchido automaticamente, porém editável
 									// pelo usuário
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "data_pagamento", nullable = false)
+	@Column(name = "data_pagamento")
 	private Date dataPagamento; // Deve ser preenchido por usuário
 
 	@Enumerated(EnumType.STRING)
@@ -66,17 +88,25 @@ public class FaturaCartao implements Serializable {
 										// DataPagamento > 0 Pago ou
 										// Parcialmente Pago, etc.
 
-	@Column(name = "valor_devido", precision = 10, scale = 2, nullable = false)
+	@Column(name = "valor_devido", precision = 10, scale = 2)
 	private BigDecimal valorDevido; // Equivale a soma dos valores dos
 									// ItensLancamento
 
-	@Column(name = "valor_pago", precision = 10, scale = 2, nullable = false)
+	@Column(name = "valor_pago", precision = 10, scale = 2)
 	private BigDecimal valorPago; // Deve ser preenchido por usuário
-
-	@Column(name = "saldo_devido", precision = 10, scale = 2, nullable = false)
-	private BigDecimal saldoDevido; // Campo Somente leitura valor devido -
-									// valor pago.
-
+	
+	public BigDecimal getSaldoDevido() {
+		BigDecimal resultado = null;
+		if (valorDevido != null)
+			if (valorPago != null)
+				resultado = valorDevido.subtract(valorPago);
+			else
+				resultado = valorDevido;		
+		return resultado;
+	}
+	
+	public void setSaldoDevido(BigDecimal saldoDevido) {}
+	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "faturaCartao", fetch = FetchType.LAZY)
 	private List<ItemLancamentoCartao> itenslancamento;
 
@@ -150,14 +180,6 @@ public class FaturaCartao implements Serializable {
 
 	public void setValorPago(BigDecimal valorPago) {
 		this.valorPago = valorPago;
-	}
-
-	public BigDecimal getSaldoDevido() {
-		return saldoDevido;
-	}
-
-	public void setSaldoDevido(BigDecimal saldoDevido) {
-		this.saldoDevido = saldoDevido;
 	}
 
 	public CartaoDeCredito getCartao() {

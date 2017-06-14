@@ -6,6 +6,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import com.financaspessoais.model.SimNao;
 import com.financaspessoais.model.TipoDespesa;
 import com.financaspessoais.service.TipoDespesaService;
 import com.financaspessoais.service.impl.TipoDespesaServiceImpl;
@@ -18,10 +19,18 @@ public class TipoDespesaMB implements Serializable {
 	private TipoDespesaService tipoDespesaService;
 	private TipoDespesa tipoDespesa;
 	private TipoDespesa tipoDespesaSelecionada;
+	private List<TipoDespesa> tiposDespesaDoUsuario;
 	
 	public void prepararCadastro() {
 		if (this.tipoDespesa == null)
 			this.tipoDespesa = new TipoDespesa();		
+	}
+	
+	public void limparCamposPrevisao() {
+		if (this.tipoDespesa.getRecorrente().equals(SimNao.N.toString())) {
+			this.tipoDespesa.setValorPrevisto(null);
+			this.tipoDespesa.setDiaPagamentoPrevisto(null);
+		}
 	}
 	
 	public String cadastrarTipoDespesa() {
@@ -34,12 +43,16 @@ public class TipoDespesaMB implements Serializable {
 	
 	public void excluir() {
 		this.getTipoDespesaService().remover(this.tipoDespesaSelecionada);
+		this.tiposDespesaDoUsuario = null;
 		this.getTiposDespesaDoUsuario();
 	}
 
 	// Getters e Setters
 	public List<TipoDespesa> getTiposDespesaDoUsuario() {
-		return getTipoDespesaService().listarPorUsuario();
+		if (tiposDespesaDoUsuario == null) {
+			tiposDespesaDoUsuario = getTipoDespesaService().listarPorUsuario();
+		}
+		return tiposDespesaDoUsuario;
 	}
 	
 	public TipoDespesa getTipoDespesa() {

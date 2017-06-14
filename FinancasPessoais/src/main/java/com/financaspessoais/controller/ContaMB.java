@@ -16,9 +16,10 @@ import com.financaspessoais.service.impl.ContaServiceImpl;
 public class ContaMB implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private ContaService contaService = new ContaServiceImpl();
+	private ContaService contaService;
 	private Conta conta;
 	private Conta contaSelecionada;
+	private List<Conta> contasDoUsuario;
 
 	public void prepararCadastro() {
 		if (this.conta == null)
@@ -35,6 +36,7 @@ public class ContaMB implements Serializable {
 
 	public void excluir() {
 		this.getContaService().remover(this.contaSelecionada);
+		this.contasDoUsuario = null;
 		this.getContasDoUsuario();
 	}
 
@@ -65,7 +67,9 @@ public class ContaMB implements Serializable {
 	}
 
 	public List<Conta> getContasDoUsuario() {
-		return getContaService().listarPorUsuario();
+		if (contasDoUsuario == null)
+			contasDoUsuario = getContaService().listarNaoBancariasPorUsuario();
+		return contasDoUsuario;
 	}
 	
 	private ContaService getContaService() {

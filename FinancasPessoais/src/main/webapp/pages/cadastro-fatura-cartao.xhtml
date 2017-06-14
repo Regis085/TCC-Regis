@@ -11,7 +11,7 @@
 		<f:viewAction action="#{faturaCartaoMB.prepararCadastro}" />
 		<o:viewParam name="id" value="#{faturaCartaoMB.faturaCartao}" />
 	</f:metadata>
-	
+
 	<ui:define name="menu">
 		<ui:include src="/includes/menu-principal.xhtml"></ui:include>
 	</ui:define>
@@ -20,52 +20,77 @@
 			<p:panel>
 				<p:panelGrid columns="2">
 				
-					<p:outputLabel value="Cartão de Crédito" for="carta_de_credito"/>
-					<p:selectOneMenu id="carta_de_credito" value="#{faturaCartaoMB.faturaCartao.cartao}">
-						<f:selectItems value="#{faturaCartaoMB.listaCartaoDeCredito}" var="cartao" itemValue="#{cartao}" itemLabel="#{cartao.nome}"/>
-					</p:selectOneMenu>
+					<p:outputLabel value="Cartão de Crédito" for="cartao_de_credito"/>
+					<p:outputPanel>
+						<h:outputText value="#{faturaCartaoMB.faturaCartao.cartao.nome}" rendered="#{faturaCartaoMB.faturaCartao.id != null}" />
+						<p:autoComplete id="cartao_de_credito" value="#{faturaCartaoMB.faturaCartao.cartao}" rendered="#{faturaCartaoMB.faturaCartao.id == null}"
+										completeMethod="#{faturaCartaoMB.filtrarListaCartoes}"  dropdown="true"
+										var="cartao" forceSelection="true"
+										itemLabel="#{cartao.nome}" itemValue="#{cartao}"  >
+							<p:ajax event="itemSelect" update="data_vencimento" process="@this" listener="#{faturaCartaoMB.atualizarDataVencimento}"/>
+						</p:autoComplete>
+					</p:outputPanel>
 					
 					<p:outputLabel value="Ano da Fatura" for="ano_fatura_cartao"/>
-					<p:inputText id="ano_fatura_cartao" size="4" value="#{faturaCartaoMB.faturaCartao.ano}" />
+					<p:outputPanel>
+						<h:outputText value="#{faturaCartaoMB.faturaCartao.ano}" rendered="#{faturaCartaoMB.faturaCartao.id != null}" />
+						<p:autoComplete id="ano_fatura_cartao" dropdown="true" maxlength="4" size="4" value="#{faturaCartaoMB.faturaCartao.ano}" completeMethod="#{faturaCartaoMB.carregarListaAno}" 
+							rendered="#{faturaCartaoMB.faturaCartao.id == null}" />
+					</p:outputPanel>
 					
 					<p:outputLabel value="Mês da Fatura" for="mes_fatura_cartao"/>
-					<p:inputText id="mes_fatura_cartao" size="2" value="#{faturaCartaoMB.faturaCartao.mes}" />
-					
-					<p:outputLabel value="Data de Pagamento" for="data_pagamento" />
-					<p:calendar id="data_pagamento" size="12" pattern="dd/MM/yyyy"
-						value="#{faturaCartaoMB.faturaCartao.dataPagamento}">
-					</p:calendar>
+					<p:outputPanel>
+						<h:outputText value="#{faturaCartaoMB.faturaCartao.mes}" rendered="#{faturaCartaoMB.faturaCartao.id != null}" />
+						<p:selectOneMenu id="mes_fatura_cartao" value="#{faturaCartaoMB.faturaCartao.mes}" rendered="#{faturaCartaoMB.faturaCartao.id == null}" immediate="true">
+							<f:selectItem noSelectionOption="true" itemLabel="Selecione"/>
+							<f:selectItems value="#{faturaCartaoMB.meses}" var="mes" itemValue="#{mes.numero}" itemLabel="#{mes.descricao}"/>
+							<p:ajax event="blur" update="status_fatura" process="@this" listener="#{faturaCartaoMB.atualizarStatusPagamentoFatura}"/>
+						</p:selectOneMenu>
+					</p:outputPanel>
 					
 					<p:outputLabel value="Data de Vencimento" for="data_vencimento" />
-					<p:calendar id="data_vencimento" size="12" pattern="dd/MM/yyyy"
-						value="#{faturaCartaoMB.faturaCartao.dataVencimento}">
-					</p:calendar>
+					<h:panelGroup>
+						<p:calendar id="data_vencimento" styleClass="calendario" size="12" pattern="dd/MM/yyyy" widgetVar="calendarWidget1"
+							value="#{faturaCartaoMB.faturaCartao.dataVencimento}">
+							<p:ajax event="dateSelect" update="status_fatura data_pagamento @this" process="@this" listener="#{faturaCartaoMB.atualizarStatusPagamentoFatura2}"/>
+						</p:calendar>
+						<p:commandButton style="margin-left:5px;" value="Limpar" onclick="calendarWidget1.setDate(null)"/>  
+					</h:panelGroup>
 					
-					<h:outputLabel value="Saldo Devido" for="saldo_devido"/>
-					<p:inputText id="saldo_devido" size="12"
-						value="#{faturaCartaoMB.faturaCartao.saldoDevido}">
-						<f:convertNumber locale="pt_BR" maxFractionDigits="2" minFractionDigits="2" />
-					</p:inputText>
+					
+					<p:outputLabel value="Data de Pagamento" for="data_pagamento" />
+					<h:panelGroup>
+						<p:calendar id="data_pagamento" styleClass="calendario" size="12" pattern="dd/MM/yyyy" widgetVar="calendarWidget2" 
+									value="#{faturaCartaoMB.faturaCartao.dataPagamento}">
+							<p:ajax event="dateSelect" update="status_fatura data_vencimento @this" process="@this" listener="#{faturaCartaoMB.atualizarStatusPagamentoFatura2}"/>
+						</p:calendar>
+						<p:commandButton style="margin-left:5px;" value="Limpar" onclick="calendarWidget2.setDate(null)"/>
+					</h:panelGroup>
 					
 					<h:outputLabel value="Valor Devido" for="valor_devido"/>
-					<p:inputText id="valor_devido" size="12"
-						value="#{faturaCartaoMB.faturaCartao.valorDevido}">
+					<p:inputText id="valor_devido" size="12" value="#{faturaCartaoMB.faturaCartao.valorDevido}">
+						<p:ajax event="change" update="saldo_devido" process="@this"/>
+						<p:ajax event="blur" update="status_fatura" process="@this" listener="#{faturaCartaoMB.atualizarStatusPagamentoFatura}"/>
 						<f:convertNumber locale="pt_BR" maxFractionDigits="2" minFractionDigits="2" />
 					</p:inputText>
 					
 					<h:outputLabel value="Valor Pago" for="valor_pago"/>
-					<p:inputText id="valor_pago" size="12"
-						value="#{faturaCartaoMB.faturaCartao.valorPago}">
-						<f:convertNumber locale="pt_BR" maxFractionDigits="2" minFractionDigits="2" />
+					<p:inputText id="valor_pago" size="12" value="#{faturaCartaoMB.faturaCartao.valorPago}">
+						<f:convertNumber locale="pt_BR" maxFractionDigits="2" minFractionDigits="2"/>
+						<p:ajax event="blur" update="status_fatura" process="@this" listener="#{faturaCartaoMB.atualizarStatusPagamentoFatura}"/>
+						<p:ajax event="change" update="saldo_devido" process="@this"/>
 					</p:inputText>
+					
+					<h:outputLabel value="Saldo Devido" for="saldo_devido"/>
+					<h:outputText id="saldo_devido" value="#{faturaCartaoMB.faturaCartao.saldoDevido}">
+						<f:convertNumber locale="pt_BR" maxFractionDigits="2" minFractionDigits="2" />
+					</h:outputText>
 						
 					<p:outputLabel value="Status" for="status_fatura"/>
-					<p:selectOneMenu id="status_fatura" label="Status" value="#{faturaCartaoMB.faturaCartao.statusFaturaCartao}">
-						<f:selectItems value="#{faturaCartaoMB.listaStatusFaturaCartao}" var="status" itemValue="#{status}" itemLabel="#{status.descricao}"/>
-					</p:selectOneMenu>
+					<h:outputText id="status_fatura" value="#{faturaCartaoMB.faturaCartao.statusFaturaCartao.descricao}" />
 					
 					<p:commandButton value="Salvar" action="#{faturaCartaoMB.cadastrarFaturaCartao}" />
-					<p:commandButton value="Voltar" action="lista-fatura-cartao?faces-redirect=true" />
+					<p:commandButton value="Voltar" action="lista-fatura-cartao?faces-redirect=true" immediate="true"/>					
 					
 				</p:panelGrid>
 				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />

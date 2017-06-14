@@ -90,5 +90,7 @@ public class CartaoDeCreditoServiceImpl extends AbstractGenericService implement
 	private void validarCamposObrigatorios(CartaoDeCredito cartaoDeCredito) {
 		if (cartaoDeCredito.getNome() == null || cartaoDeCredito.getNome().trim().isEmpty())
 			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_NOME);
+		if (cartaoDeCredito.getBandeira() == null || cartaoDeCredito.getBandeira().trim().isEmpty())
+			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_BANDEIRA);
 	}
 }

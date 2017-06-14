@@ -10,23 +10,32 @@
 		<ui:include src="/includes/menu-deslogado.xhtml"></ui:include>
 	</ui:define>
 	<ui:define name="conteudo">
-		<h:form>
-			<p:panel>
-				<p:panelGrid columns="2">
-					<p:outputLabel value="Login" />
-					<p:inputText size="20"
-						value="#{loginMB.usuario.login}" label="Login" />
-					<p:outputLabel value="Senha" />
-					<p:password size="6"
-						value="#{loginMB.usuario.senha}" label="Senha" />
-				</p:panelGrid>
-				<p:panelGrid columns="2">
-					<p:commandButton value="Entrar" action="#{loginMB.enviar}" />
-					<p:commandButton value="Cadastre-se" action="#{loginMB.cadastrar}" />
-				</p:panelGrid>
-				<p:messages id="messages" showDetail="true" autoUpdate="true"
-					closable="true" />
-			</p:panel>
-		</h:form>
+		<h:form>            
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" align="center"  class="outer_table">
+            <tr>
+                <td>
+                    <table width="500" height="300" cellpadding="0" cellspacing="0" border="0" align="center">
+                        <tr>
+                            <td align="center">
+                                <p:panel header="Login">
+                                    <h:panelGrid columns="2" cellpadding="5">
+                                        <h:outputLabel for="username" value="Login" />
+                                        <p:inputText id="username" value="#{loginMB.usuario.login}" label="username"/>
+
+                                        <h:outputLabel for="password" value="Senha" />
+                                        <p:password id="password" value="#{loginMB.usuario.senha}" label="password" />
+                                    </h:panelGrid>
+                                    <p:panelGrid columns="2">
+										<p:commandButton value="Entrar" action="#{loginMB.enviar}" />
+										<p:commandButton value="Cadastre-se" action="#{loginMB.cadastrar}" />
+									</p:panelGrid>
+                                </p:panel>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </h:form>
 	</ui:define>
 </ui:composition>

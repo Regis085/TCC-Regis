@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<ui:composition template="/templates/modelo-base.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui">
+	
+	<f:metadata>
+		<f:viewAction action="#{lancamentoMB.prepararCadastro}" />
+		<o:viewParam name="id" value="#{lancamentoMB.lancamento}" />
+	</f:metadata>
+	
+	<ui:define name="menu">
+		<ui:include src="/includes/menu-principal.xhtml"></ui:include>
+	</ui:define>
+	<ui:define name="conteudo">
+		<h:form>
+			<p:panel>
+				<p:panelGrid columns="2">
+
+					<p:outputLabel for="tipo_lancamento" value="Tipo de Lançamento" />
+			        <p:selectOneMenu id="tipo_lancamento" value="#{lancamentoMB.lancamento.tipoLancamento}">
+			        	<f:selectItem noSelectionOption="true" itemLabel="Selecione"/>
+			            <f:selectItems value="#{lancamentoMB.tiposLancamentos}" var="tipoLancamento" itemLabel="#{tipoLancamento.descricao}" itemValue="#{tipoLancamento}"/>
+			            <p:ajax event="change" update="atualiza_tipo_lancamento atualiza_estabelecimento" process="@this"/>
+			            <p:ajax event="blur" update="status_lancamento" process="@this" listener="#{lancamentoMB.atualizarStatusLancamento}"/>
+			        </p:selectOneMenu>
+					
+					<p:outputLabel value="Conta" for="conta"/>
+					<p:autoComplete id="conta" value="#{lancamentoMB.lancamento.conta}"
+									completeMethod="#{lancamentoMB.filtrarListaContas}" dropdown="true"
+									var="conta" forceSelection="true"
+									itemLabel="#{conta.nome}" itemValue="#{conta}">
+					</p:autoComplete>
+					
+				</p:panelGrid>
+				
+				<p:outputPanel id="atualiza_tipo_lancamento">
+					<p:panelGrid columns="2" rendered="#{lancamentoMB.lancamento.tipoLancamento != null and lancamentoMB.lancamento.tipoLancamento.codigo == 1}">
+						<p:outputLabel value="Tipo de Receita" for="tipo_receita"/>
+						<p:autoComplete id="tipo_receita" value="#{lancamentoMB.lancamento.tipoReceita}"
+										completeMethod="#{lancamentoMB.filtrarListaTiposReceita}" dropdown="true"
+										var="tipoReceita" forceSelection="true"
+										itemLabel="#{tipoReceita.nome}" itemValue="#{tipoReceita}"  >
+						</p:autoComplete>
+					</p:panelGrid>
+					
+					<p:panelGrid columns="2" rendered="#{lancamentoMB.lancamento.tipoLancamento != null  and lancamentoMB.lancamento.tipoLancamento.codigo == 2}">
+						<p:outputLabel value="Tipo de Despesa" for="tipo_despesa"/>
+						<p:autoComplete id="tipo_despesa" value="#{lancamentoMB.lancamento.tipoDespesa}"
+										completeMethod="#{lancamentoMB.filtrarListaTiposDespesa}" dropdown="true"
+										var="tipoDespesa" forceSelection="true"
+										itemLabel="#{tipoDespesa.nome}" itemValue="#{tipoDespesa}"  >
+						</p:autoComplete>
+					</p:panelGrid>
+				</p:outputPanel>
+				
+				<p:outputPanel id="atualiza_estabelecimento">
+					<p:panelGrid columns="2" rendered="#{lancamentoMB.lancamento.tipoLancamento != null and lancamentoMB.lancamento.tipoLancamento.codigo == 2}">
+						<p:outputLabel value="Estabelecimento" for="estabelecimento"/>
+						<p:autoComplete id="estabelecimento" value="#{lancamentoMB.lancamento.estabelecimento}"
+										completeMethod="#{lancamentoMB.filtrarListaEstabelecimentos}" dropdown="true"
+										var="estabelecimento" forceSelection="true"
+										itemLabel="#{estabelecimento.nome}" itemValue="#{estabelecimento}">
+						</p:autoComplete>
+					</p:panelGrid>
+				</p:outputPanel>
+				
+				<p:panelGrid columns="2">
+				
+					<p:outputLabel value="Descrição" for="descricao_lancamento"/>
+					<p:inputTextarea id="descricao_lancamento" rows="5" cols="40" maxlength="255" value="#{lancamentoMB.lancamento.descricao}" />
+					
+					<p:outputLabel value="Valor" for="valor_lancamento"/>
+					<p:inputText id="valor_lancamento" size="12" maxlength="12" maxsize="12" value="#{lancamentoMB.lancamento.valor}">
+						<f:convertNumber locale="pt_BR" maxFractionDigits="2" minFractionDigits="2" />
+					</p:inputText>
+					
+					<p:outputLabel value="Data de Previsão" for="data_prevista" />
+					<p:calendar id="data_prevista" size="12" pattern="dd/MM/yyyy" value="#{lancamentoMB.lancamento.dataPrevista}" />
+					
+					<p:outputLabel value="Data de Realização" for="data_realizacao" />
+					<h:panelGroup>
+						<p:calendar id="data_realizacao" styleClass="calendario" size="12" pattern="dd/MM/yyyy" value="#{lancamentoMB.lancamento.dataRealizacao}"
+									widgetVar="calendarWidget2">
+							<p:ajax event="dateSelect" update="status_lancamento @this" process="@this" listener="#{lancamentoMB.atualizarStatusLancamento2}"/>
+							<p:ajax event="blur" update="status_lancamento" process="@this" listener="#{lancamentoMB.atualizarStatusLancamento}"/>
+						</p:calendar>
+						<p:commandButton style="margin-left:5px;" value="Limpar" onclick="calendarWidget2.setDate(null)"/>
+					</h:panelGroup>
+					
+					<p:outputLabel value="Status" for="status_lancamento"/>
+					<h:outputText id="status_lancamento" value="#{lancamentoMB.lancamento.statusLancamento.descricao}" />
+				</p:panelGrid>
+				
+				<p:panelGrid columns="2">
+					<p:commandButton value="Salvar" action="#{lancamentoMB.cadastrarLancamento}" />
+					<p:commandButton value="Voltar" action="lista-lancamento?faces-redirect=true" immediate="true"/>
+				</p:panelGrid>
+				
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

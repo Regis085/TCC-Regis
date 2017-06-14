@@ -18,6 +18,7 @@ public class EstabelecimentoMB implements Serializable {
 	private EstabelecimentoService estabelecimentoService;
 	private Estabelecimento estabelecimento;
 	private Estabelecimento estabelecimentoSelecionado;
+	private List<Estabelecimento> estabelecimentosDoUsuario;
 
 	public void prepararCadastro() {
 		if (this.estabelecimento == null)
@@ -34,11 +35,18 @@ public class EstabelecimentoMB implements Serializable {
 
 	public void excluir() {
 		this.getEstabelecimentoService().remover(this.estabelecimentoSelecionado);
+		this.estabelecimentosDoUsuario = null;
 		this.getEstabelecimentosDoUsuario();
 	}
 
 	// Getters e Setters
-
+	
+	public List<Estabelecimento> getEstabelecimentosDoUsuario() {
+		if (estabelecimentosDoUsuario == null)
+			estabelecimentosDoUsuario = getEstabelecimentoService().listarPorUsuario();
+		return estabelecimentosDoUsuario; 
+	}
+	
 	public Estabelecimento getEstabelecimento() {
 		return estabelecimento;
 	}
@@ -53,10 +61,6 @@ public class EstabelecimentoMB implements Serializable {
 
 	public void setEstabelecimentoSelecionado(Estabelecimento estabelecimentoSelecionado) {
 		this.estabelecimentoSelecionado = estabelecimentoSelecionado;
-	}
-	
-	public List<Estabelecimento> getEstabelecimentosDoUsuario() {
-		return getEstabelecimentoService().listarPorUsuario();
 	}
 	
 	private EstabelecimentoService getEstabelecimentoService() {

@@ -10,11 +10,14 @@
 		<ui:include src="/includes/menu-principal.xhtml"></ui:include>
 	</ui:define>
 	<ui:define name="conteudo">
+		<h:panelGroup styleClass="centralizar">
+			<h3>Estabelecimentos</h3>
+		</h:panelGroup>
 		<h:form>
 			<p:panel>
 				<p:dataTable value="#{estabelecimentoMB.estabelecimentosDoUsuario}" var="estabelecimento"
-					border="1" cellspacing="0" cellpadding="2" paginator="true" rows="5" paginatorPosition="bottom">
-					<p:column headerText="Nome">
+					border="1" cellspacing="0" cellpadding="2" paginator="true" rows="10" paginatorPosition="bottom">
+					<p:column headerText="Nome" sortBy="#{estabelecimento.nome}" filterBy="#{estabelecimento.nome}">
 						<h:outputText value="#{estabelecimento.nome}" />
 					</p:column>
 					<p:column headerText="Telefone">
@@ -38,8 +41,11 @@
 					</p:column>
 				</p:dataTable>
 				<h:messages id="msgErro" style="color: red" />
-				<p:commandButton value="Novo Estabelecimento"
+				<br />
+				<h:panelGroup style="display:block; text-align:center">
+					<p:commandButton value="Novo"
 					action="cadastro-estabelecimento?faces-redirect=true" />
+				</h:panelGroup>
 			</p:panel>
 		</h:form>
 	</ui:define>

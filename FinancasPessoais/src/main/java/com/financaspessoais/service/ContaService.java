@@ -9,6 +9,8 @@ public interface ContaService {
 
 	public List<Conta> listarContas();
 
+	public List<Conta> listarNaoBancariasPorUsuario();
+	
 	public List<Conta> listarPorUsuario();
 
 	public Conta buscar(Integer id);

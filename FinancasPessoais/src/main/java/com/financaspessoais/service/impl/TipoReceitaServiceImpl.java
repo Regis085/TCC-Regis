@@ -38,7 +38,6 @@ public class TipoReceitaServiceImpl extends AbstractGenericService implements Ti
 		else {
 			retorno = true;
 		}
-
 		return retorno;
 	}
 	

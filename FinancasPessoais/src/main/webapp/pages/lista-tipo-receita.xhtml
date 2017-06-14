@@ -11,20 +11,35 @@
 	</ui:define>
 	<ui:define name="conteudo">
 		<h:form>
+			<h:panelGroup styleClass="centralizar">
+				<h3>Tipos de Receita</h3>
+			</h:panelGroup>
 			<p:panel>
 				<p:dataTable value="#{tipoReceitaMB.tiposReceitaDoUsuario}" var="tipoReceita"
-					border="1" cellspacing="0" cellpadding="2" paginator="true" rows="5" paginatorPosition="bottom">
-					<p:column headerText="Nome">
+					border="1" cellspacing="0" cellpadding="2" paginator="true" rows="10" paginatorPosition="bottom">
+					
+					<p:column headerText="Nome" sortBy="#{tipoReceita.nome}">
 						<h:outputText value="#{tipoReceita.nome}" />
 					</p:column>
-					<p:column headerText="Valor Previsto">
+					
+					<p:column headerText="Dia Receb. Previsto" sortBy="#{tipoReceita.diaRecebimentoPrevisto}" >
+						<h:outputText value="#{tipoReceita.diaRecebimentoPrevisto}" />
+					</p:column>
+					
+					<p:column headerText="Valor Previsto" sortBy="#{tipoReceita.nome}">
 						<h:outputText value="#{tipoReceita.valorPrevisto}">
 							<f:convertNumber type="currency" locale="pt_BR" />
 						</h:outputText>
 					</p:column>
+					
+					<p:column headerText="Recorrente" sortBy="#{tipoReceita.recorrente}">
+						<h:outputText value="#{tipoReceita.recorrente}" />
+					</p:column>
+					
 					<p:column headerText="Descrição">
 						<h:outputText value="#{tipoReceita.descricao}" />
 					</p:column>
+					
 					<p:column>
 						<p:button icon="ui-icon-pencil" title="Editar" outcome="/pages/cadastro-tipo-receita">
 							<f:param name="id" value="#{tipoReceita.id}" />
@@ -37,8 +52,11 @@
 					</p:column>
 				</p:dataTable>
 				<h:messages id="msgErro" style="color: red" />
-				<p:commandButton value="Novo Tipo de Receita"
-					action="cadastro-tipo-receita?faces-redirect=true" />
+				<br />
+				<h:panelGroup style="display:block; text-align:center">
+					<p:commandButton value="Novo" action="cadastro-tipo-receita?faces-redirect=true" />
+				</h:panelGroup>
+				
 			</p:panel>
 		</h:form>
 	</ui:define>

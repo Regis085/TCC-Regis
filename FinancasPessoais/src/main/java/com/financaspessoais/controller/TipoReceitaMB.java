@@ -6,6 +6,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import com.financaspessoais.model.SimNao;
 import com.financaspessoais.model.TipoReceita;
 import com.financaspessoais.service.TipoReceitaService;
 import com.financaspessoais.service.impl.TipoReceitaServiceImpl;
@@ -18,10 +19,18 @@ public class TipoReceitaMB implements Serializable {
 	private TipoReceitaService tipoReceitaService;
 	private TipoReceita tipoReceita;
 	private TipoReceita tipoReceitaSelecionada;
-	
+	private List<TipoReceita> tiposReceitaDoUsuario;
+
 	public void prepararCadastro() {
 		if (this.tipoReceita == null)
-			this.tipoReceita = new TipoReceita();		
+			this.tipoReceita = new TipoReceita();
+	}
+	
+	public void limparCamposPrevisao() {
+		if (this.tipoReceita.getRecorrente().equals(SimNao.N.toString())) {
+			this.tipoReceita.setValorPrevisto(null);
+			this.tipoReceita.setDiaRecebimentoPrevisto(null);
+		}
 	}
 	
 	public String cadastrarTipoReceita() {
@@ -34,12 +43,16 @@ public class TipoReceitaMB implements Serializable {
 	
 	public void excluir() {
 		this.getTipoReceitaService().remover(this.tipoReceitaSelecionada);
+		this.tiposReceitaDoUsuario = null;
 		this.getTiposReceitaDoUsuario();
 	}
 
 	// Getters e Setters
 	public List<TipoReceita> getTiposReceitaDoUsuario() {
-		return getTipoReceitaService().listarPorUsuario();
+		if (tiposReceitaDoUsuario == null) {
+			tiposReceitaDoUsuario = this.getTipoReceitaService().listarPorUsuario(); 
+		}
+		return tiposReceitaDoUsuario;
 	}
 
 	public TipoReceita getTipoReceita() {
