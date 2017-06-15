@@ -22,7 +22,7 @@ import javax.persistence.Table;
 		@Index(name = "unique_index_login", columnList = "login", unique = true),
 		@Index(name = "unique_index_rg", columnList = "rg", unique = false),
 		@Index(name = "unique_index_cpf", columnList = "cpf", unique = false),
-		@Index(name = "index_prefil", columnList = "perfil_id", unique = false)}
+		@Index(name = "index_perfil", columnList = "perfil_id", unique = false)}
 )
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
