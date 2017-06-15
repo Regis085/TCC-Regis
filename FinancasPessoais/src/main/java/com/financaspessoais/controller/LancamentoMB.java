@@ -1,6 +1,7 @@
 package com.financaspessoais.controller;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -47,6 +48,18 @@ public class LancamentoMB implements Serializable {
 	private List<TipoDespesa> listaTipoDespesa;
 	private List<Estabelecimento> listaEstabelecimento;
 
+	public BigDecimal getSaldoLancamentos() {
+		BigDecimal resultado = BigDecimal.ZERO;
+		for (Lancamento l: lancamentosDoUsuario) {
+			if (l.getTipoLancamento().equals(TipoLancamento.DESPESA)) {
+				resultado = resultado.subtract(l.getValor());
+			}
+			else {
+				resultado = resultado.add(l.getValor());
+			}
+		}
+		return resultado;
+	}
 	
 	public TipoLancamento[] getTiposLancamentos() {
 		return TipoLancamento.values();

@@ -18,7 +18,7 @@ public class LancamentoDAO extends AbstractGenericDAO<Lancamento, Long> implemen
 		try {
 			@SuppressWarnings("unchecked")
 			List<Lancamento> listaLancamento = (List<Lancamento>) entityManager
-					.createQuery("SELECT l from Lancamento l " + " INNER JOIN l.proprietario u " + " WHERE u.id = :idUsuario")
+					.createQuery("SELECT l from Lancamento l " + " INNER JOIN l.proprietario u " + " WHERE u.id = :idUsuario" + " ORDER BY l.dataRealizacao DESC, l.descricao ASC")
 					.setParameter("idUsuario", idUsuario).getResultList();
 			return listaLancamento;
 		}
