@@ -20,8 +20,8 @@ import javax.persistence.Table;
 @Table(name = "usuario", 
 	indexes = {
 		@Index(name = "unique_index_login", columnList = "login", unique = true),
-		@Index(name = "unique_index_rg", columnList = "rg", unique = true),
-		@Index(name = "unique_index_cpf", columnList = "cpf", unique = true),
+		@Index(name = "unique_index_rg", columnList = "rg", unique = false),
+		@Index(name = "unique_index_cpf", columnList = "cpf", unique = false),
 		@Index(name = "index_prefil", columnList = "perfil_id", unique = false)}
 )
 public class Usuario implements Serializable {
@@ -44,10 +44,10 @@ public class Usuario implements Serializable {
 	@Column(name = "dataNascimento")
 	private Date dataNascimento;
 
-	@Column(name = "cpf", length = 25, nullable = false)
+	@Column(name = "cpf", length = 25)
 	private String cpf;
 
-	@Column(name = "rg", length = 25, nullable = false)
+	@Column(name = "rg", length = 25)
 	private String rg;
 
 	@Column(name = "cidade", length = 60)
