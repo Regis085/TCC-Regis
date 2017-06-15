@@ -26,25 +26,6 @@ import com.financaspessoais.model.pk.FaturaCartaoPK;
 public class FaturaCartao implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	public String getChaveComposta() {
-		String retorno = null;
-		if (this != null && this.getId() != null) {
-			retorno = this.getId().getCodigoCartaoDeCredito().toString() + "#" + this.getId().getAno().toString() +  "#" + this.getId().getMes().toString();
-		}		
-		return retorno;
-	}
-	
-	public String getPeriodo() {
-		String retorno = null;
-		
-		if (this.ano != null && this.ano > 0 && this.mes != null && this.mes > 0) {
-			String ano = this.getAno().toString();
-			String mes = this.getMes().toString().length() == 1 ? "0" + this.getMes().toString() : this.getMes().toString();
-			retorno = ano + "." + mes;
-		}
-		return retorno;
-	}
-	
 	@EmbeddedId
 	private FaturaCartaoPK id;
 
@@ -52,17 +33,6 @@ public class FaturaCartao implements Serializable {
 	@JoinColumn(name = "usuario_id")
 	private Usuario proprietario;
 	
-	public String getNome() {
-		String retorno = null;
-		if (this.getCartao() != null && this.ano != null && this.mes != null) {
-			String nome = this.getCartao().getNome();
-			String ultimosQuatroDigitos = this.getCartao().getQuatroUltimosDigitos() != null
-					? " (" + this.getCartao().getQuatroUltimosDigitos() + ")" : "";
-			retorno = nome + ultimosQuatroDigitos + " " + this.getPeriodo();
-		}
-		return retorno;
-	}
-
 	@Column(name = "ano_fatura_cartao", insertable = false, updatable = false)
 	private Short ano; // Preenchido automaticamente
 
@@ -82,7 +52,7 @@ public class FaturaCartao implements Serializable {
 	@Column(name = "data_pagamento")
 	private Date dataPagamento; // Deve ser preenchido por usuário
 
-	@Enumerated(EnumType.STRING)
+	@Enumerated(EnumType.ORDINAL)
 	@Column(nullable = false)
 	private StatusFaturaCartao statusFaturaCartao; // Preenchido automaticamente.
 										// DataPagamento > 0 Pago ou
@@ -103,6 +73,36 @@ public class FaturaCartao implements Serializable {
 			else
 				resultado = valorDevido;		
 		return resultado;
+	}
+	
+	public String getNome() {
+		String retorno = null;
+		if (this.getCartao() != null && this.ano != null && this.mes != null) {
+			String nome = this.getCartao().getNome();
+			String ultimosQuatroDigitos = this.getCartao().getQuatroUltimosDigitos() != null
+					? " (" + this.getCartao().getQuatroUltimosDigitos() + ")" : "";
+			retorno = nome + ultimosQuatroDigitos + " " + this.getPeriodo();
+		}
+		return retorno;
+	}
+	
+	public String getChaveComposta() {
+		String retorno = null;
+		if (this != null && this.getId() != null) {
+			retorno = this.getId().getCodigoCartaoDeCredito().toString() + "#" + this.getId().getAno().toString() +  "#" + this.getId().getMes().toString();
+		}		
+		return retorno;
+	}
+	
+	public String getPeriodo() {
+		String retorno = null;
+		
+		if (this.ano != null && this.ano > 0 && this.mes != null && this.mes > 0) {
+			String ano = this.getAno().toString();
+			String mes = this.getMes().toString().length() == 1 ? "0" + this.getMes().toString() : this.getMes().toString();
+			retorno = ano + "." + mes;
+		}
+		return retorno;
 	}
 	
 	public void setSaldoDevido(BigDecimal saldoDevido) {}

@@ -32,6 +32,7 @@ public class Constantes {
 	public static final String MSG_PREENCHER_AVULSO = "Favor preencher \"É Avulso?\".";
 	public static final String MSG_PREENCHER_NUMERO_PARCELA = "Favor preencher o campo \"Número da Parcela\".";
 	public static final String MSG_PREENCHER_VALOR = "Favor preencher o campo \"Valor\".";
+	public static final String MSG_PREENCHER_CONTAS = "Favor preencher ambos os campos \"Conta Origem\" e \"Conta Destino\".";
 	public static final String MSG_PREENCHER_CONTA = "Favor preencher o campo \"Conta\".";
 	public static final String MSG_PREENCHER_CARTAO = "Favor preencher o campo \"Cartão de Crédito\".";
 	public static final String MSG_PREENCHER_FATURA_CARTAO = "Favor preencher o campo \"Fatura de Cartão de Crédito\".";
@@ -40,8 +41,10 @@ public class Constantes {
 	public static final String MSG_PREENCHER_ANO_DA_FATURA = "Favor preencher o campo \"Ano da Fatura\".";
 	public static final String MSG_PREENCHER_MES_DA_FATURA = "Favor preencher o campo \"Mês da Fatura\".";
 	public static final String MSG_PREENCHER_DATA_VENCIMENTO = "Favor preencher o campo \"Data de Vencimento\".";
+	public static final String MSG_PREENCHER_DATA_TRANSFERENCIA = "Favor preencher o campo \"Data de Transferência\".";
 	
+	public static final String MSG_CAMPO_INVALIDO_CONTAS_IGUAIS = "Conta de Origem tem que ser diferente de conta de destino";
 	public static final String MSG_CAMPO_INVALIDO_ANO = "Preencha o campo \"Ano\" com um valor maior ou igual a 2000.";
-	public static final String MSG_CAMPO_INVALIDO_DATA_REALIZACAO = "Data de Realização tem que ser maior ou igual a data atual.";
+	public static final String MSG_CAMPO_INVALIDO_DATA_REALIZACAO = "Data de Realização tem que ser menor ou igual a data atual.";
 	public static final String MSG_CAMPO_INVALIDO_VALOR_LANCAMENTO = "O valor do lançamento tem que ser maior que zero.";
 }

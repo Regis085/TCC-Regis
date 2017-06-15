@@ -27,7 +27,7 @@ public class TipoDespesaMB implements Serializable {
 	}
 	
 	public void limparCamposPrevisao() {
-		if (this.tipoDespesa.getRecorrente().equals(SimNao.N.toString())) {
+		if (this.tipoDespesa.getRecorrente().equals(SimNao.NAO.toString())) {
 			this.tipoDespesa.setValorPrevisto(null);
 			this.tipoDespesa.setDiaPagamentoPrevisto(null);
 		}

@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.financaspessoais.dao.LancamentoDAO;
 import com.financaspessoais.model.Lancamento;
+import com.financaspessoais.model.SimNao;
 import com.financaspessoais.model.StatusLancamento;
 import com.financaspessoais.model.TipoLancamento;
 import com.financaspessoais.model.Usuario;
@@ -50,6 +51,10 @@ public class LancamentoServiceImpl extends AbstractGenericService implements Lan
 	private void configurarCampos(Lancamento lancamento) {
 		if (lancamento.getTipoLancamento() != null && lancamento.getTipoLancamento().equals(TipoLancamento.RECEITA))
 			lancamento.setEstabelecimento(null);
+		
+		if (lancamento.getIsTransferencia() == null) {
+			lancamento.setIsTransferencia(SimNao.NAO.getCodigo());
+		}
 		
 		if (lancamento.getDataRealizacao() == null)
 			lancamento.setStatusLancamento(StatusLancamento.PENDENTE);

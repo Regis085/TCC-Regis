@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<ui:composition template="/templates/modelo-base.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menu-principal.xhtml"></ui:include>
+	</ui:define>
+	<ui:define name="conteudo">
+		<h:form>
+			<p:panel>
+				<p:dataTable value="#{transferenciaMB.transferenciasDoUsuario}" var="transferencia"
+					border="1" cellspacing="0" cellpadding="2" paginator="true" rows="10" paginatorPosition="bottom">
+					
+					<f:facet name="header">
+			            Transferências
+			        </f:facet>
+			        
+					<p:column headerText="Conta Origem">
+						<h:outputText value="#{transferencia.listaLancamento[0].conta.nome}" />
+					</p:column>
+					
+					<p:column headerText="Conta Destino">
+						<h:outputText value="#{transferencia.listaLancamento[1].conta.nome}" />
+					</p:column>
+					
+					<p:column headerText="Data de Realização" sortBy="#{transferencia.dataTransferencia}" filterBy="#{transferencia.dataTransferencia}">
+						<h:outputText value="#{transferencia.dataTransferencia}">
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="Valor" sortBy="#{transferencia.valor}">
+						<h:outputText value="#{transferencia.valor}">
+							<f:convertNumber type="currency" locale="pt_BR" />
+						</h:outputText>
+					</p:column>
+					
+					<p:column>
+						<p:button icon="ui-icon-pencil" title="Editar" outcome="/pages/cadastro-transferencia">
+							<f:param name="id" value="#{transferencia.codigoTransferencia}" />
+						</p:button>
+						<p:commandButton icon="ui-icon-trash" title="Excluir" process="@this" update="@form"
+							action="#{transferenciaMB.excluir}">
+							<f:setPropertyActionListener value="#{transferencia}"
+								target="#{transferenciaMB.transferenciaSelecionada}" />
+						</p:commandButton>
+					</p:column>
+					<f:facet name="footer">
+				        Existem no total #{fn:length(transferenciaMB.transferenciasDoUsuario)} transferências".
+				    </f:facet>
+				</p:dataTable>
+				<h:messages id="msgErro" style="color: red" />
+				<br />
+				<h:panelGroup style="display:block; text-align:center">
+					<p:commandButton value="Novo" action="cadastro-transferencia?faces-redirect=true" />
+				</h:panelGroup>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,15 +1,21 @@
 package com.financaspessoais.model;
 
 public enum StatusItemLancamentoCartao {
-	PREVISTO("Previsto"), REAL("Real");
-	
+	PREVISTO(1, "Previsto"), REAL(1, "Real");
+
+	private Integer codigo;
 	private String descricao;
 
-	StatusItemLancamentoCartao(String descricao) {
+	private StatusItemLancamentoCartao(Integer codigo, String descricao) {
+		this.codigo = codigo;
 		this.descricao = descricao;
 	}
 
 	public String getDescricao() {
 		return descricao;
+	}
+
+	public Integer getCodigo() {
+		return codigo;
 	}
 }

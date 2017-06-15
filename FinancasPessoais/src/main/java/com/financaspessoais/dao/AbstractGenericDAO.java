@@ -37,8 +37,8 @@ public abstract class AbstractGenericDAO<T, I extends Serializable> {
 			return entity;
 		}
 		catch (Exception e) {
-			transacao.rollback();
 			FacesContextUtil.adicionarMensagemDeErro(Constantes.MSG_ERRO_GENERICA);
+			transacao.rollback();
 			e.printStackTrace();
 			return null;
 		}

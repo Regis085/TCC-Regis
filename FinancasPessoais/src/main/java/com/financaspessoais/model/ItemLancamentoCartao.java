@@ -43,7 +43,7 @@ public class ItemLancamentoCartao implements Serializable {
 		})
 	private FaturaCartao faturaCartao;
 
-	@Enumerated(EnumType.STRING)
+	@Enumerated(EnumType.ORDINAL)
 	@Column(nullable = false)
 	private StatusItemLancamentoCartao status;
 

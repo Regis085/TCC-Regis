@@ -2,18 +2,25 @@ package com.financaspessoais.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.financaspessoais.util.SessionContext;
 
 @Entity
 @Table(name = "transferencia")
@@ -22,7 +29,8 @@ public class Transferencia implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@Column(name = "codigo_transferencia")
+	private Long codigoTransferencia;
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "usuario_id")
@@ -32,23 +40,18 @@ public class Transferencia implements Serializable {
 	@Column(name = "data_transferencia", nullable = false)
 	private Date dataTransferencia;
 	
-	@ManyToOne(optional=false)
-	@JoinColumn(name="id_conta_origem")
-	private Conta contaOrigem;
-	
-	@ManyToOne(optional=false)
-	@JoinColumn(name="id_conta_destino")
-	private Conta contaDestino;
-	
 	@Column(name="valor", precision = 10, scale = 2, nullable = false)
 	private BigDecimal valor;
 	
-	public Long getId() {
-		return id;
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="transferencia", fetch=FetchType.LAZY)
+	private List<Lancamento> listaLancamento;
+	
+	public Long getCodigoTransferencia() {
+		return codigoTransferencia;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setCodigoTransferencia(Long codigoTransferencia) {
+		this.codigoTransferencia = codigoTransferencia;
 	}
 
 	public Usuario getProprietario() {
@@ -67,22 +70,6 @@ public class Transferencia implements Serializable {
 		this.dataTransferencia = dataTransferencia;
 	}
 
-	public Conta getContaOrigem() {
-		return contaOrigem;
-	}
-
-	public void setContaOrigem(Conta contaOrigem) {
-		this.contaOrigem = contaOrigem;
-	}
-
-	public Conta getContaDestino() {
-		return contaDestino;
-	}
-
-	public void setContaDestino(Conta contaDestino) {
-		this.contaDestino = contaDestino;
-	}
-
 	public BigDecimal getValor() {
 		return valor;
 	}
@@ -90,12 +77,39 @@ public class Transferencia implements Serializable {
 	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
+	
+	public List<Lancamento> getListaLancamento() {
+		if (listaLancamento == null || listaLancamento.isEmpty()) {
+			listaLancamento = new ArrayList<Lancamento>();
+			
+			Lancamento lancamentoDespesa = new Lancamento();
+			lancamentoDespesa.setTipoLancamento(TipoLancamento.DESPESA);
+			lancamentoDespesa.setIsTransferencia(SimNao.SIM.getCodigo());
+			lancamentoDespesa.setProprietario(SessionContext.getInstance().getUsuarioLogado());
+			lancamentoDespesa.setStatusLancamento(StatusLancamento.REALIZADO);
+			
+			Lancamento lancamentoReceita = new Lancamento();
+			lancamentoReceita.setTipoLancamento(TipoLancamento.RECEITA);
+			lancamentoReceita.setIsTransferencia(SimNao.SIM.getCodigo());
+			lancamentoReceita.setProprietario(SessionContext.getInstance().getUsuarioLogado());
+			lancamentoReceita.setStatusLancamento(StatusLancamento.REALIZADO);
+			
+			listaLancamento.add(lancamentoDespesa);
+			listaLancamento.add(lancamentoReceita);
+		}
+		
+		return listaLancamento;
+	}
+	
+	public void setListaLancamento(List<Lancamento> listaLancamento) {
+		this.listaLancamento = listaLancamento;
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((codigoTransferencia == null) ? 0 : codigoTransferencia.hashCode());
 		return result;
 	}
 
@@ -108,10 +122,10 @@ public class Transferencia implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Transferencia other = (Transferencia) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (codigoTransferencia == null) {
+			if (other.codigoTransferencia != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!codigoTransferencia.equals(other.codigoTransferencia))
 			return false;
 		return true;
 	}

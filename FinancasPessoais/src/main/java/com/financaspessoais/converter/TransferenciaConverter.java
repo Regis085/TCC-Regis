@@ -26,7 +26,7 @@ public class TransferenciaConverter implements Converter {
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if (value != null) {
 			Transferencia transferencia = ((Transferencia) value);
-			return transferencia.getId() == null ? null : transferencia.getId().toString();
+			return transferencia.getCodigoTransferencia() == null ? null : transferencia.getCodigoTransferencia().toString();
 		}
 		return null;
 	}

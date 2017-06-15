@@ -27,7 +27,7 @@ public class TipoReceitaMB implements Serializable {
 	}
 	
 	public void limparCamposPrevisao() {
-		if (this.tipoReceita.getRecorrente().equals(SimNao.N.toString())) {
+		if (this.tipoReceita.getRecorrente().equals(SimNao.NAO.toString())) {
 			this.tipoReceita.setValorPrevisto(null);
 			this.tipoReceita.setDiaRecebimentoPrevisto(null);
 		}

@@ -20,7 +20,8 @@
 			            Lançamentos
 			        </f:facet>
 					
-					<p:column headerText="Descrição" sortBy="#{lancamento.descricao}" width="25%"  filterBy="#{lancamento.descricao}">
+<!-- 					<p:column headerText="Descrição" sortBy="#{lancamento.descricao}" width="25%"  filterBy="#{lancamento.descricao}"> -->
+					<p:column headerText="Descrição" sortBy="#{lancamento.descricao}" filterBy="#{lancamento.descricao}">
 						<h:outputText value="#{lancamento.descricao}" />
 					</p:column>
 					

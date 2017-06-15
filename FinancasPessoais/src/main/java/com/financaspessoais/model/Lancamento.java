@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -23,7 +24,21 @@ public class Lancamento implements Serializable {
 
 	@Id
 	@GeneratedValue
+	@Column(name="codigo_lancamento")
 	private Long codigoLancamento;
+	
+	@ManyToOne(cascade = {CascadeType.DETACH}, optional = true)
+//	@ManyToOne(optional = true)
+	@JoinColumn(name = "codigo_transferencia")
+	private Transferencia transferencia; // Não obrigatório
+
+	public Transferencia getTransferencia() {
+		return transferencia;
+	}
+	
+	public void setTransferencia(Transferencia transferencia) {
+		this.transferencia = transferencia;
+	}
 	
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "usuario_id")
@@ -58,7 +73,10 @@ public class Lancamento implements Serializable {
 
 	@Column(name = "descricao", length = 255)
 	private String descricao;
-
+	
+	@Column(name = "is_transferencia", length = 1, nullable = false)
+	private String isTransferencia;
+	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "data_prevista")
 	private Date dataPrevista;
@@ -180,6 +198,14 @@ public class Lancamento implements Serializable {
 
 	public void setEstabelecimento(Estabelecimento estabelecimento) {
 		this.estabelecimento = estabelecimento;
+	}
+	
+	public String getIsTransferencia() {
+		return isTransferencia;
+	}
+
+	public void setIsTransferencia(String isTransferencia) {
+		this.isTransferencia = isTransferencia;
 	}
 
 	@Override

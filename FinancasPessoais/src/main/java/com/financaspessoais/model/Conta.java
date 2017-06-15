@@ -1,6 +1,7 @@
 package com.financaspessoais.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,13 +34,16 @@ public class Conta implements Serializable {
 	@Column(length = 60, nullable = false)
 	private String nome;
 	
-	@Enumerated(EnumType.STRING)
+	@Enumerated(EnumType.ORDINAL)
 	@Column(nullable = false)
 	private TipoConta tipoConta;
 	
 	@Column(name="descricao", length = 255, nullable = true)
 	private String descricao;
-
+	
+	@Column(name = "saldo", precision = 10, scale = 2)
+	private BigDecimal saldo;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -78,6 +82,14 @@ public class Conta implements Serializable {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public BigDecimal getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(BigDecimal saldo) {
+		this.saldo = saldo;
 	}
 
 	@Override

@@ -71,8 +71,8 @@ public class ItemLancamentoCartaoServiceImpl extends AbstractGenericService impl
 		}
 		
 		
-		if (itemLancamentoCartao.getIsAvulso() == null || itemLancamentoCartao.getIsAvulso().equals(SimNao.S) == false
-				|| itemLancamentoCartao.getIsAvulso().equals(SimNao.N) == false) {
+		if (itemLancamentoCartao.getIsAvulso() == null || itemLancamentoCartao.getIsAvulso().equals(SimNao.SIM) == false
+				|| itemLancamentoCartao.getIsAvulso().equals(SimNao.NAO) == false) {
 			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_AVULSO);
 		}
 		
