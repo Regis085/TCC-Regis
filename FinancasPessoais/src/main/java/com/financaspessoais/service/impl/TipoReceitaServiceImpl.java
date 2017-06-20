@@ -65,12 +65,6 @@ public class TipoReceitaServiceImpl extends AbstractGenericService implements Ti
 		return this.getTipoReceitaDAO().buscarPorId(id);
 	}
 	
-	private TipoReceitaDAO getTipoReceitaDAO() {
-		if (this.tipoReceitaDAO == null)
-			this.tipoReceitaDAO = new TipoReceitaDAO();
-		return tipoReceitaDAO;
-	}
-	
 	private void validarDuplicidade(TipoReceita tipoReceita) {
 		boolean isValido = true;
 		try {
@@ -88,5 +82,11 @@ public class TipoReceitaServiceImpl extends AbstractGenericService implements Ti
 	private void validarCamposObrigatorios(TipoReceita tipoReceita) {
 		if (tipoReceita.getNome() == null || tipoReceita.getNome().trim().isEmpty())
 			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_NOME);
+	}
+	
+	private TipoReceitaDAO getTipoReceitaDAO() {
+		if (this.tipoReceitaDAO == null)
+			this.tipoReceitaDAO = new TipoReceitaDAO();
+		return tipoReceitaDAO;
 	}
 }

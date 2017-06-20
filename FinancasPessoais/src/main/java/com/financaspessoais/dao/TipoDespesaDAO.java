@@ -17,10 +17,36 @@ public class TipoDespesaDAO extends AbstractGenericDAO<TipoDespesa, Short> imple
 	}
 
 	public List<TipoDespesa> listarPorProprietario(Short idUsuario) {
+//		try {
+//			List<TipoDespesa> listaTipoDespesa = (List<TipoDespesa>) entityManager
+//					.createQuery("SELECT t from TipoDespesa t " + " INNER JOIN t.proprietario u " + " WHERE u.id = :idUsuario")
+//					.setParameter("idUsuario", idUsuario).getResultList();
+//			return listaTipoDespesa;
+//		}
+//		catch (NoResultException e) {
+//			return null;
+//		}
+		return listarPorProprietarioENome(idUsuario, null);
+	}
+
+	public List<TipoDespesa> listarPorProprietarioENome(Short idUsuario, String nome) {
 		try {
-			List<TipoDespesa> listaTipoDespesa = (List<TipoDespesa>) entityManager
-					.createQuery("SELECT t from TipoDespesa t " + " INNER JOIN t.proprietario u " + " WHERE u.id = :idUsuario")
-					.setParameter("idUsuario", idUsuario).getResultList();
+			StringBuilder consulta = new StringBuilder();
+			consulta.append("SELECT t from TipoDespesa t");
+			consulta.append(" INNER JOIN t.proprietario u");
+			consulta.append(" WHERE u.id = :idUsuario");
+			
+			if (nome != null) {
+				consulta.append("   AND UPPER(t.nome) LIKE :nome");
+			}
+			
+			Query query = entityManager.createQuery(consulta.toString());
+			query.setParameter("idUsuario", idUsuario);
+			
+			if (nome != null) {
+				query.setParameter("nome", nome);
+			}
+			List<TipoDespesa> listaTipoDespesa = (List<TipoDespesa>) query.getResultList();
 			return listaTipoDespesa;
 		}
 		catch (NoResultException e) {

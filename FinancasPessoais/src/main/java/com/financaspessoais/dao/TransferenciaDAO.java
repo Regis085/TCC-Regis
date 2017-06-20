@@ -25,22 +25,22 @@ public class TransferenciaDAO extends AbstractGenericDAO<Transferencia, Long> im
 		try {
 			transacao.begin();
 			
-			entityManager.merge(transferencia);
 			List<Lancamento> lancamentos = transferencia.getListaLancamento();
 			transferencia.setListaLancamento(null);
+			transferencia = entityManager.merge(transferencia);
 			for (Lancamento l : lancamentos) {
 				l.setTransferencia(transferencia);
 				entityManager.merge(l);
 			}
 			
-			entityManager.flush();
+//			entityManager.flush();
 			transacao.commit();
 			return transferencia;
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 			FacesContextUtil.adicionarMensagemDeErro(Constantes.MSG_ERRO_GENERICA);
 			transacao.rollback();
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -49,7 +49,7 @@ public class TransferenciaDAO extends AbstractGenericDAO<Transferencia, Long> im
 		
 		try {
 			StringBuilder consulta = new StringBuilder();
-			consulta.append("SELECT t FROM Transferencia t");
+			consulta.append("SELECT DISTINCT t FROM Transferencia t");
 			consulta.append(" INNER JOIN t.proprietario u");
 			consulta.append(" INNER JOIN FETCH t.listaLancamento ll");
 			consulta.append(" WHERE u.id = :idUsuario");

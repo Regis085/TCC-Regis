@@ -24,7 +24,7 @@ import com.financaspessoais.util.SessionContext;
 
 @Entity
 @Table(name = "transferencia")
-public class Transferencia implements Serializable {
+public class Transferencia implements Serializable, Cloneable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -43,7 +43,7 @@ public class Transferencia implements Serializable {
 	@Column(name="valor", precision = 10, scale = 2, nullable = false)
 	private BigDecimal valor;
 	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="transferencia", fetch=FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST}, mappedBy="transferencia", fetch=FetchType.LAZY)
 	private List<Lancamento> listaLancamento;
 	
 	public Long getCodigoTransferencia() {

@@ -3,6 +3,7 @@ package com.financaspessoais.util;
 public class Constantes {
 	
 	public static final Short ID_PERFIL_PADRAO = new Short("2");
+	public static final String NOME_TIPO_DESPESA_RECEITA_TRANSFERENCIA = "Transferência";
 	public static final String USUARIO_LOGADO = "usuarioLogado";
 	public static final String MSG_USUARIO_INVALIDO = "Verifique seu login e senha.";
 	public static final String MSG_ERRO_GENERICA = "Erro, contate o Administrador.";

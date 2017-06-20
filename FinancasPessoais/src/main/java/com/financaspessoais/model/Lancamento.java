@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -19,7 +18,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "lancamento")
-public class Lancamento implements Serializable {
+public class Lancamento implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -27,8 +26,8 @@ public class Lancamento implements Serializable {
 	@Column(name="codigo_lancamento")
 	private Long codigoLancamento;
 	
-	@ManyToOne(cascade = {CascadeType.DETACH}, optional = true)
-//	@ManyToOne(optional = true)
+//	@ManyToOne(cascade = {CascadeType.DETACH}, optional = true)
+	@ManyToOne(optional = true)
 	@JoinColumn(name = "codigo_transferencia")
 	private Transferencia transferencia; // Não obrigatório
 

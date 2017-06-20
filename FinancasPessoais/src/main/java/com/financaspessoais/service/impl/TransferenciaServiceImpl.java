@@ -4,10 +4,14 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.financaspessoais.dao.TipoDespesaDAO;
+import com.financaspessoais.dao.TipoReceitaDAO;
 import com.financaspessoais.dao.TransferenciaDAO;
 import com.financaspessoais.model.Conta;
 import com.financaspessoais.model.Lancamento;
 import com.financaspessoais.model.SimNao;
+import com.financaspessoais.model.TipoDespesa;
+import com.financaspessoais.model.TipoReceita;
 import com.financaspessoais.model.Transferencia;
 import com.financaspessoais.model.Usuario;
 import com.financaspessoais.service.TransferenciaService;
@@ -18,16 +22,18 @@ import com.financaspessoais.util.SessionContext;
 public class TransferenciaServiceImpl extends AbstractGenericService implements TransferenciaService, Serializable {
 	private static final long serialVersionUID = 1L;
 	private TransferenciaDAO transferenciaDAO;
+	private TipoDespesaDAO tipoDespesaDAO;
+	private TipoReceitaDAO tipoReceitaDAO;
 
 	@Override
 	public boolean criarOuAtualizar(Transferencia transferencia) {
 		limparListaMensagemErro();
 
 		validarCamposObrigatorios(transferencia);
-		configurarCampos(transferencia);
-
 		Usuario u = SessionContext.getInstance().getUsuarioLogado();
 		transferencia.setProprietario(u);
+
+		configurarCampos(transferencia);
 
 		boolean retorno;
 
@@ -52,13 +58,34 @@ public class TransferenciaServiceImpl extends AbstractGenericService implements 
 			Conta contaDestino =  null;
 			
 			if (transferencia.getListaLancamento() != null && transferencia.getListaLancamento().size() == 2){
-				// TODO preencher com TipoDespesa/TipoReceita correspondendo a Transferência.
 				//transferencia.getListaLancamento().get(0).getTipoLancamento()
-				for (Lancamento l : transferencia.getListaLancamento()) {
+				
+				List<TipoDespesa> listaTipoDespesa = getTipoDespesaDAO().listarPorProprietarioENome(transferencia.getProprietario().getId(), Constantes.NOME_TIPO_DESPESA_RECEITA_TRANSFERENCIA);
+				List<TipoReceita> listaTipoReceita = getTipoReceitaDAO().listarPorProprietarioENome(transferencia.getProprietario().getId(), Constantes.NOME_TIPO_DESPESA_RECEITA_TRANSFERENCIA);
+				
+				TipoDespesa tipoDespesaTransferencia = null;
+				TipoReceita tipoReceitaTransferencia = null;
+				
+				if (listaTipoDespesa != null && listaTipoDespesa.isEmpty() == false)
+					tipoDespesaTransferencia = listaTipoDespesa.get(0); 
+				if (listaTipoReceita != null && listaTipoReceita.isEmpty() == false)
+					tipoReceitaTransferencia = listaTipoReceita.get(0);
+					
+				for (int i = 0; i < transferencia.getListaLancamento().size(); i++) {
+					Lancamento l = transferencia.getListaLancamento().get(i);
 					l.setDataRealizacao(transferencia.getDataTransferencia());
 					l.setValor(transferencia.getValor());
 					l.setIsTransferencia(SimNao.SIM.getCodigo());
+					if (i == 0) {
+						l.setTipoDespesa(tipoDespesaTransferencia);
+						l.setTipoReceita(null);
+					}
+					if (i == 1) {
+						l.setTipoReceita(tipoReceitaTransferencia);
+						l.setTipoDespesa(null);
+					}
 				}
+				
 				contaOrigem = transferencia.getListaLancamento().get(0).getConta();
 				contaDestino = transferencia.getListaLancamento().get(1).getConta();
 				
@@ -115,5 +142,17 @@ public class TransferenciaServiceImpl extends AbstractGenericService implements 
 		if (this.transferenciaDAO == null)
 			this.transferenciaDAO = new TransferenciaDAO();
 		return transferenciaDAO;
+	}
+	
+	private TipoDespesaDAO getTipoDespesaDAO() {
+		if (this.tipoDespesaDAO == null)
+			this.tipoDespesaDAO = new TipoDespesaDAO();
+		return tipoDespesaDAO;
+	}
+	
+	private TipoReceitaDAO getTipoReceitaDAO() {
+		if (this.tipoReceitaDAO == null)
+			this.tipoReceitaDAO = new TipoReceitaDAO();
+		return tipoReceitaDAO;
 	}
 }

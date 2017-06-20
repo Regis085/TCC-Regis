@@ -67,12 +67,6 @@ public class TipoDespesaServiceImpl extends AbstractGenericService implements Ti
 		return this.getTipoDespesaDAO().buscarPorId(id);
 	}
 	
-	private TipoDespesaDAO getTipoDespesaDAO() {
-		if (this.tipoDespesaDAO == null)
-			this.tipoDespesaDAO = new TipoDespesaDAO();
-		return tipoDespesaDAO;
-	}
-	
 	private void validarDuplicidade(TipoDespesa tipoDespesa) {
 		boolean isValido = true;
 		try {
@@ -90,5 +84,11 @@ public class TipoDespesaServiceImpl extends AbstractGenericService implements Ti
 	private void validarCamposObrigatorios(TipoDespesa tipoDespesa) {
 		if (tipoDespesa.getNome() == null || tipoDespesa.getNome().trim().isEmpty())
 			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_NOME);
+	}
+	
+	private TipoDespesaDAO getTipoDespesaDAO() {
+		if (this.tipoDespesaDAO == null)
+			this.tipoDespesaDAO = new TipoDespesaDAO();
+		return tipoDespesaDAO;
 	}
 }
