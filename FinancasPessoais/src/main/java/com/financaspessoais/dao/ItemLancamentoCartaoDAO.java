@@ -68,7 +68,7 @@ public class ItemLancamentoCartaoDAO extends AbstractGenericDAO<ItemLancamentoCa
 	
 	public Long getMaxId(Short codigoCartaoDeCredito, Long codigoLancamentoCartao) {
 		
-		Long retorno = 0L;
+		Long retorno = null;
 		
 		StringBuilder consulta = new StringBuilder();
 		consulta.append("SELECT MAX(i.codigoItemLancamentoCartao) FROM ItemLancamentoCartao i");
@@ -85,6 +85,9 @@ public class ItemLancamentoCartaoDAO extends AbstractGenericDAO<ItemLancamentoCa
 			System.out.println("Retorno: " + retorno);
 			e.printStackTrace();
 		}
+		
+		if (retorno == null)
+			retorno = 0L;
 		
 		return retorno;
 	}

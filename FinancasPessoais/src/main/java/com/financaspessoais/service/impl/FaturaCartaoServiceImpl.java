@@ -53,10 +53,6 @@ public class FaturaCartaoServiceImpl extends AbstractGenericService implements F
 		return retorno;
 	}
 
-	private boolean naoOcorreramErros() {
-		return this.getListaMensagemErro().isEmpty();
-	}
-
 	private void validarCamposObrigatorios(FaturaCartao faturaCartao) {
 		if (faturaCartao.getCartao() == null)
 			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_CARTAO);

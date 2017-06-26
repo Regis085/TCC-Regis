@@ -17,18 +17,23 @@ public class LancamentoCartaoConverter implements Converter {
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		LancamentoCartao retorno = null;
-		if (value != null)
-			retorno = this.getLancamentoCartaoService().buscar(new Long(value));
+		if (value != null) {
+			String[] chaves = value.split("#");
+			Short codigoCartaoDeCredito = new Short(chaves[0]);
+			Long codigoLancamentoCartao = new Long(chaves[1]);
+			retorno = this.getLancamentoCartaoService().buscar(codigoCartaoDeCredito, codigoLancamentoCartao);
+		}
 		return retorno;
 	}
 
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
+		String retorno = null;
 		if (value != null) {
 			LancamentoCartao lancamentoCartao = ((LancamentoCartao) value);
-			return lancamentoCartao.getId() == null ? null : lancamentoCartao.getId().toString();
+			retorno = lancamentoCartao.getNome();
 		}
-		return null;	
+		return retorno;	
 	}
 
 	private LancamentoCartaoService getLancamentoCartaoService() {

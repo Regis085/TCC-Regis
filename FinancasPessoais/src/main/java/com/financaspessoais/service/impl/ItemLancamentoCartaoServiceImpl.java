@@ -50,7 +50,7 @@ public class ItemLancamentoCartaoServiceImpl extends AbstractGenericService impl
 		ItemLancamentoCartaoPK id = new ItemLancamentoCartaoPK();
 		id.setCodigoCartaoDeCredito(item.getLancamentoCartao().getId().getCodigoCartaoDeCredito());
 		id.setCodigoLancamentoCartao(item.getLancamentoCartao().getId().getCodigoLancamentoCartao());
-		Long codigo = itemLancamentoCartaoDAO.getNextId(id.getCodigoCartaoDeCredito(), id.getCodigoLancamentoCartao());
+		Long codigo = getItemLancamentoCartaoDAO().getNextId(id.getCodigoCartaoDeCredito(), id.getCodigoLancamentoCartao());
 		id.setCodigoItemLancamentoCartao(codigo);
 		item.setId(id);
 	}

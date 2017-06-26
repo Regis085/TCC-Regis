@@ -11,6 +11,10 @@ public abstract class AbstractGenericService {
 
 	private List<FacesMessage> listaMensagemErro;
 	
+	protected boolean naoOcorreramErros() {
+		return this.getListaMensagemErro().isEmpty();
+	}
+	
 	protected void adicionarMensagemErro(String msg1) {
 		FacesMessage mensagem = FacesContextUtil.criarMensagemErro(msg1);
 		this.getListaMensagemErro().add(mensagem);

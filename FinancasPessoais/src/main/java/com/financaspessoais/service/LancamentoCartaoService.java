@@ -7,7 +7,7 @@ import com.financaspessoais.model.LancamentoCartao;
 public interface LancamentoCartaoService {
 	boolean criarOuAtualizar(LancamentoCartao lancamentoCartao);
 	
-	LancamentoCartao buscar(Long id);
+	LancamentoCartao buscar(Short codigoCartaoDeCredito, Long codigoLancamentoCartao);
 
 	List<LancamentoCartao> listarPorUsuario();
 	

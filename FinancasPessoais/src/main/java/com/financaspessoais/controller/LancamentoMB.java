@@ -38,7 +38,7 @@ public class LancamentoMB implements Serializable {
 	private ContaService contaService;
 	private TipoReceitaService tipoReceitaService;
 	private TipoDespesaService tipoDespesaService;
-	private EstabelecimentoService tipoEstabelecimentoService;
+	private EstabelecimentoService estabelecimentoService;
 	private Lancamento lancamento;
 	private Lancamento lancamentoSelecionado;
 	private List<Lancamento> lancamentosDoUsuario;
@@ -222,8 +222,8 @@ public class LancamentoMB implements Serializable {
 	}
 	
 	private EstabelecimentoService getEstabelecimentoService() {
-		if (this.tipoEstabelecimentoService == null)
-			this.tipoEstabelecimentoService = new EstabelecimentoServiceImpl();
-		return tipoEstabelecimentoService;
+		if (this.estabelecimentoService == null)
+			this.estabelecimentoService = new EstabelecimentoServiceImpl();
+		return estabelecimentoService;
 	}
 }

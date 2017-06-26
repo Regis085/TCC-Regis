@@ -32,7 +32,6 @@ public class FaturaCartaoConverter implements Converter {
 		String retorno = null;
 		if (value != null) {
 			FaturaCartao faturaCartao = ((FaturaCartao) value);
-			
 			retorno = faturaCartao.getNome();
 		}
 		return retorno;

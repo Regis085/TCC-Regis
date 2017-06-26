@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<ui:composition template="/templates/modelo-base.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui">
+	
+	<f:metadata>
+		<f:viewAction action="#{lancamentoCartaoMB.prepararCadastro}" />
+		<o:viewParam name="id" value="#{lancamentoCartaoMB.lancamentoCartao}" />
+	</f:metadata>
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menu-principal.xhtml"></ui:include>
+	</ui:define>
+	<ui:define name="conteudo">
+		<h:form>
+			<p:panel>
+				<p:panelGrid columns="2">
+					
+					<p:outputLabel value="Descrição" for="descricao_lancamento_cartao"/>
+					<p:inputTextarea id="descricao_lancamento_cartao" value="#{lancamentoCartaoMB.lancamentoCartao.descricao}" />
+				
+					<p:outputLabel value="Cartão de Crédito" for="cartao_de_credito"/>
+					<p:outputPanel>
+						<h:outputText value="#{lancamentoCartaoMB.lancamentoCartao.cartao.nome}" rendered="#{lancamentoCartaoMB.lancamentoCartao.id != null}" />
+						<p:autoComplete id="cartao_de_credito" value="#{lancamentoCartaoMB.lancamentoCartao.cartao}" rendered="#{lancamentoCartaoMB.lancamentoCartao.id == null}"
+										completeMethod="#{lancamentoCartaoMB.filtrarListaCartoes}"  dropdown="true"
+										var="cartao" forceSelection="true" itemLabel="#{cartao.nome}" itemValue="#{cartao}">
+						</p:autoComplete>
+					</p:outputPanel>
+					
+					<p:outputLabel value="Estabelecimento" for="estabelecimento"/>
+					<p:autoComplete id="estabelecimento" value="#{lancamentoCartaoMB.lancamentoCartao.estabelecimento}"
+									completeMethod="#{lancamentoCartaoMB.filtrarListaEstabelecimentos}" dropdown="true"
+									var="estabelecimento" forceSelection="true"
+									itemLabel="#{estabelecimento.nome}" itemValue="#{estabelecimento}">
+					</p:autoComplete>
+					
+					<p:outputLabel value="Data de Lançamento" for="data_lancamento" />
+					<p:calendar id="data_lancamento" styleClass="calendario" size="12" pattern="dd/MM/yyyy" widgetVar="calendarWidget1"
+						value="#{lancamentoCartaoMB.lancamentoCartao.dataLancamento}">
+					</p:calendar>
+					
+					<h:outputLabel value="Número de Parcelas" for="numero_parcelas"/>
+					<p:inputNumber id="numero_parcelas" size="2" minValue="1" maxValue="99" value="#{lancamentoCartaoMB.lancamentoCartao.numeroParcelas}">
+						<f:convertNumber locale="pt_BR" maxFractionDigits="0" minFractionDigits="0" />
+					</p:inputNumber>
+					
+					<h:outputLabel value="Valor" for="valor_lancamento"/>
+					<p:inputText id="valor_lancamento" size="12" value="#{lancamentoCartaoMB.lancamentoCartao.valor}">
+						<f:convertNumber locale="pt_BR" maxFractionDigits="2" minFractionDigits="2" />
+					</p:inputText>
+					
+					<p:outputLabel value="Observação" for="observacao_lancamento_cartao"/>
+					<p:inputTextarea id="observacao_lancamento_cartao" value="#{lancamentoCartaoMB.lancamentoCartao.observacao}" />
+					
+					<p:commandButton value="Salvar" action="#{lancamentoCartaoMB.cadastrarLancamentoCartao}" />
+					<p:commandButton value="Voltar" action="lista-lancamento-cartao?faces-redirect=true" immediate="true"/>					
+					
+				</p:panelGrid>
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
