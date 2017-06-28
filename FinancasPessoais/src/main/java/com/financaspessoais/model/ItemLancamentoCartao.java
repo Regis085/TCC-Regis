@@ -19,6 +19,7 @@ import com.financaspessoais.model.pk.ItemLancamentoCartaoPK;
 @Entity
 @Table(name = "item_lancamento_cartao")
 public class ItemLancamentoCartao implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
@@ -27,8 +28,12 @@ public class ItemLancamentoCartao implements Serializable {
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "usuario_id")
 	private Usuario proprietario;
-
-	@ManyToOne(optional = false, fetch=FetchType.LAZY)
+	
+	@ManyToOne(optional = true, fetch=FetchType.LAZY)
+	@JoinColumn(name="codigo_cartao_de_credito", referencedColumnName = "codigo_cartao_de_credito", insertable = false, updatable = false)
+	private CartaoDeCredito cartaoDeCredito;
+	
+	@ManyToOne(optional = true, fetch=FetchType.LAZY)
 	@JoinColumns({
 		  @JoinColumn(name = "codigo_cartao_de_credito", referencedColumnName = "codigo_cartao_de_credito", insertable = false, updatable = false),
 		  @JoinColumn(name = "codigo_lancamento_cartao", referencedColumnName = "codigo_lancamento_cartao", insertable = false, updatable = false)
@@ -37,9 +42,9 @@ public class ItemLancamentoCartao implements Serializable {
 
 	@ManyToOne(optional = false, fetch=FetchType.LAZY)
 	@JoinColumns({
-//		  @JoinColumn(name = "codigo_cartao_de_credito", referencedColumnName = "codigo_cartao_de_credito"),
-		  @JoinColumn(name = "ano_fatura_cartao", referencedColumnName = "ano_fatura_cartao"),
-		  @JoinColumn(name = "mes_fatura_cartao", referencedColumnName = "mes_fatura_cartao")
+//		  @JoinColumn(name = "codigo_cartao_de_credito", referencedColumnName = "codigo_cartao_de_credito", insertable = false, updatable = false),
+		  @JoinColumn(name = "ano_fatura_cartao", referencedColumnName = "ano_fatura_cartao", insertable = true, updatable = true),
+		  @JoinColumn(name = "mes_fatura_cartao", referencedColumnName = "mes_fatura_cartao", insertable = true, updatable = true)
 		})
 	private FaturaCartao faturaCartao;
 
@@ -48,9 +53,7 @@ public class ItemLancamentoCartao implements Serializable {
 	private StatusItemLancamentoCartao status;
 
 	@Column(precision = 10, scale = 2, nullable = false)
-	private BigDecimal valor; // Se for ligado a Credito deve ser negativo, caso
-								// contrário deve ser positivo.
-								// Preenchido automaticamente, porém editável.
+	private BigDecimal valor; // Se for ligado a Credito deve ser negativo, caso contrário deve ser positivo. Preenchido automaticamente, porém editável.
 	
 	@Column(name = "numero_parcela", nullable = false, length = 3)
 	private Short numeroParcela;
@@ -83,6 +86,14 @@ public class ItemLancamentoCartao implements Serializable {
 
 	public void setId(ItemLancamentoCartaoPK id) {
 		this.id = id;
+	}
+	
+	public CartaoDeCredito getCartaoDeCredito() {
+		return cartaoDeCredito;
+	}
+	
+	public void setCartaoDeCredito(CartaoDeCredito cartaoDeCredito) {
+		this.cartaoDeCredito = cartaoDeCredito;
 	}
 
 	public Usuario getProprietario() {
@@ -147,6 +158,14 @@ public class ItemLancamentoCartao implements Serializable {
 
 	public void setIsCredito(String isCredito) {
 		this.isCredito = isCredito;
+	}
+	
+	@Override
+	public String toString() {
+		return "ItemLancamentoCartao [id=" + id + ", proprietario=" + proprietario + ", cartaoDeCredito="
+				+ cartaoDeCredito + ", lancamentoCartao=" + lancamentoCartao + ", faturaCartao=" + faturaCartao
+				+ ", status=" + status + ", valor=" + valor + ", numeroParcela=" + numeroParcela + ", observacao="
+				+ observacao + ", isCredito=" + isCredito + "]";
 	}
 
 	@Override

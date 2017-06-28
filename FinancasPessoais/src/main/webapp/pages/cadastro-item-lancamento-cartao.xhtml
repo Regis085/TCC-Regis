@@ -25,7 +25,7 @@
 						<h:outputText value="#{itemLancamentoCartaoMB.itemLancamentoCartao.faturaCartao.nome}" rendered="#{itemLancamentoCartaoMB.itemLancamentoCartao.id != null}" />
 						<p:autoComplete id="fatura_cartao" value="#{itemLancamentoCartaoMB.itemLancamentoCartao.faturaCartao}" rendered="#{itemLancamentoCartaoMB.itemLancamentoCartao.id == null}"
 										completeMethod="#{itemLancamentoCartaoMB.filtrarListaFaturaCartao}" dropdown="true"
-										var="faturaCartao" forceSelection="true" itemLabel="#{faturaCartao.chaveComposta}" itemValue="#{faturaCartao}">
+										var="faturaCartao" forceSelection="true" itemLabel="#{faturaCartao.nome}" itemValue="#{faturaCartao}">
 						</p:autoComplete>
 					</p:outputPanel>
 					
@@ -35,7 +35,7 @@
 						<h:panelGroup>
 							<p:autoComplete id="lancamento_cartao" value="#{itemLancamentoCartaoMB.itemLancamentoCartao.lancamentoCartao}" rendered="#{itemLancamentoCartaoMB.itemLancamentoCartao.id == null}"
 										completeMethod="#{itemLancamentoCartaoMB.filtrarListaLancamentoCartao}"  dropdown="true"
-										var="lancamentoCartao" forceSelection="true" itemLabel="#{lancamentoCartao.chaveComposta}" itemValue="#{lancamentoCartao}">
+										var="lancamentoCartao" forceSelection="true" itemLabel="#{lancamentoCartao.nome}" itemValue="#{lancamentoCartao}">
 								<p:ajax event="itemSelect" update="estabelecimento" process="@this"/>
 								
 							</p:autoComplete>

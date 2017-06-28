@@ -65,6 +65,9 @@ public class FaturaCartao implements Serializable {
 	@Column(name = "valor_pago", precision = 10, scale = 2)
 	private BigDecimal valorPago; // Deve ser preenchido por usuário
 	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "faturaCartao", fetch = FetchType.LAZY)
+	private List<ItemLancamentoCartao> itenslancamento;
+	
 	public BigDecimal getSaldoDevido() {
 		BigDecimal resultado = null;
 		if (valorDevido != null)
@@ -106,9 +109,6 @@ public class FaturaCartao implements Serializable {
 	}
 	
 	public void setSaldoDevido(BigDecimal saldoDevido) {}
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "faturaCartao", fetch = FetchType.LAZY)
-	private List<ItemLancamentoCartao> itenslancamento;
 
 	public FaturaCartaoPK getId() {
 		return id;
@@ -198,4 +198,36 @@ public class FaturaCartao implements Serializable {
 		this.itenslancamento = itenslancamento;
 	}
 
+	@Override
+	public String toString() {
+		return "FaturaCartao [id=" + id + ", proprietario=" + proprietario + ", ano=" + ano + ", mes=" + mes
+				+ ", cartao=" + cartao + ", dataVencimento=" + dataVencimento + ", dataPagamento=" + dataPagamento
+				+ ", statusFaturaCartao=" + statusFaturaCartao + ", valorDevido=" + valorDevido + ", valorPago="
+				+ valorPago + ", itenslancamento=" + itenslancamento + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FaturaCartao other = (FaturaCartao) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
 }

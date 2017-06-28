@@ -34,10 +34,70 @@ public class Testes {
 //		salvarTipoDespesa();
 //		removerTipoDespesa();
 //		listarTiposDespesa();
-		criarItemLancamentoCartao();
+//		criarItemLancamentoCartao();
+		
+//		listarFaturas(new Short("1"));
+		listarItensLancamentoCartao(new Short("1"));
 	}
 	
-	private static void criarItemLancamentoCartao() {
+	@SuppressWarnings("unchecked")
+	public static void listarItensLancamentoCartao(Short idUsuario) {
+		EntityManager entityManager = JpaUtil.getEntityManager();
+		List<ItemLancamentoCartao> listaItensLancamento = null;
+		
+		try {
+			StringBuilder consulta = new StringBuilder();
+			consulta.append("SELECT DISTINCT i FROM ItemLancamentoCartao i");
+			consulta.append(" INNER JOIN i.proprietario u");
+			consulta.append(" WHERE u.id = :idUsuario");
+			Query query = entityManager.createQuery(consulta.toString());
+			query.setParameter("idUsuario", idUsuario);
+			listaItensLancamento = (List<ItemLancamentoCartao>) query.getResultList();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		if (listaItensLancamento != null) {
+			for (ItemLancamentoCartao i : listaItensLancamento) {
+				System.out.println(i.getFaturaCartao().getNome());
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public static void listarFaturas(Short idUsuario) {
+		
+		EntityManager entityManager = JpaUtil.getEntityManager();
+		List<FaturaCartao> listaFatura = null;
+		
+		try {
+			StringBuilder consulta = new StringBuilder();
+			consulta.append("SELECT DISTINCT f FROM FaturaCartao f");
+			consulta.append(" INNER JOIN f.proprietario u");
+			consulta.append(" INNER JOIN FETCH f.itenslancamento ll");
+			consulta.append(" WHERE u.id = :idUsuario");
+			Query query = entityManager.createQuery(consulta.toString());
+			query.setParameter("idUsuario", idUsuario);
+			listaFatura = (List<FaturaCartao>) query.getResultList();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		if (listaFatura != null) {
+			for (FaturaCartao f : listaFatura) {
+				boolean haItens = f.getItenslancamento() != null;
+				if (haItens) {
+					for (ItemLancamentoCartao i : f.getItenslancamento()) {
+						System.out.println(i.toString());
+					}
+				}
+			}
+		}
+	}
+	
+	public static void criarItemLancamentoCartao() {
 		FaturaCartao f = new FaturaCartao();
 		FaturaCartaoPK fId = new FaturaCartaoPK();
 		fId.setAno(new Short("2017"));
