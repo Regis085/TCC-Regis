@@ -1,7 +1,7 @@
 package com.financaspessoais.model;
 
 public enum StatusItemLancamentoCartao {
-	PREVISTO(1, "Previsto"), REAL(1, "Real");
+	PREVISTO(1, "Previsto"), REAL(2, "Real");
 
 	private Integer codigo;
 	private String descricao;

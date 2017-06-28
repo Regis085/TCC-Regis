@@ -28,16 +28,16 @@ import com.financaspessoais.util.Util;
 @ViewScoped
 public class FaturaCartaoMB implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private FaturaCartaoService faturaCartaoService;
 	private FaturaCartao faturaCartao;
 	private FaturaCartao faturaCartaoSelecionada;
-	
 	private List<FaturaCartao> listaFaturaCartaoDoUsuario;
 	
-	private CartaoDeCreditoService cartaoDeCreditoService;
 	private List<CartaoDeCredito> listaCartaoDeCredito;
 	private List<String> listaAno;
 	private List<String> listaAnoFiltrada;
+	
+	private FaturaCartaoService faturaCartaoService;
+	private CartaoDeCreditoService cartaoDeCreditoService;
 	
 	public List<CartaoDeCredito> filtrarListaCartoes(String query) {
         

@@ -30,7 +30,6 @@ public class Constantes {
 	public static final String MSG_PREENCHER_LOGIN = "Favor preencher o Login.";
 	public static final String MSG_PREENCHER_SENHA = "Favor preencher a Senha.";
 	public static final String MSG_PREENCHER_CPF = "Favor preencher o CPF.";
-	public static final String MSG_PREENCHER_AVULSO = "Favor preencher \"É Avulso?\".";
 	public static final String MSG_PREENCHER_NUMERO_PARCELA = "Favor preencher o campo \"Número da Parcela\".";
 	public static final String MSG_PREENCHER_VALOR = "Favor preencher o campo \"Valor\".";
 	public static final String MSG_PREENCHER_CONTAS = "Favor preencher ambos os campos \"Conta Origem\" e \"Conta Destino\".";

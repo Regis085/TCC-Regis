@@ -1,15 +1,19 @@
 package com.financaspessoais.service.impl;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.financaspessoais.dao.ItemLancamentoCartaoDAO;
 import com.financaspessoais.model.ItemLancamentoCartao;
 import com.financaspessoais.model.SimNao;
+import com.financaspessoais.model.StatusFaturaCartao;
+import com.financaspessoais.model.StatusItemLancamentoCartao;
 import com.financaspessoais.model.Usuario;
 import com.financaspessoais.model.pk.ItemLancamentoCartaoPK;
 import com.financaspessoais.service.ItemLancamentoCartaoService;
 import com.financaspessoais.util.Constantes;
+import com.financaspessoais.util.FacesContextUtil;
 import com.financaspessoais.util.SessionContext;
 
 public class ItemLancamentoCartaoServiceImpl extends AbstractGenericService implements ItemLancamentoCartaoService, Serializable {
@@ -19,30 +23,50 @@ public class ItemLancamentoCartaoServiceImpl extends AbstractGenericService impl
 
 	@Override
 	public boolean criarOuAtualizar(ItemLancamentoCartao item) {
-		this.limparListaMensagemErro();
+		
+		limparListaMensagemErro();
+		
+		if (item.getValor() == null || item.getValor().intValue() == 0) {
+			return false;
+		}
+		
+		if (item.getValor().compareTo(BigDecimal.ZERO) == -1)
+			item.setIsCredito(SimNao.SIM.getCodigo());
+		else
+			item.setIsCredito(SimNao.NAO.getCodigo());
 		
 		Usuario u = SessionContext.getInstance().getUsuarioLogado();
 		item.setProprietario(u);
 		
-		boolean isAtualizando = this.isAtualizando(item);
+		boolean isCriacao = item.getId() == null;
 		
-		validarCamposObrigatorios(item, isAtualizando);
+		validarCamposObrigatorios(item, isCriacao);
 		
-		if (isAtualizando == false) {
-			configurarId(item);
-		}
-		else {
+		if (isCriacao) {
+			if (naoOcorreramErros()) {
+				configurarId(item);
+				
+				if (item.getStatus() == null)
+					if (item.getFaturaCartao().getStatusFaturaCartao() == null || item.getFaturaCartao().getStatusFaturaCartao().equals(StatusFaturaCartao.PENDENTE) 
+							|| item.getFaturaCartao().getStatusFaturaCartao().equals(StatusFaturaCartao.ATRASADO))
+						item.setStatus(StatusItemLancamentoCartao.PREVISTO);
+					else
+						item.setStatus(StatusItemLancamentoCartao.REAL);
+			}
 		}
 
 		boolean retorno;
-		ItemLancamentoCartao itemBD = null;
 
-		itemBD = this.getItemLancamentoCartaoDAO().criarOuAtualizar(item);
-		if (itemBD != null)
-			retorno = true;
-		else
+		if (naoOcorreramErros())
+			getItemLancamentoCartaoDAO().criarOuAtualizar(item);
+
+		if (getListaMensagemErro().size() > 0) {
+			FacesContextUtil.adicionarMensagensDeErro(this.getListaMensagemErro());
 			retorno = false;
-
+		}
+		else {
+			retorno = true;
+		}
 		return retorno;
 	}
 
@@ -55,71 +79,35 @@ public class ItemLancamentoCartaoServiceImpl extends AbstractGenericService impl
 		item.setId(id);
 	}
 
-	private boolean isAtualizando(ItemLancamentoCartao item) {
-		if (item.getId() != null && item.getId().getCodigoCartaoDeCredito() != null
-				&& item.getId().getCodigoLancamentoCartao() != null
-				&& item.getId().getCodigoItemLancamentoCartao() != null) {
-			return true;
-		}
-		return false;
-	}
-
-	private void validarCamposObrigatorios(ItemLancamentoCartao itemLancamentoCartao, boolean isAtualizando) {
+	private void validarCamposObrigatorios(ItemLancamentoCartao itemLancamentoCartao, boolean isCriando) {
 		
-		if (itemLancamentoCartao.getLancamentoCartao() == null || itemLancamentoCartao.getLancamentoCartao() == null) {
-			
+		if (itemLancamentoCartao.getFaturaCartao() == null) {
+			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_FATURA_CARTAO);
 		}
 		
-		
-		if (itemLancamentoCartao.getIsAvulso() == null || itemLancamentoCartao.getIsAvulso().equals(SimNao.SIM) == false
-				|| itemLancamentoCartao.getIsAvulso().equals(SimNao.NAO) == false) {
-			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_AVULSO);
+		if (itemLancamentoCartao.getLancamentoCartao() == null) {
+			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_LANCAMENTO_CARTAO);
 		}
 		
-		if (itemLancamentoCartao.getNumeroParcela() == null) {
+		if (itemLancamentoCartao.getNumeroParcela() == null || itemLancamentoCartao.getNumeroParcela().intValue() == 0) {
 			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_NUMERO_PARCELA);
 		}
 		
-		if (itemLancamentoCartao.getValor() == null) {
+		if (itemLancamentoCartao.getValor() == null || itemLancamentoCartao.getValor().intValue() == 0) {
 			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_VALOR);
 		}
-		
-		if (itemLancamentoCartao.getValor() == null) {
-			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_VALOR);
-		}
-		
-		if (itemLancamentoCartao.getValor() == null) {
-			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_VALOR);
-		}
-		
-		if (itemLancamentoCartao.getValor() == null) {
-			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_VALOR);
-		}
-		
-		if (itemLancamentoCartao.getValor() == null) {
-			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_VALOR);
-		}
-		
-		if (itemLancamentoCartao.getValor() == null) {
-			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_VALOR);
-		}
-		
-		if (itemLancamentoCartao.getValor() == null) {
-			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_VALOR);
-		}
-		// if (itemLancamentoCartao.getNome() == null || itemLancamentoCartao.getNome().trim().isEmpty())
-		// 		this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_NOME);
 	}
 
 	@Override
 	public void remover(ItemLancamentoCartao item) {
+		this.limparListaMensagemErro();
 		try {
 			this.getItemLancamentoCartaoDAO().remover(item.getId());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (Exception e) {
+			FacesContextUtil.adicionarMensagemDeErro(Constantes.MSG_ERRO_GENERICA);
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
@@ -130,10 +118,11 @@ public class ItemLancamentoCartaoServiceImpl extends AbstractGenericService impl
 	}
 
 	@Override
-	public ItemLancamentoCartao buscar(Short codigoCartaoDeCredito, Long codigoLancamentoCartao) {
+	public ItemLancamentoCartao buscar(Short codigoCartaoDeCredito, Long codigoLancamentoCartao, Long codigoItemLancamentoCartao) {
 		ItemLancamentoCartaoPK id = new ItemLancamentoCartaoPK();
 		id.setCodigoCartaoDeCredito(codigoCartaoDeCredito);
 		id.setCodigoLancamentoCartao(codigoLancamentoCartao);
+		id.setCodigoItemLancamentoCartao(codigoItemLancamentoCartao);
 		return this.getItemLancamentoCartaoDAO().buscarPorId(id);
 	}
 	

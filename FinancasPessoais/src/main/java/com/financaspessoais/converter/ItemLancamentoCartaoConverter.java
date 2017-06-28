@@ -17,22 +17,25 @@ public class ItemLancamentoCartaoConverter implements Converter {
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		
-		component.getAttributes().get("");
 		ItemLancamentoCartao retorno = null;
-		if (value != null)
-//			retorno = this.getItemLancamentoCartaoService().buscar(new Long(value));
-			// TODO Ajustar
-			retorno = new ItemLancamentoCartao();
+		if (value != null) {
+			String[] chaves = value.split("#");
+			Short codigoCartaoDeCredito = new Short(chaves[0]);
+			Long codigoLancamentoCartao = new Long(chaves[1]);
+			Long codigoItemLancamentoCartao = new Long(chaves[2]);
+			retorno = this.getItemLancamentoCartaoService().buscar(codigoCartaoDeCredito, codigoLancamentoCartao, codigoItemLancamentoCartao);
+		}
 		return retorno;
 	}
 
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
+		String retorno = null;
 		if (value != null) {
 			ItemLancamentoCartao itemLancamentoCartao = ((ItemLancamentoCartao) value);
-//			return itemLancamentoCartao.getCodigoItem() == null ? null : itemLancamentoCartao.getCodigoItem().toString();
+			retorno = itemLancamentoCartao.getNome();
 		}
-		return null;
+		return retorno;	
 	}
 
 	private ItemLancamentoCartaoService getItemLancamentoCartaoService() {

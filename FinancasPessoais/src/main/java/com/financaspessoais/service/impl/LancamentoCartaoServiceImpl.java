@@ -22,7 +22,7 @@ public class LancamentoCartaoServiceImpl extends AbstractGenericService implemen
 	@Override
 	public boolean criarOuAtualizar(LancamentoCartao lancamentoCartao) {
 		
-		this.limparListaMensagemErro();
+		limparListaMensagemErro();
 		
 		if (lancamentoCartao.getValor() == null || lancamentoCartao.getValor().intValue() == 0) {
 			return false;
@@ -48,10 +48,10 @@ public class LancamentoCartaoServiceImpl extends AbstractGenericService implemen
 		boolean retorno;
 		
 		if (naoOcorreramErros())
-			this.getLancamentoCartaoDAO().criarOuAtualizar(lancamentoCartao);
+			getLancamentoCartaoDAO().criarOuAtualizar(lancamentoCartao);
 		
-		if (this.getListaMensagemErro().size() > 0) {
-			FacesContextUtil.adicionarMensagensDeErro(this.getListaMensagemErro());
+		if (getListaMensagemErro().size() > 0) {
+			FacesContextUtil.adicionarMensagensDeErro(getListaMensagemErro());
 			retorno = false;
 		}
 		else {

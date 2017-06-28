@@ -71,9 +71,9 @@ public class ItemLancamentoCartaoDAO extends AbstractGenericDAO<ItemLancamentoCa
 		Long retorno = null;
 		
 		StringBuilder consulta = new StringBuilder();
-		consulta.append("SELECT MAX(i.codigoItemLancamentoCartao) FROM ItemLancamentoCartao i");
-		consulta.append(" WHERE i.codigoCartaoDeCredito = :codigoCartaoDeCredito");
-		consulta.append("   AND i.codigoLancamentoCartao = :codigoLancamentoCartao");
+		consulta.append("SELECT MAX(i.id.codigoItemLancamentoCartao) FROM ItemLancamentoCartao i");
+		consulta.append(" WHERE i.id.codigoCartaoDeCredito = :codigoCartaoDeCredito");
+		consulta.append("   AND i.id.codigoLancamentoCartao = :codigoLancamentoCartao");
 		
 		try {
 			Query query = entityManager.createQuery(consulta.toString());

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<ui:composition template="/templates/modelo-base.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menu-principal.xhtml"></ui:include>
+	</ui:define>
+	<ui:define name="conteudo">
+		<h:form>
+			<h:panelGroup styleClass="centralizar">
+				<h3>Itens dos Lançamentos de Cartão de Crédito</h3>
+			</h:panelGroup>
+			<p:panel>
+				<p:dataTable value="#{itemLancamentoCartaoMB.listaItemLancamentoCartao}" var="itemLancamentoCartao"
+					border="1" cellspacing="0" cellpadding="2" paginator="true" rows="10" paginatorPosition="bottom">
+					
+					<p:column headerText="Fatura" sortBy="#{itemLancamentoCartao.faturaCartao.nome}" filterBy="#{itemLancamentoCartao.faturaCartao.nome}">
+						<h:outputText value="#{itemLancamentoCartao.faturaCartao.nome}" />
+					</p:column>
+					
+					<p:column headerText="Lançamento" sortBy="#{itemLancamentoCartao.lancamentoCartao.nome}" filterBy="#{itemLancamentoCartao.lancamentoCartao.nome}">
+						<h:outputText value="#{itemLancamentoCartao.lancamentoCartao.nome}" />
+					</p:column>
+					
+					<p:column headerText="Valor" sortBy="#{itemLancamentoCartao.valor}">
+						<h:outputText value="#{itemLancamentoCartao.valor}" >
+							<f:convertNumber type="currency" locale="pt_BR" />
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="De" sortBy="#{itemLancamentoCartao.lancamentoCartao.valor}">
+						<h:outputText value="#{itemLancamentoCartao.lancamentoCartao.valor}" >
+							<f:convertNumber type="currency" locale="pt_BR" />
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="Parcela" sortBy="#{itemLancamentoCartao.numeroParcela}">
+						<h:outputText value="#{itemLancamentoCartao.numeroParcela}" >
+						</h:outputText>
+					</p:column>
+					
+						
+					<p:column headerText="De" sortBy="#{itemLancamentoCartao.lancamentoCartao.numeroParcelas}" filterBy="#{itemLancamentoCartao.lancamentoCartao.numeroParcelas}">
+						<h:outputText value="#{itemLancamentoCartao.lancamentoCartao.numeroParcelas}" />
+					</p:column>
+					
+					<p:column headerText="Data" sortBy="#{itemLancamentoCartao.lancamentoCartao.dataLancamento}" filterBy="#{itemLancamentoCartao.lancamentoCartao.dataLancamento}">
+						<h:outputText value="#{itemLancamentoCartao.lancamentoCartao.dataLancamento}" />
+					</p:column>
+					
+					<p:column>
+						<p:button icon="ui-icon-pencil" title="Editar" outcome="/pages/cadastro-item-lancamento-cartao">
+							<f:param name="id" value="#{itemLancamentoCartao.chaveComposta}" />
+						</p:button>
+						<p:commandButton icon="ui-icon-trash" title="Excluir" process="@this" update="@form"
+							action="#{itemLancamentoCartaoMB.excluir}">
+							<f:setPropertyActionListener value="#{itemLancamentoCartao}"
+								target="#{itemLancamentoCartaoMB.itemLancamentoCartaoSelecionado}" />
+						</p:commandButton>
+					</p:column>
+					
+				</p:dataTable>
+				<h:messages id="msgErro" style="color: red" />
+				<br />
+				<h:panelGroup style="display:block; text-align:center">
+					<p:commandButton value="Novo"
+					action="cadastro-item-lancamento-cartao?faces-redirect=true" />
+				</h:panelGroup>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

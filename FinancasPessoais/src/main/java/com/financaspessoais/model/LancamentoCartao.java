@@ -71,6 +71,26 @@ public class LancamentoCartao implements Serializable {
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="lancamentoCartao", fetch=FetchType.LAZY)
 	private List<ItemLancamentoCartao> itensLancamentoCartao;
+	
+	public String getNome() {
+		String retorno = null;
+		if (this.getCartao() != null && this.getId() != null && this.getId().getCodigoLancamentoCartao() != null) {
+			String nome = this.getCartao().getNome();
+			String ultimosQuatroDigitos = this.getCartao().getQuatroUltimosDigitos() != null
+					? " (" + this.getCartao().getQuatroUltimosDigitos() + ")" : "";
+			String codigo = String.valueOf(this.getId().getCodigoLancamentoCartao());
+			retorno = nome + ultimosQuatroDigitos + " - " + codigo;
+		}
+		return retorno;
+	}
+	
+	public String getChaveComposta() {
+		String retorno = null;
+		if (this != null && this.getId() != null && this.getId().getCodigoLancamentoCartao() != null) {
+			retorno = this.getId().getCodigoCartaoDeCredito().toString() + "#" + this.getId().getCodigoLancamentoCartao().toString();
+		}		
+		return retorno;
+	}
 
 	public LancamentoCartaoPK getId() {
 		return id;
@@ -183,25 +203,5 @@ public class LancamentoCartao implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-
-	public String getNome() {
-		String retorno = null;
-		if (this.getCartao() != null && this.getId() != null && this.getId().getCodigoLancamentoCartao() != null) {
-			String nome = this.getCartao().getNome();
-			String ultimosQuatroDigitos = this.getCartao().getQuatroUltimosDigitos() != null
-					? " (" + this.getCartao().getQuatroUltimosDigitos() + ")" : "";
-			String codigo = String.valueOf(this.getId().getCodigoLancamentoCartao());
-			retorno = nome + ultimosQuatroDigitos + " - " + codigo;
-		}
-		return retorno;
-	}
-	
-	public String getChaveComposta() {
-		String retorno = null;
-		if (this != null && this.getId() != null && this.getId().getCodigoLancamentoCartao() != null) {
-			retorno = this.getId().getCodigoCartaoDeCredito().toString() + "#" + this.getId().getCodigoLancamentoCartao().toString();
-		}		
-		return retorno;
 	}
 }

@@ -12,10 +12,10 @@ public class FaturaCartaoPK implements Serializable {
 	@Column(name = "codigo_cartao_de_credito", nullable = false)
 	private Short codigoCartaoDeCredito;
 
-	@Column(name = "ano_fatura_cartao", nullable = false)
+	@Column(name = "ano_fatura_cartao", nullable = false, insertable = true, updatable = true)
 	private Short ano;
 	
-	@Column(name = "mes_fatura_cartao", nullable = false)
+	@Column(name = "mes_fatura_cartao", nullable = false, insertable = true, updatable = true)
 	private Short mes;
 
 	public Short getCodigoCartaoDeCredito() {

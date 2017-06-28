@@ -24,9 +24,9 @@ public class LancamentoCartaoMB implements Serializable {
 	
 	private LancamentoCartao lancamentoCartao;
 	private LancamentoCartao lancamentoCartaoSelecionado;
-	private List<CartaoDeCredito> listaCartaoDeCredito;
-	
 	private List<LancamentoCartao> listaLancamentoCartao;
+	
+	private List<CartaoDeCredito> listaCartaoDeCredito;
 	private List<Estabelecimento> listaEstabelecimento;
 	
 	private CartaoDeCreditoService cartaoDeCreditoService;

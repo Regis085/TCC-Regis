@@ -4,15 +4,23 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
 import com.financaspessoais.dao.TipoDespesaDAO;
 import com.financaspessoais.model.Banco;
 import com.financaspessoais.model.Conta;
 import com.financaspessoais.model.ContaBancaria;
+import com.financaspessoais.model.FaturaCartao;
+import com.financaspessoais.model.ItemLancamentoCartao;
+import com.financaspessoais.model.LancamentoCartao;
+import com.financaspessoais.model.StatusItemLancamentoCartao;
 import com.financaspessoais.model.TipoConta;
 import com.financaspessoais.model.TipoDespesa;
 import com.financaspessoais.model.Usuario;
+import com.financaspessoais.model.pk.FaturaCartaoPK;
+import com.financaspessoais.model.pk.ItemLancamentoCartaoPK;
+import com.financaspessoais.model.pk.LancamentoCartaoPK;
 import com.financaspessoais.service.ContaService;
 import com.financaspessoais.service.TipoDespesaService;
 import com.financaspessoais.service.impl.ContaServiceImpl;
@@ -23,11 +31,56 @@ public class Testes {
 
 	public static void main(String[] args) {
 //		testarContas();
-		salvarTipoDespesa();
+//		salvarTipoDespesa();
 //		removerTipoDespesa();
-		listarTiposDespesa();
+//		listarTiposDespesa();
+		criarItemLancamentoCartao();
 	}
 	
+	private static void criarItemLancamentoCartao() {
+		FaturaCartao f = new FaturaCartao();
+		FaturaCartaoPK fId = new FaturaCartaoPK();
+		fId.setAno(new Short("2017"));
+		fId.setMes(new Short("3"));
+		fId.setCodigoCartaoDeCredito(new Short("1"));
+		f.setId(fId);
+		
+		LancamentoCartao l = new LancamentoCartao();
+		LancamentoCartaoPK lId = new LancamentoCartaoPK();
+		lId.setCodigoCartaoDeCredito(new Short("1"));
+		lId.setCodigoLancamentoCartao(1L);
+		l.setId(lId);
+		
+		Usuario u = new Usuario();
+		u.setId(new Short("1"));
+		
+		ItemLancamentoCartao i = new ItemLancamentoCartao();
+		ItemLancamentoCartaoPK iId = new ItemLancamentoCartaoPK();
+		iId.setCodigoCartaoDeCredito(fId.getCodigoCartaoDeCredito());
+		iId.setCodigoItemLancamentoCartao(1L);
+		iId.setCodigoLancamentoCartao(lId.getCodigoLancamentoCartao());
+		i.setId(iId);
+		i.setValor(new BigDecimal("100"));
+		i.setIsCredito("N");
+		i.setNumeroParcela(new Short("1"));
+		i.setProprietario(u);
+		i.setStatus(StatusItemLancamentoCartao.PREVISTO);
+		
+		EntityManager entityManager = JpaUtil.getEntityManager();
+		
+		EntityTransaction transacao = entityManager.getTransaction();
+		try {
+			transacao.begin();
+			entityManager.merge(i);
+			entityManager.flush();
+			transacao.commit();
+		}
+		catch (Exception e) {
+			transacao.rollback();
+			e.printStackTrace();
+		}
+	}
+
 	public static void listarTiposDespesa() {
 		TipoDespesaDAO dao = new TipoDespesaDAO();
 		List<TipoDespesa> lista = dao.listar();

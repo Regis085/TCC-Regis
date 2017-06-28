@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<ui:composition template="/templates/modelo-base.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui">
+	
+	<f:metadata>
+		<f:viewAction action="#{itemLancamentoCartaoMB.prepararCadastro}" />
+		<o:viewParam name="id" value="#{itemLancamentoCartaoMB.itemLancamentoCartao}" />
+	</f:metadata>
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menu-principal.xhtml"></ui:include>
+	</ui:define>
+	<ui:define name="conteudo">
+		<h:form>
+			<p:panel>
+				<p:panelGrid columns="2">
+					
+					<p:outputLabel value="Fatura do Cartão" for="fatura_cartao"/>
+					<p:outputPanel>
+						<h:outputText value="#{itemLancamentoCartaoMB.itemLancamentoCartao.faturaCartao.nome}" rendered="#{itemLancamentoCartaoMB.itemLancamentoCartao.id != null}" />
+						<p:autoComplete id="fatura_cartao" value="#{itemLancamentoCartaoMB.itemLancamentoCartao.faturaCartao}" rendered="#{itemLancamentoCartaoMB.itemLancamentoCartao.id == null}"
+										completeMethod="#{itemLancamentoCartaoMB.filtrarListaFaturaCartao}" dropdown="true"
+										var="faturaCartao" forceSelection="true" itemLabel="#{faturaCartao.chaveComposta}" itemValue="#{faturaCartao}">
+						</p:autoComplete>
+					</p:outputPanel>
+					
+					<p:outputLabel value="Lançamento do Cartão" for="lancamento_cartao"/>
+					<p:outputPanel>
+						<h:outputText value="#{itemLancamentoCartaoMB.itemLancamentoCartao.lancamentoCartao.nome}" rendered="#{itemLancamentoCartaoMB.itemLancamentoCartao.id != null}" />
+						<h:panelGroup>
+							<p:autoComplete id="lancamento_cartao" value="#{itemLancamentoCartaoMB.itemLancamentoCartao.lancamentoCartao}" rendered="#{itemLancamentoCartaoMB.itemLancamentoCartao.id == null}"
+										completeMethod="#{itemLancamentoCartaoMB.filtrarListaLancamentoCartao}"  dropdown="true"
+										var="lancamentoCartao" forceSelection="true" itemLabel="#{lancamentoCartao.chaveComposta}" itemValue="#{lancamentoCartao}">
+								<p:ajax event="itemSelect" update="estabelecimento" process="@this"/>
+								
+							</p:autoComplete>
+							<h:outputLabel id="estabelecimento" style="margin-left: 10px;" value="#{itemLancamentoCartaoMB.itemLancamentoCartao.lancamentoCartao.estabelecimento.nome}"/>
+						</h:panelGroup>
+					</p:outputPanel>
+					
+					<h:outputLabel value="Número da Parcela" for="numero_parcela"/>
+					<p:inputNumber id="numero_parcela" size="2" minValue="1" maxValue="99" value="#{itemLancamentoCartaoMB.itemLancamentoCartao.numeroParcela}">
+						<f:convertNumber locale="pt_BR" maxFractionDigits="0" minFractionDigits="0" />
+					</p:inputNumber>
+					
+					<h:outputLabel value="Valor" for="valor_item_lancamento"/>
+					<p:inputText id="valor_item_lancamento" size="12" value="#{itemLancamentoCartaoMB.itemLancamentoCartao.valor}">
+						<f:convertNumber locale="pt_BR" maxFractionDigits="2" minFractionDigits="2" />
+					</p:inputText>
+					
+					<p:outputLabel value="Observação" for="observacao_item_lancamento_cartao"/>
+					<p:inputTextarea id="observacao_item_lancamento_cartao" value="#{itemLancamentoCartaoMB.itemLancamentoCartao.observacao}" />
+					
+					<p:outputLabel value="Status" for="status_item_lancamento_cartao" rendered="#{itemLancamentoCartaoMB.itemLancamentoCartao.status != null}"/>
+					<h:outputText id="status_item_lancamento_cartao" value="#{itemLancamentoCartaoMB.itemLancamentoCartao.status.descricao}" rendered="#{itemLancamentoCartaoMB.itemLancamentoCartao.status != null}" />
+					
+					<p:commandButton value="Salvar" action="#{itemLancamentoCartaoMB.cadastrarItemLancamentoCartao}" />
+					<p:commandButton value="Voltar" action="lista-item-lancamento-cartao?faces-redirect=true" immediate="true"/>					
+					
+				</p:panelGrid>
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

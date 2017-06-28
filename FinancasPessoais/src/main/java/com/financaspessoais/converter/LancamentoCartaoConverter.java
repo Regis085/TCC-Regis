@@ -31,7 +31,8 @@ public class LancamentoCartaoConverter implements Converter {
 		String retorno = null;
 		if (value != null) {
 			LancamentoCartao lancamentoCartao = ((LancamentoCartao) value);
-			retorno = lancamentoCartao.getNome();
+//			retorno = lancamentoCartao.getNome();
+			retorno = lancamentoCartao.getChaveComposta();
 		}
 		return retorno;	
 	}

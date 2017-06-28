@@ -37,9 +37,9 @@ public class ItemLancamentoCartao implements Serializable {
 
 	@ManyToOne(optional = false, fetch=FetchType.LAZY)
 	@JoinColumns({
-		  @JoinColumn(name = "codigo_cartao_de_credito", referencedColumnName = "codigo_cartao_de_credito", insertable = false, updatable = false),
-		  @JoinColumn(name = "ano_fatura_cartao", referencedColumnName = "ano_fatura_cartao", insertable = false, updatable = false),
-		  @JoinColumn(name = "mes_fatura_cartao", referencedColumnName = "mes_fatura_cartao", insertable = false, updatable = false)
+//		  @JoinColumn(name = "codigo_cartao_de_credito", referencedColumnName = "codigo_cartao_de_credito"),
+		  @JoinColumn(name = "ano_fatura_cartao", referencedColumnName = "ano_fatura_cartao"),
+		  @JoinColumn(name = "mes_fatura_cartao", referencedColumnName = "mes_fatura_cartao")
 		})
 	private FaturaCartao faturaCartao;
 
@@ -61,8 +61,21 @@ public class ItemLancamentoCartao implements Serializable {
 	@Column(name = "is_credito", length = 1, nullable = false)
 	private String isCredito;
 	
-	@Column(name = "is_avulso", length = 1, nullable = false)
-	private String isAvulso;
+	public String getNome() {
+		String retorno = null;
+		if (this.getFaturaCartao() != null && getFaturaCartao().getNome() != null && this.getId() != null && this.getId().getCodigoItemLancamentoCartao() != null) {
+			retorno = getFaturaCartao().getNome() + " - " + getId().getCodigoItemLancamentoCartao();
+		}
+		return retorno;
+	}
+	
+	public String getChaveComposta() {
+		String retorno = null;
+		if (this != null && this.getId() != null && this.getId().getCodigoLancamentoCartao() != null) {
+			retorno = this.getId().getCodigoCartaoDeCredito().toString() + "#" + this.getId().getCodigoLancamentoCartao().toString() + "#" + this.getId().getCodigoItemLancamentoCartao().toString();
+		}		
+		return retorno;
+	}
 
 	public ItemLancamentoCartaoPK getId() {
 		return id;
@@ -134,14 +147,6 @@ public class ItemLancamentoCartao implements Serializable {
 
 	public void setIsCredito(String isCredito) {
 		this.isCredito = isCredito;
-	}
-
-	public String getIsAvulso() {
-		return isAvulso;
-	}
-
-	public void setIsAvulso(String isAvulso) {
-		this.isAvulso = isAvulso;
 	}
 
 	@Override
