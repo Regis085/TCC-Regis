@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.EntityTransaction;
-import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import com.financaspessoais.model.LancamentoCartao;
@@ -12,6 +11,7 @@ import com.financaspessoais.model.pk.LancamentoCartaoPK;
 import com.financaspessoais.util.Constantes;
 import com.financaspessoais.util.FacesContextUtil;
 
+@SuppressWarnings("unchecked")
 public class LancamentoCartaoDAO extends AbstractGenericDAO<LancamentoCartao, Long> implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -21,13 +21,38 @@ public class LancamentoCartaoDAO extends AbstractGenericDAO<LancamentoCartao, Lo
 
 	public List<LancamentoCartao> listarPorProprietario(Short idUsuario) {
 		try {
-			@SuppressWarnings("unchecked")
-			List<LancamentoCartao> listaLancamentoCartao = (List<LancamentoCartao>) entityManager
-					.createQuery("SELECT l from LancamentoCartao l " + " INNER JOIN l.proprietario u " + " WHERE u.id = :idUsuario")
-					.setParameter("idUsuario", idUsuario).getResultList();
+			StringBuilder consulta = new StringBuilder();
+			consulta.append("SELECT l FROM LancamentoCartao l");
+			consulta.append(" INNER JOIN l.proprietario u");
+			consulta.append(" WHERE u.id = :idUsuario");
+			Query query = entityManager.createQuery(consulta.toString());
+			query.setParameter("idUsuario", idUsuario);
+			List<LancamentoCartao> listaLancamentoCartao = (List<LancamentoCartao>) query.getResultList();
 			return listaLancamentoCartao;
 		}
-		catch (NoResultException e) {
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public List<LancamentoCartao> listarPorProprietarioECartaoDeCredito(Short idUsuario, Short codigoCartaoDeCredito) {
+		
+		try {
+			StringBuilder consulta = new StringBuilder();
+			consulta.append("SELECT l FROM LancamentoCartao l");
+			consulta.append(" INNER JOIN l.proprietario u");
+			consulta.append(" INNER JOIN l.cartao c");
+			consulta.append(" WHERE u.id = :idUsuario");
+			consulta.append("   AND c.codigoCartaoDeCredito = :codigoCartaoDeCredito");
+			Query query = entityManager.createQuery(consulta.toString());
+			query.setParameter("idUsuario", idUsuario);
+			query.setParameter("codigoCartaoDeCredito", codigoCartaoDeCredito);
+			List<LancamentoCartao> listaLancamentoCartao = (List<LancamentoCartao>) query.getResultList();
+			return listaLancamentoCartao;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}

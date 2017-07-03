@@ -23,6 +23,7 @@ public class Constantes {
 	
 	public static final String MSG_VALIDACAO_DATA_PGTO_NULA_VALOR_PAGO_PREENCHIDO = "Para preencher o valor pago, é necessário preencher também a Data de Pagamento.";
 	public static final String MSG_VALIDACAO_VALOR_PAGO_NULO_DATA_PGTO_PREENCHIDA = "Para preencher a data de pagamento, é necessário preencher também o valor pago.";
+	public static final String MSG_VALIDACAO_FATURA_LANCAMENTO_MESMO_CARTAO = "Fatura de Cartão e Lançamento de Cartão devem se relacionar ao mesmo cartão.";
 	
 	public static final String MSG_PREENCHER_NOME = "Favor preencher o Nome.";
 	public static final String MSG_PREENCHER_BANDEIRA = "Favor preencher o campo \"Bandeira\" do Cartão.";

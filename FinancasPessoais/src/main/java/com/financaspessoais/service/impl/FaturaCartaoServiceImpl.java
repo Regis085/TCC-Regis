@@ -114,6 +114,13 @@ public class FaturaCartaoServiceImpl extends AbstractGenericService implements F
 		List<FaturaCartao> listaFaturaCartao = this.getFaturaCartaoDAO().listarPorProprietario(u.getId());
 		return listaFaturaCartao;
 	}
+	
+	@Override
+	public List<FaturaCartao> listarPorUsuarioECartaoDeCredito(Short codigoCartaoDeCredito) {
+		Usuario u = SessionContext.getInstance().getUsuarioLogado();
+		List<FaturaCartao> listaFaturaCartao = this.getFaturaCartaoDAO().listarPorProprietarioECartaoDeCredito(u.getId(), codigoCartaoDeCredito);
+		return listaFaturaCartao;
+	}
 
 	@Override
 	public FaturaCartao buscar(Short codigoCartaoDeCredito, Short ano, Short mes) {

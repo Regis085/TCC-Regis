@@ -19,6 +19,17 @@
 		<h:form>
 			<p:panel>
 				<p:panelGrid columns="2">
+				
+					<p:outputLabel value="Cartão de Crédito" for="cartao_de_credito"/>
+					<p:outputPanel>
+						<h:outputText value="#{itemLancamentoCartaoMB.itemLancamentoCartao.cartaoDeCredito.nome}" rendered="#{itemLancamentoCartaoMB.itemLancamentoCartao.id != null}" />
+						<p:autoComplete id="cartao_de_credito" value="#{itemLancamentoCartaoMB.itemLancamentoCartao.cartaoDeCredito}"
+										rendered="#{itemLancamentoCartaoMB.itemLancamentoCartao.id == null}"
+										completeMethod="#{itemLancamentoCartaoMB.filtrarListaCartoes}"  dropdown="true"
+										var="cartao" forceSelection="true" itemLabel="#{cartao.nome}" itemValue="#{cartao}">
+							<p:ajax event="blur" update="lancamento_cartao fatura_cartao estabelecimento" listener="#{itemLancamentoCartaoMB.limparListasFaturaELancamento}" process="@this lancamento_cartao"/>
+						</p:autoComplete>
+					</p:outputPanel>
 					
 					<p:outputLabel value="Fatura do Cartão" for="fatura_cartao"/>
 					<p:outputPanel>
@@ -32,16 +43,15 @@
 					<p:outputLabel value="Lançamento do Cartão" for="lancamento_cartao"/>
 					<p:outputPanel>
 						<h:outputText value="#{itemLancamentoCartaoMB.itemLancamentoCartao.lancamentoCartao.nome}" rendered="#{itemLancamentoCartaoMB.itemLancamentoCartao.id != null}" />
-						<h:panelGroup>
-							<p:autoComplete id="lancamento_cartao" value="#{itemLancamentoCartaoMB.itemLancamentoCartao.lancamentoCartao}" rendered="#{itemLancamentoCartaoMB.itemLancamentoCartao.id == null}"
-										completeMethod="#{itemLancamentoCartaoMB.filtrarListaLancamentoCartao}"  dropdown="true"
-										var="lancamentoCartao" forceSelection="true" itemLabel="#{lancamentoCartao.nome}" itemValue="#{lancamentoCartao}">
-								<p:ajax event="itemSelect" update="estabelecimento" process="@this"/>
-								
-							</p:autoComplete>
-							<h:outputLabel id="estabelecimento" style="margin-left: 10px;" value="#{itemLancamentoCartaoMB.itemLancamentoCartao.lancamentoCartao.estabelecimento.nome}"/>
-						</h:panelGroup>
+						<p:autoComplete id="lancamento_cartao" value="#{itemLancamentoCartaoMB.itemLancamentoCartao.lancamentoCartao}" rendered="#{itemLancamentoCartaoMB.itemLancamentoCartao.id == null}"
+									completeMethod="#{itemLancamentoCartaoMB.filtrarListaLancamentoCartao}"  dropdown="true"
+									var="lancamentoCartao" forceSelection="true" itemLabel="#{lancamentoCartao.nome}" itemValue="#{lancamentoCartao}">
+							<p:ajax event="itemSelect" update="estabelecimento" process="@this"/>
+						</p:autoComplete>
 					</p:outputPanel>
+					
+					<h:outputLabel for="estabelecimento" value="Estabelecimento"/>
+					<h:outputText id="estabelecimento" value="#{itemLancamentoCartaoMB.itemLancamentoCartao.lancamentoCartao.estabelecimento.nome}"/>
 					
 					<h:outputLabel value="Número da Parcela" for="numero_parcela"/>
 					<p:inputNumber id="numero_parcela" size="2" minValue="1" maxValue="99" value="#{itemLancamentoCartaoMB.itemLancamentoCartao.numeroParcela}">

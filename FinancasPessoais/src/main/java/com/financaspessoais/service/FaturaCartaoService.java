@@ -10,6 +10,8 @@ public interface FaturaCartaoService {
 	FaturaCartao buscar(Short codigoCartaoDeCredito, Short ano, Short mes);
 
 	List<FaturaCartao> listarPorUsuario();
+	
+	List<FaturaCartao> listarPorUsuarioECartaoDeCredito(Short codigoCartaoDeCredito);
 
 	void remover(FaturaCartao faturaCartao);
 }

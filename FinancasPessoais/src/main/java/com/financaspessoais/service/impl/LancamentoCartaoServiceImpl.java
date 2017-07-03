@@ -122,6 +122,13 @@ public class LancamentoCartaoServiceImpl extends AbstractGenericService implemen
 		List<LancamentoCartao> listaLancamentoCartao = this.getLancamentoCartaoDAO().listarPorProprietario(u.getId());
 		return listaLancamentoCartao;
 	}
+	
+	@Override
+	public List<LancamentoCartao> listarPorUsuarioECartaoDeCredito(Short codigoCartaoDeCredito) {
+		Usuario u = SessionContext.getInstance().getUsuarioLogado();
+		List<LancamentoCartao> listaLancamentoCartao = this.getLancamentoCartaoDAO().listarPorProprietarioECartaoDeCredito(u.getId(), codigoCartaoDeCredito);
+		return listaLancamentoCartao;
+	}
 
 	@Override
 	public LancamentoCartao buscar(Short codigoCartaoDeCredito, Long codigoLancamentoCartao) {
@@ -136,5 +143,4 @@ public class LancamentoCartaoServiceImpl extends AbstractGenericService implemen
 			this.lancamentoCartaoDAO = new LancamentoCartaoDAO();
 		return lancamentoCartaoDAO;
 	}
-
 }

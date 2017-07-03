@@ -40,13 +40,35 @@ public class ItemLancamentoCartao implements Serializable {
 		})
 	private LancamentoCartao lancamentoCartao;
 
-	@ManyToOne(optional = false, fetch=FetchType.LAZY)
+	@ManyToOne(optional = true, fetch=FetchType.LAZY)
 	@JoinColumns({
-//		  @JoinColumn(name = "codigo_cartao_de_credito", referencedColumnName = "codigo_cartao_de_credito", insertable = false, updatable = false),
-		  @JoinColumn(name = "ano_fatura_cartao", referencedColumnName = "ano_fatura_cartao", insertable = true, updatable = true),
-		  @JoinColumn(name = "mes_fatura_cartao", referencedColumnName = "mes_fatura_cartao", insertable = true, updatable = true)
+		  @JoinColumn(name = "codigo_cartao_de_credito", referencedColumnName = "codigo_cartao_de_credito", insertable = false, updatable = false),
+		  @JoinColumn(name = "ano_fatura_cartao", referencedColumnName = "ano_fatura_cartao", insertable = false, updatable = false),
+		  @JoinColumn(name = "mes_fatura_cartao", referencedColumnName = "mes_fatura_cartao", insertable = false, updatable = false)
 		})
 	private FaturaCartao faturaCartao;
+	
+	@Column(name = "ano_fatura_cartao", nullable = false, insertable = true, updatable = true)
+	private Short anoFaturaCartao;
+	
+	@Column(name = "mes_fatura_cartao", nullable = false, insertable = true, updatable = true)
+	private Short mesFaturaCartao;
+	
+	public Short getAnoFaturaCartao() {
+		return anoFaturaCartao;
+	}
+
+	public void setAnoFaturaCartao(Short anoFaturaCartao) {
+		this.anoFaturaCartao = anoFaturaCartao;
+	}
+
+	public Short getMesFaturaCartao() {
+		return mesFaturaCartao;
+	}
+
+	public void setMesFaturaCartao(Short mesFaturaCartao) {
+		this.mesFaturaCartao = mesFaturaCartao;
+	}
 
 	@Enumerated(EnumType.ORDINAL)
 	@Column(nullable = false)

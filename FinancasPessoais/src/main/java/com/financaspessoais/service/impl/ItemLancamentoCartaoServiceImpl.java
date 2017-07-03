@@ -26,24 +26,23 @@ public class ItemLancamentoCartaoServiceImpl extends AbstractGenericService impl
 		
 		limparListaMensagemErro();
 		
-		if (item.getValor() == null || item.getValor().intValue() == 0) {
-			return false;
-		}
-		
-		if (item.getValor().compareTo(BigDecimal.ZERO) == -1)
-			item.setIsCredito(SimNao.SIM.getCodigo());
-		else
-			item.setIsCredito(SimNao.NAO.getCodigo());
-		
 		Usuario u = SessionContext.getInstance().getUsuarioLogado();
 		item.setProprietario(u);
 		
 		boolean isCriacao = item.getId() == null;
 		
 		validarCamposObrigatorios(item, isCriacao);
+		validarConsistencia(item);
+		
+		if (item.getValor().compareTo(BigDecimal.ZERO) == -1)
+			item.setIsCredito(SimNao.SIM.getCodigo());
+		else
+			item.setIsCredito(SimNao.NAO.getCodigo());
 		
 		if (isCriacao) {
 			if (naoOcorreramErros()) {
+				item.setAnoFaturaCartao(item.getFaturaCartao().getAno());
+				item.setMesFaturaCartao(item.getFaturaCartao().getMes());
 				configurarId(item);
 				
 				if (item.getStatus() == null)
@@ -95,6 +94,22 @@ public class ItemLancamentoCartaoServiceImpl extends AbstractGenericService impl
 		
 		if (itemLancamentoCartao.getValor() == null || itemLancamentoCartao.getValor().intValue() == 0) {
 			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_VALOR);
+		}
+		
+		if (itemLancamentoCartao.getCartaoDeCredito() == null || itemLancamentoCartao.getCartaoDeCredito().getCodigoCartaoDeCredito() == null) {
+			this.adicionarMensagemErro(Constantes.MSG_CAMPO_OBRIGATORIO, Constantes.MSG_PREENCHER_CARTAO);
+		}
+	}
+	
+	private void validarConsistencia(ItemLancamentoCartao itemLancamentoCartao) {
+		
+		if (naoOcorreramErros()) {
+			boolean condicao1 = itemLancamentoCartao.getCartaoDeCredito().getCodigoCartaoDeCredito().equals(itemLancamentoCartao.getLancamentoCartao().getId().getCodigoCartaoDeCredito());
+			boolean condicao2 = itemLancamentoCartao.getCartaoDeCredito().getCodigoCartaoDeCredito().equals(itemLancamentoCartao.getFaturaCartao().getId().getCodigoCartaoDeCredito());
+			
+			if (!condicao1 || !condicao2) {
+				this.adicionarMensagemErro(Constantes.MSG_VALORES_INCONSISTENTES, Constantes.MSG_VALIDACAO_FATURA_LANCAMENTO_MESMO_CARTAO);
+			}
 		}
 	}
 

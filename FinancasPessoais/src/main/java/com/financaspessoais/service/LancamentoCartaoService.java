@@ -11,5 +11,7 @@ public interface LancamentoCartaoService {
 
 	List<LancamentoCartao> listarPorUsuario();
 	
+	List<LancamentoCartao> listarPorUsuarioECartaoDeCredito(Short codigoCartaoDeCredito);
+	
 	void remover(LancamentoCartao lancamentoCartao);
 }

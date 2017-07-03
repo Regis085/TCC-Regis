@@ -36,6 +36,27 @@ public class FaturaCartaoDAO extends AbstractGenericDAO<FaturaCartao, Long> impl
 			return null;
 		}
 	}
+	
+	public List<FaturaCartao> listarPorProprietarioECartaoDeCredito(Short idUsuario, Short codigoCartaoDeCredito) {
+		
+		try {
+			StringBuilder consulta = new StringBuilder();
+			consulta.append("SELECT f FROM FaturaCartao f");
+			consulta.append(" INNER JOIN f.proprietario u");
+			consulta.append(" INNER JOIN f.cartao c");
+			consulta.append(" WHERE u.id = :idUsuario");
+			consulta.append("   AND c.codigoCartaoDeCredito = :codigoCartaoDeCredito");
+			Query query = entityManager.createQuery(consulta.toString());
+			query.setParameter("idUsuario", idUsuario);
+			query.setParameter("codigoCartaoDeCredito", codigoCartaoDeCredito);
+			List<FaturaCartao> listaFaturaCartao = (List<FaturaCartao>) query.getResultList();
+			return listaFaturaCartao;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	public void remover(FaturaCartaoPK id) throws Exception {
 		EntityTransaction transacao = entityManager.getTransaction();
